@@ -1,0 +1,407 @@
+{
+  "version": 0.6,
+  "generator": "Overpass API 0.7.54.13 ff15392f",
+  "osm3s": {
+    "timestamp_osm_base": "2018-02-24T22:12:02Z",
+    "copyright": "The data included in this document is from www.openstreetmap.org. The data is made available under ODbL."
+  },
+  "elements": [
+
+{
+  "type": "node",
+  "id": 5184897237,
+  "lat": 51.2182764,
+  "lon": 3.2334704,
+  "tags": {
+    "addr:city": "Brugge",
+    "addr:housenumber": "100",
+    "addr:postcode": "8000",
+    "addr:street": "Peterseliestraat",
+    "club": "youth",
+    "email": "brugge@jnm.be",
+    "name": "JNM Brugge",
+    "operator": "JNM",
+    "website": "https://jnm.be/afdeling/Brugge"
+  }
+},
+{
+  "type": "node",
+  "id": 5188644896,
+  "lat": 51.0440995,
+  "lon": 3.7216954,
+  "tags": {
+    "addr:city": "Gent",
+    "addr:housenumber": "192",
+    "addr:postcode": "9000",
+    "addr:street": "Kortrijksepoortstraat",
+    "description": "Shop for JNM-clothes, binoculars, fieldguides for plants and animals and other stuff to study nature",
+    "email": "winkel@jnm.be",
+    "name": "JNM-Winkel",
+    "opening_hours": "Tu-Sa 14:00-18:00; PH",
+    "operator": "JNM",
+    "phone": "09 223 47 81",
+    "shop": "gift",
+    "website": "https://jnm.be/winkel"
+  }
+},
+{
+  "type": "node",
+  "id": 5191319874,
+  "lat": 50.9166133,
+  "lon": 4.4090707,
+  "tags": {
+    "addr:city": "Vilvoorde",
+    "addr:housenumber": "34",
+    "addr:postcode": "1800",
+    "addr:street": "Vuurdoornweg",
+    "addr:unit": "A",
+    "alt_name": "JNM NWB",
+    "alt_name_1": "JNM NoordwestBrabant",
+    "amenity": "club",
+    "club": "youth",
+    "name": "JNM Noordwest-Brabant",
+    "operator": "JNM",
+    "website": "https://www.jnm.be/nwb"
+  }
+},
+{
+  "type": "node",
+  "id": 5191340249,
+  "lat": 51.0668592,
+  "lon": 3.6824089,
+  "tags": {
+    "addr:city": "Gent",
+    "addr:housenumber": "34",
+    "addr:postcode": "9000",
+    "addr:street": "Driepikkelstraat",
+    "club": "youth",
+    "name": "JNM Gent",
+    "operator": "JNM",
+    "website": "https://www.jnm.be/gent"
+  }
+},
+{
+  "type": "node",
+  "id": 5191398488,
+  "lat": 50.9007844,
+  "lon": 3.5242178,
+  "tags": {
+    "addr:city": "Kruishoutem",
+    "addr:housenumber": "2",
+    "addr:postcode": "9770",
+    "addr:street": "Warandestraat",
+    "addr:unit": "A",
+    "club": "youth",
+    "name": "JNM Leievallei",
+    "operator": "JNM",
+    "website": "https://www.jnm.be/leievallei"
+  }
+},
+{
+  "type": "node",
+  "id": 5192190632,
+  "lat": 51.3302085,
+  "lon": 4.5057581,
+  "tags": {
+    "addr:city": "Brasschaat",
+    "addr:street": "Licht Vliegwezenlaan",
+    "club": "youth",
+    "name": "JNM Akerland",
+    "operator": "JNM",
+    "website": "https://jnm.be/akerland"
+  }
+},
+{
+  "type": "node",
+  "id": 5199015132,
+  "lat": 51.1320446,
+  "lon": 3.8581276,
+  "tags": {
+    "addr:city": "Zaffelare",
+    "addr:housenumber": "2",
+    "addr:street": "Pachtgoed",
+    "addr:unit": "A",
+    "club": "youth",
+    "name": "JNM Moervallei",
+    "operator": "JNM",
+    "website": "https://www.jnm.be/afdeling/moervallei"
+  }
+},
+{
+  "type": "node",
+  "id": 5255990347,
+  "lat": 50.9623342,
+  "lon": 3.1344230,
+  "tags": {
+    "addr:city": "Roeselare",
+    "addr:housenumber": "310",
+    "addr:postcode": "8800",
+    "addr:street": "Beversesteenweg",
+    "club": "youth_movement",
+    "name": "JNM Roeselare",
+    "note": "JNM is een jeugdbeweging voor jongeren tussen  7 en 26 jaar met hart voor de natuur en een passie voor het milieu. meer info op de site",
+    "operator": "JNM",
+    "phone": "+32489419135",
+    "start_date": "1964",
+    "website": "https://www.jnm.be/Roeselare"
+  }
+},
+{
+  "type": "node",
+  "id": 5290355723,
+  "lat": 50.9735076,
+  "lon": 4.9081072,
+  "tags": {
+    "addr:city": "Rilaar",
+    "addr:street": "Schoonderbeukenweg",
+    "alt_name": "JNM HZ",
+    "alt_name_1": "JNM HagelandZuiderkempen",
+    "club": "youth",
+    "name": "JNM Hageland-Zuiderkempen",
+    "operator": "JNM",
+    "website": "https://jnm.be/hz"
+  }
+},
+{
+  "type": "node",
+  "id": 5300126845,
+  "lat": 50.7859377,
+  "lon": 4.1090702,
+  "tags": {
+    "addr:housenumber": "12",
+    "addr:street": "Paddenbroekstraat",
+    "club": "fan",
+    "name": "JNM Pajottenland",
+    "operator": "JNM",
+    "website": "https://www.jnm.be/afdeling/pajottenland"
+  }
+},
+{
+  "type": "way",
+  "id": 308872445,
+  "nodes": [
+    3141628680,
+    3141628676,
+    3141628677,
+    3141628681,
+    3141628679,
+    3141628684,
+    3141628682,
+    3141628686,
+    3141628680
+  ],
+  "tags": {
+    "addr:city": "Kessel-Lo",
+    "addr:housenumber": "73",
+    "addr:postcode": "3010",
+    "addr:street": "Jozef Pierrestraat",
+    "building": "yes",
+    "club": "youth",
+    "name": "JNM Leuven",
+    "operator": "JNM",
+    "website": "https://jnm.be/leuven"
+  }
+},
+{
+  "type": "way",
+  "id": 491661691,
+  "nodes": [
+    4837385351,
+    4837385350,
+    4837385349,
+    4837385348,
+    4837385347,
+    1502930809,
+    4751545057,
+    4837385344,
+    4837385343,
+    4837385342,
+    4837385341,
+    4837385340,
+    4837385339,
+    4837385338,
+    4837385337,
+    4837385336,
+    4837385335,
+    4837385334,
+    4837385351
+  ],
+  "tags": {
+    "addr:city": "Gent",
+    "addr:housenumber": "192",
+    "addr:postcode": "9000",
+    "addr:street": "Kortrijksepoortstraat",
+    "building": "yes",
+    "email": "info@jnm.be",
+    "name": "JNM Bondssec",
+    "office": "administrative",
+    "operator": "JNM",
+    "phone": "09 223 47 81",
+    "site": "jnm.be",
+    "source": "GRB",
+    "source:geometry:date": "2015-10-01",
+    "source:geometry:entity": "Gbg",
+    "source:geometry:oidn": "5379571",
+    "source:geometry:uidn": "6503748"
+  }
+},
+{
+  "type": "node",
+  "id": 1502930809,
+  "lat": 51.0441244,
+  "lon": 3.7217567
+},
+{
+  "type": "node",
+  "id": 4751545057,
+  "lat": 51.0440482,
+  "lon": 3.7217175
+},
+{
+  "type": "node",
+  "id": 4837385334,
+  "lat": 51.0441496,
+  "lon": 3.7214758
+},
+{
+  "type": "node",
+  "id": 4837385335,
+  "lat": 51.0441497,
+  "lon": 3.7214757
+},
+{
+  "type": "node",
+  "id": 4837385336,
+  "lat": 51.0441535,
+  "lon": 3.7214579
+},
+{
+  "type": "node",
+  "id": 4837385337,
+  "lat": 51.0441732,
+  "lon": 3.7213684
+},
+{
+  "type": "node",
+  "id": 4837385338,
+  "lat": 51.0441207,
+  "lon": 3.7213392
+},
+{
+  "type": "node",
+  "id": 4837385339,
+  "lat": 51.0441195,
+  "lon": 3.7213385
+},
+{
+  "type": "node",
+  "id": 4837385340,
+  "lat": 51.0441028,
+  "lon": 3.7214070
+},
+{
+  "type": "node",
+  "id": 4837385341,
+  "lat": 51.0441100,
+  "lon": 3.7214123
+},
+{
+  "type": "node",
+  "id": 4837385342,
+  "lat": 51.0440910,
+  "lon": 3.7214905
+},
+{
+  "type": "node",
+  "id": 4837385343,
+  "lat": 51.0440888,
+  "lon": 3.7214994
+},
+{
+  "type": "node",
+  "id": 4837385344,
+  "lat": 51.0440758,
+  "lon": 3.7215686
+},
+{
+  "type": "node",
+  "id": 4837385347,
+  "lat": 51.0441391,
+  "lon": 3.7216853
+},
+{
+  "type": "node",
+  "id": 4837385348,
+  "lat": 51.0441027,
+  "lon": 3.7216670
+},
+{
+  "type": "node",
+  "id": 4837385349,
+  "lat": 51.0441184,
+  "lon": 3.7215883
+},
+{
+  "type": "node",
+  "id": 4837385350,
+  "lat": 51.0441262,
+  "lon": 3.7215922
+},
+{
+  "type": "node",
+  "id": 4837385351,
+  "lat": 51.0441325,
+  "lon": 3.7215605
+},
+{
+  "type": "node",
+  "id": 3141628676,
+  "lat": 50.8855080,
+  "lon": 4.7238625
+},
+{
+  "type": "node",
+  "id": 3141628677,
+  "lat": 50.8855780,
+  "lon": 4.7238123
+},
+{
+  "type": "node",
+  "id": 3141628679,
+  "lat": 50.8855870,
+  "lon": 4.7239013
+},
+{
+  "type": "node",
+  "id": 3141628680,
+  "lat": 50.8856009,
+  "lon": 4.7241044
+},
+{
+  "type": "node",
+  "id": 3141628681,
+  "lat": 50.8856025,
+  "lon": 4.7238868
+},
+{
+  "type": "node",
+  "id": 3141628682,
+  "lat": 50.8856026,
+  "lon": 4.7239996
+},
+{
+  "type": "node",
+  "id": 3141628684,
+  "lat": 50.8856181,
+  "lon": 4.7239852
+},
+{
+  "type": "node",
+  "id": 3141628686,
+  "lat": 50.8856322,
+  "lon": 4.7240800
+}
+
+  ]
+}
+
