@@ -35,6 +35,7 @@ $sql_afdeling_to_event = "SELECT field_civicrm_contact_contact_id, tAfdeling.ent
 	ORDER BY field_activiteit_civicrm_event_target_id DESC LIMIT 1000;"; // Assuming that more recent events have higher IDs
 $res_afdeling_to_event = mysqli_query($conn_drupal, $sql_afdeling_to_event) or die("Error in Selecting " . mysqli_error($conn_drupal));
 
+//$merged_events = array();
 while($row =mysqli_fetch_assoc($res_afdeling_to_event))
 {
 	$merged_events[] = $row["field_activiteit_civicrm_event_target_id"];
@@ -46,9 +47,7 @@ sort($merged_events);
 $merged_csv = implode(",", $merged_events);
 
 
-
-$sql_event_details = "SELECT tevent.id,title,start_date,end_date FROM civicrm_event tevent
-	WHERE tevent.id IN (".$merged_csv.");";
+$sql_event_details = "SELECT tEvent.id,tDrupalEvent.entity_id,title,start_date,end_date FROM civicrm_event tEvent LEFT JOIN jnet1980_test_drupal.field_data_field_activiteit_civicrm_event tDrupalEvent on tDrupalEvent.field_activiteit_civicrm_event_target_id=tEvent.id WHERE tEvent.id IN (".$merged_csv.");";
 
 $res_event_details = mysqli_query($conn_civi, $sql_event_details) or die("Error in Selecting " . mysqli_error($conn_civi));
 
@@ -126,22 +125,11 @@ foreach($event_details as &$event) // Note the & to pass by reference
 	$feature->properties = new stdClass();
 	$feature->type = "Feature";
 
-
-	$feature->properties->adres_string = $tmp["adres_string"];
-	$feature->properties->adres_thoroughfare = $tmp["adres_thoroughfare"];
-	$feature->properties->adres_postal_code = $tmp["adres_postal_code"];
-	$feature->properties->adres_locality = $tmp["adres_locality"];
-	$feature->properties->field_activiteit_locatie_lon = $tmp["field_activiteit_locatie_lon"];
-	$feature->properties->field_activiteit_locatie_lat = $tmp["field_activiteit_locatie_lat"];
-
-
 	array_push($features, $feature);
-	//$features[] = $feature;*/
 
 	foreach ($tmp as $key => $value) {
 		$feature->properties->{$key} = $value;
 	}
-	https://www.jnm.be/node/8923
 }
 $all->features =  $features;
 echo json_encode($all, JSON_PRETTY_PRINT);
