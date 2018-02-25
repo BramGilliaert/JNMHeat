@@ -1,27 +1,110 @@
 <html>
 <head>
+	<meta charset="utf-8">
 	<title>In Je Buurt</title>
 	<link rel="stylesheet" href="vendor/leaflet/leaflet.css"/>
 	<script src="vendor/leaflet/leaflet.js"></script>
 	<script src="vendor/jquery-3.3.1.min.js"></script>
+
+  <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+  <link rel="stylesheet" href="/resources/demos/style.css">
+  <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+  <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+ 
 	<style>
 		#map{ width: 1500px; height: 1050; }
 	</style>
 </head>
 <body>
 
+
+
+
 	<table id="controls" align="right">
 	<tr><td><button id="select_all">Select all</button><button id="deselect_all">Deselect all</button></td></tr>
 	</table>
 	<div id="map"></div>
 
+	<table border="1">
+		<tr><td>Locaties tellen mee voor geografisch centrum van zodra er minstens <input type="text" id="min_act_geocenter" placeholder="1"/> activiteiten zijn</td></tr>
+		<tr><td>Activiteiten worden getoond als ze minstens <input type="text" id="min_act_duration" placeholder="0"/> uren duren</td></tr>
+		<tr><td>Activiteiten worden getoond als ze maximaal <input type="text" id="max_act_duration" placeholder="0"/> uren duren</td></tr>
+		<tr><td>Activiteit moet beginnen achter <input type="text" id="datepicker_after">(yyyy-mm-dd)</td></tr>
+		<tr><td>Activiteit moet beginnen voor <input type="text" id="datepicker_before">(yyyy-mm-dd)</td></tr>
+
+		<tr><td><button id="reloadSettingsButton" onclick="reloadSettings();">Apply filter</button></td></tr>
+	</table>
+
  <script>
 
+	// Turn true to give the analysis options and to add controls to the table with id 'controls'
+	var analysisLayers = true;
+
+	// Turn to true to load the hardcoded geojson which show the map with afdelingen for the general public 
+	var publicFacingLayers = !analysisLayers;
 
 	// --------------------- Map setup --------------------------------
 
 
-	// initialize the map
+	var filterSettings =
+	{ geocenter_min_activities : 1 // the number of activities that a location should at least have to count against the geografical center
+	, activity_starts_after : null // the day an activity shoulds start after to be rendered (and accounted for in geo center as well). Use null if not needed
+	, activity_starts_before : null // the day an activity shoulds start before to be rendered (and accounted for in geo center as well). USe null if not needed
+	, activity_minimal_length : 0 // the length the activity should take, in hours, to be considered
+	, activity_maximal_length: NaN // The length an activity should at least take to be considered
+	}
+
+	$( "#datepicker_before" ).datepicker();
+	$( "#datepicker_before" ).datepicker("option", "dateFormat", "yy-mm-dd");
+	$( "#datepicker_after" ).datepicker();
+	$( "#datepicker_after" ).datepicker("option", "dateFormat", "yy-mm-dd");
+
+	function reloadSettings(){
+		var changed = false;
+		console.log("Updating filter settings!");
+		var min_act_geocenter = parseInt(document.getElementById('min_act_geocenter').value);
+		if(min_act_geocenter > 0 && min_act_geocenter != filterSettings.geocenter_min_activities){
+			filterSettings.geocenter_min_activities = min_act_geocenter;
+			changed = true;
+		}
+
+
+		var minL = parseInt(document.getElementById('min_act_duration').value);
+		if(minL >= 0 && minL != filterSettings.activity_minimal_length){
+			filterSettings.activity_minimal_length = minL;
+			changed = true;
+		}
+
+
+		var maxL = parseInt(document.getElementById('max_act_duration').value);
+		if(maxL >= 0 && minL != filterSettings.activity_maximal_length){
+			filterSettings.activity_maximal_length = maxL;
+			changed = true;
+		}
+
+		var dateParts = $('#datepicker_before').val().split('-'); // Format: yyyy-mm-dd
+		var date = new Date(dateParts[0], dateParts[1] - 1, dateParts[2]);
+		if(date && date.valueOf()){
+			filterSettings.activity_starts_before = date;
+			changed = true;
+		}
+
+		var dateParts = $('#datepicker_after').val().split('-'); // Format: yyyy-mm-dd
+		var date = new Date(dateParts[0], dateParts[1] - 1, dateParts[2]);
+		if(date && date.valueOf()){
+			filterSettings.activity_starts_after = date;
+			changed = true;
+		}
+
+		console.log(filterSettings);
+		if(changed){
+			console.log("Rendering...");
+			reRender();
+		}
+	}
+
+
+// initialize the map
 	var map = L.map('map').setView([50.9, 3.9], 9);
 
 	// load a tile layer
@@ -33,14 +116,29 @@
 		}).addTo(map);
 
 
+	function reRender(){
 
-	function newLayer(name){
+	var knownNamedLayers = new Object();
+
+	function newLayer(id, name){
+		console.log("Testing layer "+id);
+		console.log(knownNamedLayers[id]);
+		if(knownNamedLayers[id]){
+			var layer = knownNamedLayers[name];
+			layer.hide();
+			layer.clearLayers();
+
+			return layer;
+		}
 		var layer = new L.FeatureGroup();
+		knownNamedLayers[ id ] = layer;
+		console.log(knownNamedLayers);
 		layer.show = function(){
 			map.addLayer(layer);
 			if(layer.control){
 				layer.control.checked = true;
 			}
+			return layer;
 		};
 
 		layer.hide = function(){
@@ -48,33 +146,13 @@
 			if(layer.control){
 				layer.control.checked = false;
 			}
+			return layer;
 		};
 		layer.title = name;
-		return layer;
 
-	}
 
-	var allLayers = [];
+		// create controls
 
-	function selectAll(selected){
-		for(var i = 0; i < allLayers.length; i++){
-			if(selected){
-				allLayers[i].show();
-			}else{
-				allLayers[i].hide();
-			}
-		} 
-	}
-
-	document.getElementById('select_all').onclick = function(){
-		selectAll(true);
-	};
-	
-	document.getElementById('deselect_all').onclick = function(){
-		selectAll(false);
-	};
-
-	function createLayerControl(layer){
 		var idCB = "layer"+layer.title;;
 		var checkbox = document.createElement('input');
 		checkbox.type = "checkbox";
@@ -105,8 +183,31 @@
 		 }
 		};
 		allLayers.push(layer);
+
+		return layer;
 	}
 
+	var allLayers = [];
+
+	function selectAll(selected){
+		for(var i = 0; i < allLayers.length; i++){
+			if(selected){
+				allLayers[i].show();
+			}else{
+				allLayers[i].hide();
+			}
+		} 
+	}
+
+	document.getElementById('select_all').onclick = function(){
+		selectAll(true);
+	};
+	
+	document.getElementById('deselect_all').onclick = function(){
+		selectAll(false);
+	};
+
+	
 
 	// ------------------------ Icons ---------------------------------
 
@@ -117,7 +218,9 @@
 	var bondssecIcon = L.icon({iconUrl: 'img/Bondssec', iconSize: [20, 20], iconAnchor: [10, 0], popupAnchor: [0,0]});
 		
 
-	var activiteitIcon = L.icon({iconUrl: 'img/VoorbijeAct', iconSize: [15,15], iconAnchor: [0, 0], popupAnchor: [0,0]});
+	var activiteitIcon = L.icon({iconUrl: 'img/VoorbijeAct', iconSize: [15,15], iconAnchor: [7, 7], popupAnchor: [0,0]});
+	var activiteitenCenterIcon = L.icon({iconUrl: 'img/ActiviteitCenterIcon', iconSize: [10,10], iconAnchor: [4, 5], popupAnchor: [0,0]});
+		
 	var activiteitGeplandIcon = L.icon({iconUrl : 'img/ToekomstAct', iconSize: [15,15], icondAnchor: [0,0], popupAnchor: [0,0]});
 
 
@@ -181,7 +284,7 @@
 
 	// load data about the spaces from file, and use it
 	function createLokalenLayer(){
-	var lokalenLayer = newLayer("Lokalen van JNM-afdelingen (+bondsec)");
+	var lokalenLayer = newLayer(0, "Lokalen van JNM-afdelingen (+bondsec)");
 
 	// query openstreetmap for venues of JNM. It looks to 'operator=JNM'
 	var query = "https://overpass-api.de/api/interpreter?data=%5Bout%3Ajson%5D%5Btimeout%3A25%5D%3B%28node%5B%22operator%22%3D%22JNM%22%5D%2848%2E951366470948%2C0%2E59326171875%2C52%2E583025861416%2C8%2E6846923828125%29%3Bway%5B%22operator%22%3D%22JNM%22%5D%2848%2E951366470948%2C0%2E59326171875%2C52%2E583025861416%2C8%2E6846923828125%29%3B%29%3Bout%3B%3E%3Bout%20skel%20qt%3B%0A";
@@ -223,38 +326,7 @@
 
 
 	// ---------------------------------------------------- HANDLING ACTIVITIES -----------------------------------------------------
-
-
-
-	function geoCenter(dict){
-		var total = 0;
-		var lat = 0;
-		var lon = 0;
-		for(var key in dict){
-			if (!dict.hasOwnProperty(key) || key == null) {
-				continue;
-			}
-			var value = dict[key];
-
-			if(value.location == null){
-				console.log("Dict value without location: ", value);
-				continue;
-			}
-
-			total += value.count;
-			lat += value.count * parseFloat(value.location[0]);
-			lon += value.count * parseFloat(value.location[1]);
-		}
-		
-		lat /= total;
-		lon /= total;
-		return [lat, lon];
-
-	}
-
-
-
-
+	
 	function forEachInOverview(dict, func){
 		for(var key in dict){
 			if (!dict.hasOwnProperty(key) || key == null) {
@@ -264,6 +336,31 @@
 			func(key, value);			
 		}
 	}
+
+
+	function geoCenter(dict){
+		var total = 0;
+		var lat = 0;
+		var lon = 0;
+		
+		forEachInOverview(dict, function(key, locInfo){
+			if(locInfo.count >= filterSettings.geocenter_min_activities){
+				lat += locInfo.count * parseFloat(locInfo.location[0]);
+				lon += locInfo.count * parseFloat(locInfo.location[1]);
+				total += locInfo.count;
+			}
+
+		});
+		lat /= total;
+		lon /= total;
+		return [lat, lon];
+
+	}
+
+
+
+
+
 
 	function sortActivitiesArray(array){
 		array.sort(function(a,b){
@@ -277,6 +374,16 @@
 
 		for(var i = 0; i < activiteiten.length; i++){
 			var act = activiteiten[i];			
+			var startD = new Date(act.properties.start_date);
+			act.properties.start_date = startD;
+
+			if(filterSettings.activity_starts_before && startD >= filterSettings.activity_starts_before){
+				continue;
+			}
+
+			if(filterSettings.activity_starts_after && startD <= filterSettings.activity_starts_after){
+				continue;
+			}
 
 			var lat = act.properties.field_activiteit_locatie_lat;
 			var lon = act.properties.field_activiteit_locatie_lon;
@@ -291,7 +398,6 @@
 				allActivities[ [lat, lon] ] = locationInfo;
 				
 			}
-			act.properties.start_date = new Date(act.properties.start_date);
 			locationInfo.activities.push(act);
 			locationInfo.count += 1;
 		}
@@ -314,6 +420,10 @@
 		var futureEventCount = 0;
 		var pastEventCount = 0;
 		var total = locationInfo.count;
+
+		if(total < filterSettings.min_act_geo_center){
+			return;
+		}
 
 		var futureEventStrings = "";
 		var pastEventStrings = "";
@@ -361,9 +471,25 @@
 	}
 
 
+	function plotGeoCenter(afdId, afdNaam, overview, geoCentersLayer, icon){
+				var center = geoCenter(overview);
+				try{
+					var geoCenterPin;
+					if(icon){
+						geoCenterPin = L.marker(center, {icon : icon});
+					}else{
+						geoCenterPin = L.marker(center);
+					}
+					geoCenterPin.bindPopup("Geografisch centrum van <a href='https://jnm.be/afdeling/"+afdNaam+"' target='_blank'>JNM "+afdNaam+"</a>");
+					geoCentersLayer.addLayer(geoCenterPin);
+				}catch(e){
+				//	console.log("Could not render geocenter for "+afdId+" "+afdNaam, e, center);
+				}
+	}
+
 
 	function createAfdelingLayer(afdId, afdNaam, geoCentersLayer){
-		var layer = newLayer("activiteiten "+afdNaam);
+		var layer = newLayer(afdId, "activiteiten "+afdNaam);
 		
 
 	
@@ -376,8 +502,9 @@
 					var pin = createLocationMarker(actData);
 					layer.addLayer(pin);
 				});
-
-				// geoCentersLayer.addLayer();
+				plotGeoCenter(afdId, afdNaam, overview, layer, activiteitenCenterIcon);
+				plotGeoCenter(afdId, afdNaam, overview, geoCentersLayer);
+				
 		});
 
 		return layer;
@@ -389,16 +516,22 @@
 
 	// loads all the layers
 
-	var geoCentersLayer = newLayer("geographical centers");
-	createLayerControl(createLokalenLayer());
-	createLayerControl(geoCentersLayer);
-	// load data about the spaces from file, and use it
-	$.get("afdelingen.json", function( data ) {
-		for(var i = 0; i < data.length; i++){
-			var afd = createAfdelingLayer(data[i].id, data[i].display_name, geoCentersLayer);
-			createLayerControl(afd);
+	var geoCentersLayer = newLayer(1, "geographical centers");
+	createLokalenLayer().show();
+	geoCentersLayer.show();
+	
+	if(analysisLayers){
+		// load data about the spaces from file, and use it
+		$.get("afdelingen.json", function( data ) {
+			for(var i = 0; i < data.length; i++){
+				createAfdelingLayer(data[i].id, data[i].display_name, geoCentersLayer);
+			}
+		});
 		}
-	});
+	}
+	
+
+	reRender();
 
 
 
@@ -417,7 +550,7 @@ Maak een nieuwe activiteit aan op de JNM-site. De kaart update automatisch.
 <li>Klik edit (indien nodig: maak een account of log in)</li>
 <li>Klik op 'point' linksvanboven en klik op de locatie van je lokaal</li>
 <li>Zoek links voor 'club'</li>
-<li>Vul de nodige gevens in (addresvelden, naam, website)</li>
+<li>Vul de nodige gevens in (addresvelden, naam, website naar de afdeling, eventueel een afdelings-emailadres). Vul bij voorkeur géén persoonlijke telefoonnummers of emails in; want de volgende generatie gaat vergeten dat die erop staan.</li>
 <li>Vul ondering bij 'alle velden' ('all fields') nog een veld 'operator' met waarde 'JNM' in</li>
 <li>Klik opslaan, geef een nuttige boodschap (zoals 'Toevoegen JNMlokaal')</li>
 <li>Klik 'uploaden'</li>
