@@ -1,6 +1,6 @@
 <html>
 <head>
-	<title>A Leaflet map!</title>
+	<title>In Je Buurt</title>
 	<link rel="stylesheet" href="vendor/leaflet/leaflet.css"/>
 	<script src="vendor/leaflet/leaflet.js"></script>
 	<script src="vendor/jquery-3.3.1.min.js"></script>
@@ -55,10 +55,10 @@
 
 
 
-	// fancy icon to show on a venue
-	var jnmIcon = L.icon({iconUrl: 'JNMLogo.jpg', iconSize: [37,27], iconAnchor: [18, 0], popupAnchor: [0,0]});
-	var circleIcon = L.icon({iconUrl: 'Circle.png', iconSize: [15,15], iconAnchor: [0, 0], popupAnchor: [0,0]});
-
+	// fancy icons to show on a venue
+	var jnmIcon = L.icon({iconUrl: 'Lokaal.jpg', iconSize: [37,27], iconAnchor: [18, 0], popupAnchor: [0,0]});
+	var circleIcon = L.icon({iconUrl: 'VoorbijeAct.png', iconSize: [15,15], iconAnchor: [0, 0], popupAnchor: [0,0]});
+	var futureIcon = L.icon({iconUrl : 'ToekomstAct.svg', iconSize: [15,15], icondAnchor: [0,0], popupAnchor: [0,0]});
 
 
 	function pickIcon(lokaalInfo){
@@ -104,7 +104,6 @@
 			}
 
 			if(lokaal.lat == null || lokaal.lon == null){
-				console.log("Latitude or longitude are missing for "+lokaal.tags.name+", taking one of the first node");
 				lokaal.lat = nodes[lokaal.nodes[0]].lat;
 				lokaal.lon = nodes[lokaal.nodes[0]].lon;
 			}
@@ -128,11 +127,16 @@
 			var lon = act.properties.field_activiteit_locatie_lon;
 		
 			if(dict[ [lat, lon] ] == null){
-				dict[ [lat, lon] ] = { contents : "", location : [lat, lon], count : 0 };
+				dict[ [lat, lon] ] = { contents : "", location : [lat, lon], count : 0, future : false };
 				
 			}
 			dict[ [lat, lon] ].contents += popupStringAct(act) + "<br />";
 			dict[ [lat, lon] ].count += 1;
+
+			var now = new Date(Date());
+			var actDate = new Date(act.properties.start_date);
+			dict[ [lat, lon] ].future = dict[ [lat, lon] ].future || (now < actDate);
+			
 		
 	}
 
@@ -146,6 +150,12 @@
 				continue;
 			}
 			var value = dict[key];
+
+			if(value.location == null){
+				console.log("Dict value without location: ", value);
+				continue;
+			}
+
 			total += value.count;
 			lat += value.count * parseFloat(value.location[0]);
 			lon += value.count * parseFloat(value.location[1]);
@@ -157,33 +167,63 @@
 
 	}
 
+	function createLayer(dict){
+
+			dict.layer = new L.FeatureGroup();
+
+			for(var key in dict){
+				if (!dict.hasOwnProperty(key) || key == null) {
+					continue;
+				}
+				var value = dict[key];
+				if(value.location == null){
+					console.log("Dict value without location: ", value);
+					continue;
+				}
+
+				var iconToShow = circleIcon; // the grey, past icon
+				if(value.future){
+					iconToShow = futureIcon;
+				}
+
+
+				var pin = L.marker(value.location, { icon :  iconToShow});
+				pin.bindPopup((value.count > 1 ? value.count+" activiteiten: <br :> ":"")+value.contents);
+				dict.layer.addLayer(pin);
+			}
+	}
+
+	function showPins(dict){
+		map.addLayer(dict.layer);
+	}
+
+	function removePins(dict){
+		map.removeLayer(dict.layer);
+
+	}
 
 	function handleAfdeling(afdId, afdNaam){
-		$.get("https://tools.jnm.be/jnm_heat/activiteiten_geojson.php?afdeling="+afdId, function(data){
+		var link = "https://tools.jnm.be/jnm_heat/activiteiten_geojson.php?afdeling="+afdId;
+		// link = "activiteiten_"+afdId+".geojson"
+		$.get(link, function(data){
 			try{
 				var dict = new Object(); 
 				var activiteitenData = JSON.parse(data).features;
 				for(var i = 0; i < activiteitenData.length; i++){
 					var act = activiteitenData[i];
 					addActivity(act, dict);
-
 				}
 
-				for(var key in dict){
-					if (!dict.hasOwnProperty(key) || key == null) {
-						continue;
-					}
-					var value = dict[key];
-
-					var pin = L.marker(value.location, { icon : circleIcon }).addTo(map);
-					pin.bindPopup((value.count > 1 ? value.count+" activiteiten: <br :> ":"")+value.contents);
-
-				}
+				createLayer(dict);
 
 				var centerPin = L.marker(geoCenter(dict)).addTo(map);
 				centerPin.bindPopup("Geografisch centrum van <a href='https://www.jnm.be/afdeling/"+afdNaam+"' target='_blank'>"+afdNaam+"</a>");
-				centerPin.on
+				centerPin.on('mouseover', function(whatever){showPins(dict);});
 
+				var layerFixed = false;
+				centerPin.on('mouseout', function(whatever){if(!layerFixed){removePins(dict);}});
+				centerPin.on('click', function(whatever){layerFixed = !layerFixed;});
+				
 
 
 			}catch(e){
