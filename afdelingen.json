@@ -1,0 +1,314 @@
+[
+    {
+        "id": "6",
+        "external_identifier": "A-5",
+        "display_name": "Poekebeek",
+        "created_date": "2015-07-31 10:57:55"
+    },
+    {
+        "id": "7",
+        "external_identifier": "A-6",
+        "display_name": "Akerland",
+        "created_date": "2015-07-31 10:57:55"
+    },
+    {
+        "id": "8",
+        "external_identifier": "A-7",
+        "display_name": "Alken",
+        "created_date": "2015-07-31 10:57:55"
+    },
+    {
+        "id": "9",
+        "external_identifier": "A-8",
+        "display_name": "Antwerpen",
+        "created_date": "2015-07-31 10:57:55"
+    },
+    {
+        "id": "10",
+        "external_identifier": "A-9",
+        "display_name": "Krabboen",
+        "created_date": "2015-07-31 10:57:55"
+    },
+    {
+        "id": "11",
+        "external_identifier": "A-10",
+        "display_name": "Aa-Beek",
+        "created_date": "2015-07-31 10:57:55"
+    },
+    {
+        "id": "12",
+        "external_identifier": "A-11",
+        "display_name": "Brugge",
+        "created_date": "2015-07-31 10:57:55"
+    },
+    {
+        "id": "13",
+        "external_identifier": "A-12",
+        "display_name": "Brussel",
+        "created_date": "2015-07-31 10:57:55"
+    },
+    {
+        "id": "14",
+        "external_identifier": "A-13",
+        "display_name": "Ninove-Geraardsbergen",
+        "created_date": "2015-07-31 10:57:55"
+    },
+    {
+        "id": "15",
+        "external_identifier": "A-14",
+        "display_name": "Durmeland",
+        "created_date": "2015-07-31 10:57:55"
+    },
+    {
+        "id": "16",
+        "external_identifier": "A-15",
+        "display_name": "Eeklo",
+        "created_date": "2015-07-31 10:57:55"
+    },
+    {
+        "id": "17",
+        "external_identifier": "A-16",
+        "display_name": "Fruitstreek",
+        "created_date": "2015-07-31 10:57:55"
+    },
+    {
+        "id": "18",
+        "external_identifier": "A-17",
+        "display_name": "Gent",
+        "created_date": "2015-07-31 10:57:55"
+    },
+    {
+        "id": "19",
+        "external_identifier": "A-18",
+        "display_name": "Hageland-Zuiderkempen",
+        "created_date": "2015-07-31 10:57:55"
+    },
+    {
+        "id": "20",
+        "external_identifier": "A-19",
+        "display_name": "Klein-Brabant",
+        "created_date": "2015-07-31 10:57:55"
+    },
+    {
+        "id": "21",
+        "external_identifier": "A-20",
+        "display_name": "Kortrijk",
+        "created_date": "2015-07-31 10:57:55"
+    },
+    {
+        "id": "22",
+        "external_identifier": "A-21",
+        "display_name": "Krekenland",
+        "created_date": "2015-07-31 10:57:55"
+    },
+    {
+        "id": "23",
+        "external_identifier": "A-22",
+        "display_name": "Lage Kempen",
+        "created_date": "2015-07-31 10:57:55"
+    },
+    {
+        "id": "24",
+        "external_identifier": "A-23",
+        "display_name": "Leievallei",
+        "created_date": "2015-07-31 10:57:55"
+    },
+    {
+        "id": "25",
+        "external_identifier": "A-24",
+        "display_name": "Leuven",
+        "created_date": "2015-07-31 10:57:55"
+    },
+    {
+        "id": "26",
+        "external_identifier": "A-25",
+        "display_name": "Markvallei",
+        "created_date": "2015-07-31 10:57:55"
+    },
+    {
+        "id": "27",
+        "external_identifier": "A-26",
+        "display_name": "Mechelen",
+        "created_date": "2015-07-31 10:57:55"
+    },
+    {
+        "id": "28",
+        "external_identifier": "A-27",
+        "display_name": "Middenkust",
+        "created_date": "2015-07-31 10:57:55"
+    },
+    {
+        "id": "29",
+        "external_identifier": "A-28",
+        "display_name": "Midden-Limburg",
+        "created_date": "2015-07-31 10:57:55"
+    },
+    {
+        "id": "30",
+        "external_identifier": "A-29",
+        "display_name": "Zandland",
+        "created_date": "2015-07-31 10:57:55"
+    },
+    {
+        "id": "31",
+        "external_identifier": "A-30",
+        "display_name": "Neteland",
+        "created_date": "2015-07-31 10:57:55"
+    },
+    {
+        "id": "32",
+        "external_identifier": "A-31",
+        "display_name": "Teutenland",
+        "created_date": "2015-07-31 10:57:55"
+    },
+    {
+        "id": "33",
+        "external_identifier": "A-32",
+        "display_name": "Noordwest-Brabant",
+        "created_date": "2015-07-31 10:57:55"
+    },
+    {
+        "id": "34",
+        "external_identifier": "A-33",
+        "display_name": "Oost-Brabant",
+        "created_date": "2015-07-31 10:57:55"
+    },
+    {
+        "id": "35",
+        "external_identifier": "A-34",
+        "display_name": "Pajottenland",
+        "created_date": "2015-07-31 10:57:55"
+    },
+    {
+        "id": "36",
+        "external_identifier": "A-35",
+        "display_name": "Pallieterland",
+        "created_date": "2015-07-31 10:57:55"
+    },
+    {
+        "id": "37",
+        "external_identifier": "A-36",
+        "display_name": "Roeselare",
+        "created_date": "2015-07-31 10:57:55"
+    },
+    {
+        "id": "38",
+        "external_identifier": "A-37",
+        "display_name": "'S Heerenbosch",
+        "created_date": "2015-07-31 10:57:55"
+    },
+    {
+        "id": "39",
+        "external_identifier": "A-38",
+        "display_name": "Scheldeland",
+        "created_date": "2015-07-31 10:57:55"
+    },
+    {
+        "id": "40",
+        "external_identifier": "A-39",
+        "display_name": "Taxandria",
+        "created_date": "2015-07-31 10:57:55"
+    },
+    {
+        "id": "41",
+        "external_identifier": "A-40",
+        "display_name": "Vlaamse Ardennen",
+        "created_date": "2015-07-31 10:57:55"
+    },
+    {
+        "id": "42",
+        "external_identifier": "A-41",
+        "display_name": "Voorkempen",
+        "created_date": "2015-07-31 10:57:55"
+    },
+    {
+        "id": "43",
+        "external_identifier": "A-42",
+        "display_name": "Waasland",
+        "created_date": "2015-07-31 10:57:55"
+    },
+    {
+        "id": "44",
+        "external_identifier": "A-43",
+        "display_name": "Westkust",
+        "created_date": "2015-07-31 10:57:55"
+    },
+    {
+        "id": "45",
+        "external_identifier": "A-44",
+        "display_name": "Westland",
+        "created_date": "2015-07-31 10:57:55"
+    },
+    {
+        "id": "46",
+        "external_identifier": "A-45",
+        "display_name": "West-Limburg",
+        "created_date": "2015-07-31 10:57:55"
+    },
+    {
+        "id": "47",
+        "external_identifier": "A-46",
+        "display_name": "Zottegem",
+        "created_date": "2015-07-31 10:57:55"
+    },
+    {
+        "id": "48",
+        "external_identifier": "A-47",
+        "display_name": "Zuid-Limburg",
+        "created_date": "2015-07-31 10:57:55"
+    },
+    {
+        "id": "49",
+        "external_identifier": "A-48",
+        "display_name": "Zuidwest-Brabant",
+        "created_date": "2015-07-31 10:57:55"
+    },
+    {
+        "id": "51",
+        "external_identifier": "A-71",
+        "display_name": "Onderstebovenschelde",
+        "created_date": "2015-07-31 10:57:55"
+    },
+    {
+        "id": "53",
+        "external_identifier": "A-99",
+        "display_name": "Land Van Aalst",
+        "created_date": "2015-07-31 10:57:55"
+    },
+    {
+        "id": "54",
+        "external_identifier": "A-101",
+        "display_name": "Moervallei",
+        "created_date": "2015-07-31 10:57:55"
+    },
+    {
+        "id": "55",
+        "external_identifier": "A-102",
+        "display_name": "Maasland",
+        "created_date": "2015-07-31 10:57:55"
+    },
+    {
+        "id": "56",
+        "external_identifier": "A-106",
+        "display_name": "Hoge Kempen",
+        "created_date": "2015-07-31 10:57:55"
+    },
+    {
+        "id": "58",
+        "external_identifier": "A-1003",
+        "display_name": "Aalter",
+        "created_date": "2015-07-31 10:57:55"
+    },
+    {
+        "id": "59",
+        "external_identifier": "A-1004",
+        "display_name": "Midden-Brabant",
+        "created_date": "2015-07-31 10:57:55"
+    },
+    {
+        "id": "14070",
+        "external_identifier": null,
+        "display_name": "Demervallei",
+        "created_date": "2017-02-14 12:09:40"
+    }
+]

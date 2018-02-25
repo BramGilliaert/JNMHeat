@@ -54,8 +54,11 @@
 	}
 
 
+
 	// fancy icon to show on a venue
 	var jnmIcon = L.icon({iconUrl: 'JNMLogo.jpg', iconSize: [37,27], iconAnchor: [18, 0], popupAnchor: [0,0]});
+	var circleIcon = L.icon({iconUrl: 'Circle.png', iconSize: [15,15], iconAnchor: [0, 0], popupAnchor: [0,0]});
+
 
 
 	function pickIcon(lokaalInfo){
@@ -110,7 +113,79 @@
 			var lokaalM = L.marker([lokaal.lat, lokaal.lon], {icon: pickIcon()}).addTo(map);
 			lokaalM.bindPopup(popupString(lokaal));
 		} // end of for each venue
-	}); // end of data crunching
+	}); // end of data crunching for venues
+
+
+
+	function popupStringAct(act){
+		return act.properties.start_date + " <a href='https://www.jnm.be/node/"+ act.properties.entity_id +"'>"+act.properties.title+"</a>"
+		
+	}
+
+
+	function addActivity(act, dict){
+			var lat = act.properties.field_activiteit_locatie_lat;
+			var lon = act.properties.field_activiteit_locatie_lon;
+		
+			if(dict[ [lat, lon] ] == null){
+				dict[ [lat, lon] ] = { contents : "", location : [lat, lon], count : 0 };
+				
+			}
+			dict[ [lat, lon] ].contents += popupStringAct(act) + "<br />";
+			dict[ [lat, lon] ].count += 1;
+		
+	}
+
+
+	function geoCenter(dict){
+		var total = 0;
+		var lat = 0;
+		var lon = 0;
+		for(var key in dict){
+			if (!dict.hasOwnProperty(key) || key == null) {
+				continue;
+			}
+			var value = dict[key];
+			total += value.count;
+			lat += value.count * parseFloat(value.location[0]);
+			lon += value.count * parseFloat(value.location[1]);
+			console.log(total, lat, lon);
+		}
+		
+		lat /= total;
+		lon /= total;
+		console.log("Final", lat, lon);
+		return [lat, lon];
+
+	}
+
+
+	var afd = 33;
+	$.get("https://tools.jnm.be/jnm_heat/activiteiten_geojson.php?afdeling="+afd, function(data){
+
+		var dict = new Object(); 
+		var activiteitenData = JSON.parse(data).features;
+		for(var i = 0; i < activiteitenData.length; i++){
+			var act = activiteitenData[i];
+			addActivity(act, dict);
+
+		}
+
+		for(var key in dict){
+			if (!dict.hasOwnProperty(key) || key == null) {
+				continue;
+			}
+			var value = dict[key];
+
+			var pin = L.marker(value.location, { icon : circleIcon }).addTo(map);
+			pin.bindPopup((value.count > 1 ? value.count+" activiteiten: <br :> ":"")+value.contents);
+
+		}
+
+		var centerPin = L.marker(geoCenter(dict)).addTo(map);
+		centerPin.bindPopup("Geografisch centrum van "+afd);
+
+	}); // end of activity data crunching
 
 	</script>
 
