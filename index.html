@@ -217,7 +217,7 @@
 				createLayer(dict);
 
 				var centerPin = L.marker(geoCenter(dict)).addTo(map);
-				centerPin.bindPopup("Geografisch centrum van <a href='https://www.jnm.be/afdeling/"+afdNaam+"' target='_blank'>"+afdNaam+"</a>");
+				centerPin.bindPopup("Geografisch centrum van activiteiten door <a href='https://www.jnm.be/afdeling/"+afdNaam+"' target='_blank'>"+afdNaam+"</a>");
 				centerPin.on('mouseover', function(whatever){showPins(dict);});
 
 				var layerFixed = false;
