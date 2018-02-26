@@ -20,7 +20,10 @@
 
 
 
-	<table id="controls" align="right">
+	<table id="controls" align="left">
+	<tr><td><b>Activiteiten-Spreidings-Kaart (ASK)</b></td></tr>
+	<tr><td>Made by Pieter Vander Vennet</td></tr>
+	<tr><td>with database support of Emile</td></tr>
 	<tr><td><button id="select_all">Select all</button><button id="deselect_all">Deselect all</button></td></tr>
 	</table>
 	<div id="map"></div>
@@ -60,47 +63,38 @@
 	$( "#datepicker_after" ).datepicker("option", "dateFormat", "yy-mm-dd");
 
 	function reloadSettings(){
-		var changed = false;
 		console.log("Updating filter settings!");
 		var min_act_geocenter = parseInt(document.getElementById('min_act_geocenter').value);
 		if(min_act_geocenter > 0 && min_act_geocenter != filterSettings.geocenter_min_activities){
 			filterSettings.geocenter_min_activities = min_act_geocenter;
-			changed = true;
 		}
 
 
 		var minL = parseInt(document.getElementById('min_act_duration').value);
 		if(minL >= 0 && minL != filterSettings.activity_minimal_length){
 			filterSettings.activity_minimal_length = minL;
-			changed = true;
 		}
 
 
 		var maxL = parseInt(document.getElementById('max_act_duration').value);
 		if(maxL >= 0 && minL != filterSettings.activity_maximal_length){
 			filterSettings.activity_maximal_length = maxL;
-			changed = true;
 		}
 
 		var dateParts = $('#datepicker_before').val().split('-'); // Format: yyyy-mm-dd
 		var date = new Date(dateParts[0], dateParts[1] - 1, dateParts[2]);
 		if(date && date.valueOf()){
 			filterSettings.activity_starts_before = date;
-			changed = true;
 		}
 
 		var dateParts = $('#datepicker_after').val().split('-'); // Format: yyyy-mm-dd
 		var date = new Date(dateParts[0], dateParts[1] - 1, dateParts[2]);
 		if(date && date.valueOf()){
 			filterSettings.activity_starts_after = date;
-			changed = true;
 		}
 
-		console.log(filterSettings);
-		if(changed){
-			console.log("Rendering...");
-			reRender();
-		}
+		console.log("Rendering...");
+		reRender();
 	}
 
 
@@ -110,29 +104,37 @@
 	// load a tile layer
 	L.tileLayer('http://tile.openstreetmap.be/osmbe/{z}/{x}/{y}.png',
 		{
-		attribution: 'Map Data Copyright OpenStreetMap | Lokalendata aanpasbaar via osm.org | Activiteitendata van JNM.be | Tiles hosted by osm.be',
+		attribution: 'Map Data Copyright OpenStreetMap | Tiles hosted by osm.be; thx JBelien!',
 		maxZoom: 21,
 		minZoom: 1
 		}).addTo(map);
 
+	
+	var allLayers = [];
+	var controlBoxes = [];
+
+
 
 	function reRender(){
 
-	var knownNamedLayers = new Object();
 
-	function newLayer(id, name){
-		console.log("Testing layer "+id);
-		console.log(knownNamedLayers[id]);
-		if(knownNamedLayers[id]){
-			var layer = knownNamedLayers[name];
-			layer.hide();
-			layer.clearLayers();
+	// cleanup of the layers which might already exist
+	for(var i = 0; i < allLayers.length; i++){
+		allLayers[i].hide();
+		allLayers[i].scrap();
+	}
+	allLayers = [];
+	while(controlBoxes[0] && controlBoxes[0].parentNode){
+		controlBoxes[0].parentNode.removeChild(controlBoxes[0]);
+	}
+	controlBoxes = [];
 
-			return layer;
-		}
+
+	function newLayer(name){
 		var layer = new L.FeatureGroup();
-		knownNamedLayers[ id ] = layer;
-		console.log(knownNamedLayers);
+		allLayers.push(layer);
+
+
 		layer.show = function(){
 			map.addLayer(layer);
 			if(layer.control){
@@ -151,44 +153,70 @@
 		layer.title = name;
 
 
+		layer.scrap = function(){
+			map.removeLayer(layer);
+			if(layer.control){
+				layer.control.checked = false;
+				layer.control.onclick = null;
+			}
+		}
+
+		function getControls(){
+			return document.getElementById("layer"+layer.title)
+		}
+
 		// create controls
+		function createControls(){
+			var idCB = "layer"+layer.title;;
+			var checkbox = document.createElement('input');
+			checkbox.type = "checkbox";
+			checkbox.name = "layer"+layer.title;
+			checkbox.value = "value";
+			checkbox.id = idCB;
 
-		var idCB = "layer"+layer.title;;
-		var checkbox = document.createElement('input');
-		checkbox.type = "checkbox";
-		checkbox.name = "layer"+layer.title;
-		checkbox.value = "value";
-		checkbox.id = idCB;
+			var label = document.createElement('label')
+			label.htmlFor = idCB;
+			label.appendChild(document.createTextNode(layer.title));
 
-		var label = document.createElement('label')
-		label.htmlFor = idCB;
-		label.appendChild(document.createTextNode(layer.title));
+			var container = document.getElementById('controls');
 
-		var container = document.getElementById('controls');
-
-		var tr = document.createElement('tr');
-		var td = document.createElement('td');
-		container.appendChild(tr);
-		tr.appendChild(td);
-		td.appendChild(checkbox);
-		td.appendChild(label);
+			var tr = document.createElement('tr');
+			controlBoxes.push(tr);
+			var td = document.createElement('td');
+			container.appendChild(tr);
+			tr.appendChild(td);
+			td.appendChild(checkbox);
+			td.appendChild(label);
 
 
-		layer.control = document.getElementById(idCB)
-		layer.control.onclick = function() {
-		 if (this.checked ) {
-			layer.show();
-		 } else {
-			layer.hide();
-		 }
-		};
-		allLayers.push(layer);
+			layer.control = document.getElementById(idCB)
+			layer.control.onclick = function() {
+			 if (this.checked ) {
+				layer.show();
+			 } else {
+				layer.hide();
+			 }
+			};
+		}
+
+		var controls = getControls();
+		if(controls){
+			layer.control = controls;
+			controls.onclick =  function() {
+			 if (this.checked ) {
+				layer.show();
+			 } else {
+				layer.hide();
+			 }
+			};
+		}else{
+			createControls();
+		}
 
 		return layer;
 	}
 
-	var allLayers = [];
-
+	
 	function selectAll(selected){
 		for(var i = 0; i < allLayers.length; i++){
 			if(selected){
@@ -284,7 +312,7 @@
 
 	// load data about the spaces from file, and use it
 	function createLokalenLayer(){
-	var lokalenLayer = newLayer(0, "Lokalen van JNM-afdelingen (+bondsec)");
+	var lokalenLayer = newLayer("Lokalen van JNM-afdelingen (+bondsec)");
 
 	// query openstreetmap for venues of JNM. It looks to 'operator=JNM'
 	var query = "https://overpass-api.de/api/interpreter?data=%5Bout%3Ajson%5D%5Btimeout%3A25%5D%3B%28node%5B%22operator%22%3D%22JNM%22%5D%2848%2E951366470948%2C0%2E59326171875%2C52%2E583025861416%2C8%2E6846923828125%29%3Bway%5B%22operator%22%3D%22JNM%22%5D%2848%2E951366470948%2C0%2E59326171875%2C52%2E583025861416%2C8%2E6846923828125%29%3B%29%3Bout%3B%3E%3Bout%20skel%20qt%3B%0A";
@@ -376,6 +404,21 @@
 			var act = activiteiten[i];			
 			var startD = new Date(act.properties.start_date);
 			act.properties.start_date = startD;
+			var endD = new Date(act.properties.end_date);
+			act.properties.end_date = endD;
+
+
+			var MS_PER_HOUR = 1000*60*60;
+			var duration =  Math.floor((endD - startD) / (MS_PER_HOUR));
+			if(!(filterSettings.activity_minimal_length < duration)){
+				console.log("Activity does not meet minimal length", duration, filterSettings.activity_minimal_length);
+				continue;
+			} 
+
+			if(filterSettings.activity_maximal_length && !(duration < filterSettings.activity_maximal_length)){
+				console.log("Activity does not meet maximal length, it is "+duration);
+				continue;
+			}
 
 			if(filterSettings.activity_starts_before && startD >= filterSettings.activity_starts_before){
 				continue;
@@ -489,7 +532,7 @@
 
 
 	function createAfdelingLayer(afdId, afdNaam, geoCentersLayer){
-		var layer = newLayer(afdId, "activiteiten "+afdNaam);
+		var layer = newLayer("activiteiten "+afdNaam);
 		
 
 	
@@ -516,7 +559,7 @@
 
 	// loads all the layers
 
-	var geoCentersLayer = newLayer(1, "geographical centers");
+	var geoCentersLayer = newLayer("geographical centers");
 	createLokalenLayer().show();
 	geoCentersLayer.show();
 	
@@ -538,25 +581,52 @@
 	</script>
 
 
+<table>
+<tr><td>
+<br /><br />
 <h2>Hoe een activiteit toevoegen op deze kaart?</h2>
 
 Maak een nieuwe activiteit aan op de JNM-site. De kaart update automatisch.
 
+<h2>Ik wil enkel kampen</h2>
+
+Gebruik hiervoor de 'minimale lengte'.
+
+<h2>Ik wil enkel dingen zien die mijn afdeling ook echt organiseert, en niet alles wat op mijn kalender gezwierd wordt</h2>
+
+Dat is voorlopig nog niet mogelijk. Spam Emile om de queries up te daten!
+
+
+
 <h2> Hoe een afdelingslokaal toevoegen?</h2>
 
 <ol>
-<li>Ga naar <a href="https://openstreetmap.org">openstreetmap.org</a></li>
+<li>Ga naar <a href="https://openstreetmap.org" target="_blank">openstreetmap.org</a></li>
 <li>Ga naar de locatie van je nieuwe lokaal</li>
 <li>Klik edit (indien nodig: maak een account of log in)</li>
 <li>Klik op 'point' linksvanboven en klik op de locatie van je lokaal</li>
 <li>Zoek links voor 'club'</li>
 <li>Vul de nodige gevens in (addresvelden, naam, website naar de afdeling, eventueel een afdelings-emailadres). Vul bij voorkeur géén persoonlijke telefoonnummers of emails in; want de volgende generatie gaat vergeten dat die erop staan.</li>
-<li>Vul ondering bij 'alle velden' ('all fields') nog een veld 'operator' met waarde 'JNM' in</li>
+<li>Vul ondering bij 'alle velden' ('all tags') nog een veld 'operator' met waarde 'JNM' in <a href="EditHelp.png" target="_blank">(dit ziet er zo uit)</a></li>
 <li>Klik opslaan, geef een nuttige boodschap (zoals 'Toevoegen JNMlokaal')</li>
 <li>Klik 'uploaden'</li>
 <li>Klaar! Een minuutje later zou deze kaart ook up-to-date moeten zijn. Als bonus kan elke GSP-app die op OSM-gebaseerd is (OSMAND, Maps.me) je lokaal nu vinden</li>
 
 </ol>
+<h2>Wil je ook [feature] toevoegen?</h2>
 
+Ja. Dit kan als volgt:
+
+<!-- Ook gekend als: go fuck yourself -->
+<ol>
+
+<li><a href='https://www.w3schools.com/js/DEFAULT.asp' target='_blank'>Lees dit</a></li>
+<li><a href='https://git-scm.com/docs/gittutorial' target='_blank'>Daarna dit</a></li>
+<li><a href='http://github.com/pietervdvn/JNMHeat' target='_blank'>Patches welcome</a></li>
+</ol>
+
+</td>
+</tr>
+</table>
 </body>
 </html>
