@@ -1,7 +1,7 @@
 <html>
 <head>
 	<meta charset="utf-8">
-	<title>In Je Buurt</title>
+	<title>Activiteiten-Spreidings-Kaart</title>
 	<link rel="stylesheet" href="vendor/leaflet/leaflet.css"/>
 	<script src="vendor/leaflet/leaflet.js"></script>
 	<script src="vendor/jquery-3.3.1.min.js"></script>
@@ -514,7 +514,7 @@
 	}
 
 
-	function plotGeoCenter(afdId, afdNaam, overview, geoCentersLayer, icon){
+	function plotGeoCenter(afdId, afdNaam, overview, total, geoCentersLayer, icon){
 				var center = geoCenter(overview);
 				try{
 					var geoCenterPin;
@@ -523,10 +523,12 @@
 					}else{
 						geoCenterPin = L.marker(center);
 					}
-					geoCenterPin.bindPopup("Geografisch centrum van <a href='https://jnm.be/afdeling/"+afdNaam+"' target='_blank'>JNM "+afdNaam+"</a>");
+					var msg = "Geografisch centrum van <a href='https://jnm.be/afdeling/"+afdNaam+"' target='_blank'>JNM "+afdNaam+"</a><br />";
+					msg += total+" activiteiten gevonden";
+					geoCenterPin.bindPopup(msg);
 					geoCentersLayer.addLayer(geoCenterPin);
 				}catch(e){
-				//	console.log("Could not render geocenter for "+afdId+" "+afdNaam, e, center);
+					console.log("Could not render geocenter for "+afdId+" "+afdNaam, e, center);
 				}
 	}
 
@@ -534,19 +536,20 @@
 	function createAfdelingLayer(afdId, afdNaam, geoCentersLayer){
 		var layer = newLayer("activiteiten "+afdNaam);
 		
-
-	
 		var source = "https://tools.jnm.be/jnm_heat/activiteiten_geojson.php?afdeling="+afdId;
+				
 		$.get(source, function(data){
+				console.log("Received data for "+afdId+", rendering it...");
 				var activiteitenData = JSON.parse(data).features;
 				var overview = createOverview(activiteitenData);
-				
+				var total = 0;
 				forEachInOverview(overview, function(loc, actData){
+					total += actData.count;
 					var pin = createLocationMarker(actData);
 					layer.addLayer(pin);
 				});
-				plotGeoCenter(afdId, afdNaam, overview, layer, activiteitenCenterIcon);
-				plotGeoCenter(afdId, afdNaam, overview, geoCentersLayer);
+				plotGeoCenter(afdId, afdNaam, overview, total, layer, activiteitenCenterIcon);
+				plotGeoCenter(afdId, afdNaam, overview, total, geoCentersLayer);
 				
 		});
 
@@ -592,6 +595,10 @@ Maak een nieuwe activiteit aan op de JNM-site. De kaart update automatisch.
 
 Gebruik hiervoor de 'minimale lengte'.
 
+<h2>Mijn geografisch centrum wordt naar Gent gezogen</h2>
+
+Dit komt door nationale activiteiten op je kalender. Enkel locaties met op zijn minst 2 activiteiten selecteren helpt.
+
 <h2>Ik wil enkel dingen zien die mijn afdeling ook echt organiseert, en niet alles wat op mijn kalender gezwierd wordt</h2>
 
 Dat is voorlopig nog niet mogelijk. Spam Emile om de queries up te daten!
@@ -607,7 +614,7 @@ Dat is voorlopig nog niet mogelijk. Spam Emile om de queries up te daten!
 <li>Klik op 'point' linksvanboven en klik op de locatie van je lokaal</li>
 <li>Zoek links voor 'club'</li>
 <li>Vul de nodige gevens in (addresvelden, naam, website naar de afdeling, eventueel een afdelings-emailadres). Vul bij voorkeur géén persoonlijke telefoonnummers of emails in; want de volgende generatie gaat vergeten dat die erop staan.</li>
-<li>Vul ondering bij 'alle velden' ('all tags') nog een veld 'operator' met waarde 'JNM' in <a href="EditHelp.png" target="_blank">(dit ziet er zo uit)</a></li>
+<li>Vul onderin bij 'alle velden' ('all tags') nog een veld 'operator' met waarde 'JNM' in <a href="EditHelp.png" target="_blank">(dit ziet er zo uit)</a></li>
 <li>Klik opslaan, geef een nuttige boodschap (zoals 'Toevoegen JNMlokaal')</li>
 <li>Klik 'uploaden'</li>
 <li>Klaar! Een minuutje later zou deze kaart ook up-to-date moeten zijn. Als bonus kan elke GSP-app die op OSM-gebaseerd is (OSMAND, Maps.me) je lokaal nu vinden</li>
