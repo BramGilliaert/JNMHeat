@@ -537,7 +537,7 @@
 		var layer = newLayer("activiteiten "+afdNaam);
 		
 		var source = "https://tools.jnm.be/jnm_heat/activiteiten_geojson.php?afdeling="+afdId;
-				
+		console.log("Starting request for "+afdId);
 		$.get(source, function(data){
 				console.log("Received data for "+afdId+", rendering it...");
 				var activiteitenData = JSON.parse(data).features;
@@ -614,10 +614,10 @@ Dat is voorlopig nog niet mogelijk. Spam Emile om de queries up te daten!
 <li>Klik op 'point' linksvanboven en klik op de locatie van je lokaal</li>
 <li>Zoek links voor 'club'</li>
 <li>Vul de nodige gevens in (addresvelden, naam, website naar de afdeling, eventueel een afdelings-emailadres). Vul bij voorkeur géén persoonlijke telefoonnummers of emails in; want de volgende generatie gaat vergeten dat die erop staan.</li>
-<li>Vul onderin bij 'alle velden' ('all tags') nog een veld 'operator' met waarde 'JNM' in <a href="EditHelp.png" target="_blank">(dit ziet er zo uit)</a></li>
+<li>Vul onderin bij 'alle velden' ('all tags') nog een veld 'operator' met waarde 'JNM' in ('JNM' in hoofdletters) <a href="EditHelp.png" target="_blank">(dit ziet er zo uit)</a></li>
 <li>Klik opslaan, geef een nuttige boodschap (zoals 'Toevoegen JNMlokaal')</li>
 <li>Klik 'uploaden'</li>
-<li>Klaar! Een minuutje later zou deze kaart ook up-to-date moeten zijn. Als bonus kan elke GSP-app die op OSM-gebaseerd is (OSMAND, Maps.me) je lokaal nu vinden</li>
+<li>Klaar! Een minuutje later zou deze kaart ook up-to-date moeten zijn. Als bonus kan elke goeie GPS-app die op OSM-gebaseerd is (OSMAND, Maps.me) je lokaal nu vinden</li>
 
 </ol>
 <h2>Wil je ook [feature] toevoegen?</h2>
