@@ -44,7 +44,7 @@
 	var analysisLayers = true;
 
 	// Turn to true to load the hardcoded geojson which show the map with afdelingen for the general public 
-	var publicFacingLayers = !analysisLayers;
+	var publicFacingLayers = true;
 
 	// --------------------- Map setup --------------------------------
 
@@ -55,6 +55,7 @@
 	, activity_starts_before : null // the day an activity shoulds start before to be rendered (and accounted for in geo center as well). USe null if not needed
 	, activity_minimal_length : 0 // the length the activity should take, in hours, to be considered
 	, activity_maximal_length: NaN // The length an activity should at least take to be considered
+	, afdeling_only: true // only consider and show the activities of the chapter considered
 	}
 
 	$( "#datepicker_before" ).datepicker();
@@ -254,16 +255,15 @@
 
 	// create a dictionary {'node-id' --> node}
 	function nodeDict(nodeData){
-	var dict = new Object();
-	for (var i = 0; i < nodeData.elements.length; i++){
-		var node = nodeData.elements[i];
-		if(node.type != 'node'){
-			continue;
+		var dict = new Object();
+		for (var i = 0; i < nodeData.elements.length; i++){
+			var node = nodeData.elements[i];
+			if(node.type != 'node'){
+				continue;
+			}
+			dict[node.id] = node;
 		}
-		dict[node.id] = node;
-	}
-	return dict;
-
+		return dict;
 	}
 
 
@@ -312,43 +312,43 @@
 
 	// load data about the spaces from file, and use it
 	function createLokalenLayer(){
-	var lokalenLayer = newLayer("Lokalen van JNM-afdelingen (+bondsec)");
+		var lokalenLayer = newLayer("Lokalen van JNM-afdelingen (+bondsec)");
 
-	// query openstreetmap for venues of JNM. It looks to 'operator=JNM'
-	var query = "https://overpass-api.de/api/interpreter?data=%5Bout%3Ajson%5D%5Btimeout%3A25%5D%3B%28node%5B%22operator%22%3D%22JNM%22%5D%2848%2E951366470948%2C0%2E59326171875%2C52%2E583025861416%2C8%2E6846923828125%29%3Bway%5B%22operator%22%3D%22JNM%22%5D%2848%2E951366470948%2C0%2E59326171875%2C52%2E583025861416%2C8%2E6846923828125%29%3B%29%3Bout%3B%3E%3Bout%20skel%20qt%3B%0A";
+		// query openstreetmap for venues of JNM. It looks to 'operator=JNM'
+		var query = "https://overpass-api.de/api/interpreter?data=%5Bout%3Ajson%5D%5Btimeout%3A25%5D%3B%28node%5B%22operator%22%3D%22JNM%22%5D%2848%2E951366470948%2C0%2E59326171875%2C52%2E583025861416%2C8%2E6846923828125%29%3Bway%5B%22operator%22%3D%22JNM%22%5D%2848%2E951366470948%2C0%2E59326171875%2C52%2E583025861416%2C8%2E6846923828125%29%3B%29%3Bout%3B%3E%3Bout%20skel%20qt%3B%0A";
 
 
-	$.get(query, function( lokalen ) {
+		$.get(query, function( lokalen ) {
 
-		// maps ids on their nodes; we'll need it later
-		var nodes = nodeDict(lokalen);
+			// maps ids on their nodes; we'll need it later
+			var nodes = nodeDict(lokalen);
 
-		for (var i = 0; i < lokalen.elements.length; i++){
-			var lokaal = lokalen.elements[i];
+			for (var i = 0; i < lokalen.elements.length; i++){
+				var lokaal = lokalen.elements[i];
 
-			if(lokaal.tags == null){
-				// probably just part of a building. Skip this shit
-				continue;
-			}
-
-			if(lokaal.tags.name == null){
-					console.log("Name not defined for location, skipping it");
-					console.log(lokaal);
+				if(lokaal.tags == null){
+					// probably just part of a building. Skip this shit
 					continue;
-			}
+				}
 
-			if(lokaal.lat == null || lokaal.lon == null){
-				lokaal.lat = nodes[lokaal.nodes[0]].lat;
-				lokaal.lon = nodes[lokaal.nodes[0]].lon;
-			}
+				if(lokaal.tags.name == null){
+						console.log("Name not defined for location, skipping it");
+						console.log(lokaal);
+						continue;
+				}
 
-			// create a marker, add it to the layer
-			var lokaalM = L.marker([lokaal.lat, lokaal.lon], {icon: pickIcon(lokaal)});
-			lokaalM.bindPopup(popupString(lokaal));
-			lokalenLayer.addLayer(lokaalM);
-		} // end of for each venue
-	}); // end of data crunching for venues
-	return lokalenLayer;
+				if(lokaal.lat == null || lokaal.lon == null){
+					lokaal.lat = nodes[lokaal.nodes[0]].lat;
+					lokaal.lon = nodes[lokaal.nodes[0]].lon;
+				}
+
+				// create a marker, add it to the layer
+				var lokaalM = L.marker([lokaal.lat, lokaal.lon], {icon: pickIcon(lokaal)});
+				lokaalM.bindPopup(popupString(lokaal));
+				lokalenLayer.addLayer(lokaalM);
+			} // end of for each venue
+		}); // end of data crunching for venues
+		return lokalenLayer;
 	}
 
 
@@ -397,7 +397,7 @@
 	}
 
 	// Builds an object containing an overview of activities on each location ([lat, lon] indexed)
-	function createOverview(activiteiten){
+	function createOverview(afdId, activiteiten){
 		var allActivities = new Object();
 
 		for(var i = 0; i < activiteiten.length; i++){
@@ -410,6 +410,11 @@
 
 			var MS_PER_HOUR = 1000*60*60;
 			var duration =  Math.floor((endD - startD) / (MS_PER_HOUR));
+			if(filterSettings.afdeling_only && act.properties.organisator != afdId){
+				console.log("Activity not organised by the queried chapter (", act.properties.organisator, ",", afdId,")");
+				continue; 
+			}
+
 			if(!(filterSettings.activity_minimal_length < duration)){
 				console.log("Activity does not meet minimal length", duration, filterSettings.activity_minimal_length);
 				continue;
@@ -534,6 +539,7 @@
 
 
 	function createAfdelingLayer(afdId, afdNaam, geoCentersLayer){
+
 		var layer = newLayer("activiteiten "+afdNaam);
 		
 		var source = "https://tools.jnm.be/jnm_heat/activiteiten_geojson.php?afdeling="+afdId;
@@ -541,7 +547,7 @@
 		$.get(source, function(data){
 				console.log("Received data for "+afdId+", rendering it...");
 				var activiteitenData = JSON.parse(data).features;
-				var overview = createOverview(activiteitenData);
+				var overview = createOverview(afdId, activiteitenData);
 				var total = 0;
 				forEachInOverview(overview, function(loc, actData){
 					total += actData.count;
@@ -562,11 +568,11 @@
 
 	// loads all the layers
 
-	var geoCentersLayer = newLayer("geographical centers");
-	createLokalenLayer().show();
-	geoCentersLayer.show();
-	
 	if(analysisLayers){
+		var geoCentersLayer = newLayer("geographical centers");
+		createLokalenLayer().show();
+		geoCentersLayer.show();
+	
 		// load data about the spaces from file, and use it
 		$.get("afdelingen.json", function( data ) {
 			for(var i = 0; i < data.length; i++){
@@ -574,8 +580,9 @@
 			}
 		});
 		}
+
+
 	}
-	
 
 	reRender();
 
@@ -594,15 +601,6 @@ Maak een nieuwe activiteit aan op de JNM-site. De kaart update automatisch.
 <h2>Ik wil enkel kampen</h2>
 
 Gebruik hiervoor de 'minimale lengte'.
-
-<h2>Mijn geografisch centrum wordt naar Gent gezogen</h2>
-
-Dit komt door nationale activiteiten op je kalender. Enkel locaties met op zijn minst 2 activiteiten selecteren helpt.
-
-<h2>Ik wil enkel dingen zien die mijn afdeling ook echt organiseert, en niet alles wat op mijn kalender gezwierd wordt</h2>
-
-Dat is voorlopig nog niet mogelijk. Spam Emile om de queries up te daten!
-
 
 
 <h2> Hoe een afdelingslokaal toevoegen?</h2>
