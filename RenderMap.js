@@ -462,7 +462,7 @@
 					var geoCenterPin;
 					geoCenterPin = L.marker(center, {icon : icon});
 					var msg = "Geografisch centrum van <a href='https://jnm.be/afdeling/"+afdNaam+"' target='_blank'>JNM "+afdNaam+"</a><br />";
-					msg += total+" activiteiten gevonden";
+					msg += total+" activiteiten met adres gevonden";
 					geoCenterPin.bindPopup(msg);
 					geoCentersLayer.addLayer(geoCenterPin);
 					return geoCenterPin;
