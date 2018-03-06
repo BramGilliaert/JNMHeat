@@ -22,7 +22,7 @@ else die("?afdeling=.. should be defined");
 
 $afdelingen = $afdeling;
 
-$sql_afdeling_to_event = "SELECT field_civicrm_contact_contact_id, tAfdeling.entity_id, tActiviteit.entity_id, field_activiteit_civicrm_event_target_id, node.status
+$sql_event_details = "SELECT tActiviteit.entity_id as activiteit_entity_id, field_activiteit_civicrm_event_target_id as civiEventId, civiEvent.title,start_date,end_date
 	FROM field_data_field_civicrm_contact tAfdeling
 	INNER JOIN field_data_field_activiteit_deelnemende_afd tActiviteit
 		ON tAfdeling.entity_id = field_activiteit_deelnemende_afd_target_id
@@ -30,26 +30,13 @@ $sql_afdeling_to_event = "SELECT field_civicrm_contact_contact_id, tAfdeling.ent
 		ON tActiviteit.entity_id = tEvent.entity_id
 	INNER JOIN node
 		ON tActiviteit.entity_id = node.nid
-	WHERE field_civicrm_contact_contact_id IN ($afdelingen)
+	LEFT JOIN jnet1980_test_civicrm.civicrm_event civiEvent
+		ON field_activiteit_civicrm_event_target_id = civiEvent.id
+	WHERE tAfdeling.field_civicrm_contact_contact_id IN ($afdelingen)
 		AND node.status=1
-	ORDER BY field_activiteit_civicrm_event_target_id DESC LIMIT 1000;"; // Assuming that more recent events have higher IDs
-$res_afdeling_to_event = mysqli_query($conn_drupal, $sql_afdeling_to_event) or die("Error in Selecting " . mysqli_error($conn_drupal));
+	ORDER BY field_activiteit_civicrm_event_target_id DESC LIMIT 2000;";
+$res_event_details = mysqli_query($conn_drupal, $sql_event_details) or die("Error in Selecting " . mysqli_error($conn_drupal));
 
-//$merged_events = array();
-while($row =mysqli_fetch_assoc($res_afdeling_to_event))
-{
-	$merged_events[] = $row["field_activiteit_civicrm_event_target_id"];
-}
-
-
-$merged_events = array_unique($merged_events, SORT_REGULAR);
-sort($merged_events);
-$merged_csv = implode(",", $merged_events);
-
-
-$sql_event_details = "SELECT tEvent.id,tDrupalEvent.entity_id,title,start_date,end_date FROM civicrm_event tEvent LEFT JOIN jnet1980_test_drupal.field_data_field_activiteit_civicrm_event tDrupalEvent on tDrupalEvent.field_activiteit_civicrm_event_target_id=tEvent.id WHERE tEvent.id IN (".$merged_csv.");";
-
-$res_event_details = mysqli_query($conn_civi, $sql_event_details) or die("Error in Selecting " . mysqli_error($conn_civi));
 
 $event_details = array();
 while($row =mysqli_fetch_assoc($res_event_details))
@@ -70,7 +57,7 @@ function decorateEvent($event)
 	LEFT JOIN field_revision_field_activiteit_adres tAdres ON tEvent.entity_id=tAdres.entity_id
 	LEFT JOIN field_revision_field_activiteit_locatie tLocatie ON tEvent.entity_id=tLocatie.entity_id
     LEFT JOIN jnet1980_test_civicrm.civicrm_value_algemeen_8 tAlgemeen ON field_activiteit_civicrm_event_target_id=tAlgemeen.entity_id
-	WHERE field_activiteit_civicrm_event_target_id=".$event["id"]."
+	WHERE field_activiteit_civicrm_event_target_id=".$event["civiEventId"]."
 	LIMIT 3;";
 
 	$res_event_to_adres = mysqli_query($conn_drupal, $sql_event_to_adres) or die("Error in Selecting " . mysqli_error($conn_drupal)."  id=".$event["id"]);
@@ -111,29 +98,29 @@ foreach($event_details as &$event) // Note the & to pass by reference
 {
 	$tmp = decorateEvent($event);
 
-	if($tmp["field_activiteit_locatie_lon"] == null || $tmp["field_activiteit_locatie_lon"] == "")
-	{
-		continue;
-	}
-
-	$coordinates = array();
-	array_push($coordinates, $tmp["field_activiteit_locatie_lon"]);
-	array_push($coordinates, $tmp["field_activiteit_locatie_lat"]);
-
-	$geometry = new stdClass();
-	$geometry->coordinates = $coordinates;
-	$geometry->type = "Point";
 
 	$feature = new stdClass();
-	$feature->geometry = $geometry;
+	if($tmp["field_activiteit_locatie_lon"] != null && $tmp["field_activiteit_locatie_lon"] != "")
+	{
+		$coordinates = array();
+		array_push($coordinates, $tmp["field_activiteit_locatie_lon"]);
+		array_push($coordinates, $tmp["field_activiteit_locatie_lat"]);
+
+		$geometry = new stdClass();
+		$geometry->coordinates = $coordinates;
+		$geometry->type = "Point";
+		$feature->type = "Feature";
+		$feature->geometry = $geometry;
+	} else {
+		$feature->type = "";
+	}
+
 	$feature->properties = new stdClass();
-	$feature->type = "Feature";
-
-	array_push($features, $feature);
-
 	foreach ($tmp as $key => $value) {
 		$feature->properties->{$key} = $value;
 	}
+
+	array_push($features, $feature);
 }
 $all->features =  $features;
 echo json_encode($all, JSON_PRETTY_PRINT);
