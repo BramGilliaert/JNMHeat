@@ -3,7 +3,7 @@
 
 require_once $_SERVER['DOCUMENT_ROOT']."/common/db.php"; // gives $conn_civi and $conn_drupal
 
-// Much cde is recicled from event.php
+// Much code is recycled from event.php
 
 
 $debug = true;
