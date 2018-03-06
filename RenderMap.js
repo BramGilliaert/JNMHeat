@@ -54,12 +54,14 @@
 	function newLayer(name){
 		var layer = new L.FeatureGroup();
 		var loaded = false;
+		var shown = false;
 		layer.loader = null;
 		allLayers.push(layer);
 
 
 		layer.show = function(){
 			map.addLayer(layer);
+			shown = true;
 			if(layer.loader && !loaded){
 				layer.loader(layer);
 			} 
@@ -72,11 +74,22 @@
 
 		layer.hide = function(){
 			map.removeLayer(layer);
+			shown = false;
 			if(layer.control){
 				layer.control.checked = false;
 			}
 			return layer;
 		};
+
+		layer.toggle = function(){
+			if(shown){
+				layer.hide();
+			}else{
+				layer.show();
+			}
+		}
+
+
 		layer.title = name;
 
 
@@ -94,6 +107,11 @@
 
 		// create controls
 		function createControls(){
+			var container = document.getElementById('controls');
+			if(container==null){
+				return;
+			}
+
 			var idCB = "layer"+layer.title;;
 			var checkbox = document.createElement('input');
 			checkbox.type = "checkbox";
@@ -105,7 +123,7 @@
 			label.htmlFor = idCB;
 			label.appendChild(document.createTextNode(layer.title));
 
-			var container = document.getElementById('controls');
+
 
 			var tr = document.createElement('tr');
 			controlBoxes.push(tr);
@@ -357,7 +375,11 @@
 				
 			}
 			locationInfo.activities.push(act);
-			locationInfo.count += 1;
+			if(filterSettings.count_afdeling_only && act.properties.organisator != afdId){
+				// pass
+			}else{
+				locationInfo.count += 1;
+			}
 		}
 
 
@@ -443,6 +465,7 @@
 					msg += total+" activiteiten gevonden";
 					geoCenterPin.bindPopup(msg);
 					geoCentersLayer.addLayer(geoCenterPin);
+					return geoCenterPin;
 				}catch(e){
 					console.log("Could not render geocenter for "+afdId+" "+afdNaam, e, center);
 				}
@@ -452,14 +475,8 @@
 	function createAfdelingLayer(afdId, afdNaam, geoCentersLayer, filterSettings){
 
 		var layer = newLayer("activiteiten "+afdNaam);
-		var altSource = "https://tools.jnm.be/jnm_heat/activiteiten_geojson.php?afdeling="+afdId
+		var altSource = "https://tools.jnm.be/query/activiteiten_van_afdeling.php?afdeling="+afdId
 		var source = "https://tools.jnm.be/jnm_heat/activiteiten_geojson.php?afdeling="+afdId;
-
-		// do the lookups ourselves
-		var useRawData = false;
-		if(useRawData){
-			source = useRawData;
-		}
 
 		$.get(source, function(data){
 				try{
@@ -476,7 +493,12 @@
 					layer.addLayer(pin);
 				});
 				plotGeoCenter(afdId, afdNaam, overview, total, layer, activiteitenCenterIcon, filterSettings);
-				plotGeoCenter(afdId, afdNaam, overview, total, geoCentersLayer, geoCenterIcon, filterSettings);
+				var controllingPin = plotGeoCenter(afdId, afdNaam, overview, total, geoCentersLayer, geoCenterIcon, filterSettings);
+			
+				controllingPin.on('click', function(){
+					layer.toggle();
+	
+				});
 				
 		});
 
@@ -500,6 +522,22 @@
 				createAfdelingLayer(data[i].id, data[i].display_name, geoCentersLayer, filterSettings);
 			}
 		});
+	}
+
+	function renderPublic(){
+		cleanLayers();
+		var geoCentersLayer = newLayer("geographical centers");
+		createLokalenLayer().show();
+		geoCentersLayer.show();
+		filterSettings = getPublicFilterSettings();
+
+		// load data about the spaces from file, and use it
+		$.get("afdelingen.json", function( data ) {
+			for(var i = 0; i < data.length; i++){
+				createAfdelingLayer(data[i].id, data[i].display_name, geoCentersLayer, filterSettings);
+			}
+		});
+
 	}
 
 

@@ -10,6 +10,19 @@ function initFilterSettings(){
 	$( "#datepicker_after" ).datepicker("option", "dateFormat", "yy-mm-dd");
 }
 
+function getPublicFilterSettings(){
+	var filterSettings =
+		{ geocenter_min_activities : 1 
+		, activity_starts_after : new Date(new Date().setFullYear(new Date().getFullYear() - 1))  // one year ago
+		, activity_starts_before : null 
+		, activity_minimal_length : 0 
+		, activity_maximal_length: NaN 
+		, afdeling_only: false
+		, count_afdeling_only: true
+		}
+	return filterSettings;
+}
+
 function getFilterSettings(){
 	var filterSettings =
 	{ geocenter_min_activities : 1 // the number of activities that a location should at least have to count against the geografical center
@@ -18,6 +31,7 @@ function getFilterSettings(){
 	, activity_minimal_length : 0 // the length the activity should take, in hours, to be considered
 	, activity_maximal_length: NaN // The length an activity should at least take to be considered
 	, afdeling_only: true // only consider and show the activities of the chapter considered
+	, count_afdeling_only: true // if true, only activities by the local chapter are considered for the geocenter
 	}
 	console.log("Updating filter settings!");
 	var min_act_geocenter = parseInt(document.getElementById('min_act_geocenter').value);
