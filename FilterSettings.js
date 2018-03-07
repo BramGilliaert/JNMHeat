@@ -17,7 +17,7 @@ function getPublicFilterSettings(){
 		, activity_starts_before : null 
 		, activity_minimal_length : 0 
 		, activity_maximal_length: NaN 
-		, afdeling_only: false
+		, afdeling_only: true
 		, count_afdeling_only: true
 		}
 	return filterSettings;
