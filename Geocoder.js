@@ -20,6 +20,9 @@ function queryOSM(street, postal, city){
 
 function queryRealOSM(street, postal, city){
 
+	window.navigator.userAgent = "JNM Analysis tools";
+	
+
 	var query = "https://nominatim.openstreetmap.org/search/"+street+", "+postal+" "+city+"?format=json";
 	var xmlHttp = new XMLHttpRequest();
    xmlHttp.open( "GET", query, false ); // false for synchronous request
