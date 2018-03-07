@@ -357,11 +357,18 @@
 			var lat = act.properties.field_activiteit_locatie_lat;
 			var lon = act.properties.field_activiteit_locatie_lon;
 			
-			console.log(act.id);
 			if(lat == null || lon == null){
-
-				console.log("No address determined by google!", act.properties);
-				continue;
+				if(act.properties.adres_string !== ""){
+					var result = queryOSM(act.properties.adres_thoroughfare, act.properties.adres_postal_code, act.properties.adres_locality);
+					if(result){
+						lat = result[0];
+						lon = result[1];
+					}else{
+						continue;
+					}
+				}else{
+					continue;
+				}
 			}
 			
 			var locationInfo = allActivities[ [lat, lon] ]
@@ -415,7 +422,7 @@
 
 			var d	=  act.properties.start_date;
 			var msg = "<br /> "+ d.getFullYear() + "-" + d.getMonth() + "-" + d.getDate() + 
-							": <a href='https://www.jnm.be/node/"+ act.properties.entity_id +"' target='_blank'>"+act.properties.title+"</a>";
+							": <a href='https://www.jnm.be/node/"+ act.properties.activiteit_entity_id +"' target='_blank'>"+act.properties.title+"</a>";
 
 			if(new Date(Date()) < act.properties.start_date){
 				futureEventCount += 1;
@@ -458,6 +465,12 @@
 				}
 
 				var center = geoCenter(overview, filterSettings);
+				if(!(center[0] && center[1])){
+					console.log("No activities for chapter", afdNaam);
+					return;
+				}
+
+
 				try{
 					var geoCenterPin;
 					geoCenterPin = L.marker(center, {icon : icon});
@@ -494,13 +507,14 @@
 				});
 				plotGeoCenter(afdId, afdNaam, overview, total, layer, activiteitenCenterIcon, filterSettings);
 				var controllingPin = plotGeoCenter(afdId, afdNaam, overview, total, geoCentersLayer, geoCenterIcon, filterSettings);
-			
-				controllingPin.on('click', function(){
-					layer.toggle();
+				
+				if(controllingPin){
+					controllingPin.on('click', layer.toggle);
+				}
 	
 				});
 				
-		});
+		
 
 		return layer;
 	}

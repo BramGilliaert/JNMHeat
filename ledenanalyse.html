@@ -16,6 +16,7 @@
   <script src="Geocoder.js"></script>
   <script src="FilterSettings.js"></script>
   <script src="RenderMap.js"></script>
+  <script src="vendor/jquery-csv.js"></script>
   <script src="ledenanalyse.js"></script>
  
 	<style>
@@ -27,9 +28,17 @@
 
 <body>
 
+
+
+<table align="right">
+<tr><td>Totaal aantal leden</td><td id="totaal"/></tr>
+<tr><td>Totaal ingeladen</td><td id="geladen"/></tr>
+<tr><td>Geocoding gefaald</td><td id="failed"/></tr>
+<tr><td>Totaal resterend</td><td id="resterend"/></tr>
+</table>
+
 <div id="map"/>
-
-
+<p align="left" id="loadingmsg">Please wait patiently till everything is loaded<pr>
 <script>
 
 initializeMap();
