@@ -230,7 +230,7 @@ function renderPublic(){
 
 	createLokalenLayer().show();
 	filterSettings = getPublicFilterSettings();
-	createCentersLayer(filterSettings).show();
+	createCentersLayer(filterSettings, showActiviteiten).show();
 	
 	
 
