@@ -16,7 +16,7 @@ if(isset($_GET["startdate"])) {
 	$startdate = mysqli_real_escape_string($conn_drupal, $_GET["startdate"]);
 }
 else die("?startdate=.. should be defined");
-
+die("Hi world");
 
 $sql_query= 
 	"SELECT tAfdeling.entity_id as afdeling_id
