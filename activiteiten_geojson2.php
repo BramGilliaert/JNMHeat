@@ -34,7 +34,10 @@ if(isset($_GET["min_duration"])) {
 	$min_duration = mysqli_real_escape_string($conn_drupal, $_GET["min_duration"]);
 }
 
-
+$max_duration = "0";
+if(isset($_GET["max_duration"])) {
+	$max_duration = mysqli_real_escape_string($conn_drupal, $_GET["max_duration"]);
+}
 
 
 $sql_query="
@@ -62,6 +65,8 @@ $sql_query="
 		AND start_date >= $startdate
 		AND end_date <= $enddate
 		AND TIMESTAMPDIFF(second, start_date, end_date) >= 3600* $min_duration
+		AND TIMESTAMPDIFF(second, start_date, end_date) <= 3600* $max_duration
+
 	;";
 
 
