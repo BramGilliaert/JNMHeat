@@ -190,26 +190,6 @@
 
 	}
 
-	// ------------------------------- MAIN PROGRAM -------------------
-
-	// loads all the layers
-	function renderAnalysis(filterSettings){
-		cleanLayers();
-
-		createLokalenLayer().show();
-
-		filterSettings = getPublicFilterSettings();
-	
-		function showActiviteiten(afdId){
-			return function(){createActiviteitenLayer(afdId).toggle()};
-		}
-
-
-		var geoCentersLayer = createCentersLayer(filterSettings, showActiviteiten);
-		geoCentersLayer.show();
-
-	
-	}
 
 	function loadAllLayers(){
 		var afds = allAfdelingIds();
@@ -218,17 +198,42 @@
 		}
 	}
 
-	function renderPublic(){
-		cleanLayers();
+	// ------------------------------- MAIN PROGRAM -------------------
 
-		
+function showActiviteiten(afdId){
+	return function(){createActiviteitenLayer(afdId).toggle()};
+}
 
-		createLokalenLayer().show();
-		filterSettings = getPublicFilterSettings();
-		createCentersLayer(filterSettings).show();
-		
-		
 
-	}
+// loads all the layers
+function renderAnalysis(filterSettings){
+	cleanLayers();
+
+	createLokalenLayer().show();
+
+	filterSettings = getPublicFilterSettings();
+
+
+
+	var geoCentersLayer = createCentersLayer(filterSettings, showActiviteiten);
+	geoCentersLayer.show();
+
+
+}
+
+
+
+function renderPublic(){
+	cleanLayers();
+
+	
+
+	createLokalenLayer().show();
+	filterSettings = getPublicFilterSettings();
+	createCentersLayer(filterSettings).show();
+	
+	
+
+}
 
 
