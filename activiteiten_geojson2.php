@@ -28,7 +28,7 @@ $sql_query="SELECT field_activiteit_locatie_lat as lat_center, field_activiteit_
 	FROM field_data_field_activiteit_civicrm_event tEvent
 	INNER JOIN field_revision_field_activiteit_locatie tLocatie ON tEvent.entity_id=tLocatie.entity_id
    LEFT JOIN jnet1980_test_civicrm.civicrm_value_algemeen_8 tAlgemeen ON field_activiteit_civicrm_event_target_id=tAlgemeen.entity_id
-	WHERE organiserende_afdeling IS $afdeling;";
+	WHERE organiserende_afdeling IS '$afdeling';";
 
 
 
