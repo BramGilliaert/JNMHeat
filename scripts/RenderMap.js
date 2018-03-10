@@ -213,20 +213,13 @@ function renderAnalysis(filterSettings){
 
 	filterSettings = getPublicFilterSettings();
 
-
-
 	var geoCentersLayer = createCentersLayer(filterSettings, showActiviteiten);
 	geoCentersLayer.show();
-
-
 }
-
 
 
 function renderPublic(){
 	cleanLayers();
-
-	
 
 	createLokalenLayer().show();
 	filterSettings = getPublicFilterSettings();
