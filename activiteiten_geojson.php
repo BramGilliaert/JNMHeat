@@ -31,7 +31,13 @@ if(isset($_GET["startdate"])) {
 }
 
 
-$sql_event_details = "SELECT tActiviteit.entity_id as activiteit_entity_id, field_activiteit_civicrm_event_target_id as civiEventId, civiEvent.title,start_date,end_date
+$sql_event_details = "
+	SELECT
+		tActiviteit.entity_id as activiteit_entity_id, 
+		field_activiteit_civicrm_event_target_id as civiEventId, 
+		civiEvent.title,
+		start_date,
+		end_date
 	FROM field_data_field_civicrm_contact tAfdeling
 	INNER JOIN field_data_field_activiteit_deelnemende_afd tActiviteit
 		ON tAfdeling.entity_id = field_activiteit_deelnemende_afd_target_id
@@ -60,12 +66,25 @@ function decorateEvent($event)
 {
 	global $conn_drupal;
 
-	$sql_event_to_adres = "SELECT tEvent.entity_id,field_activiteit_adres_thoroughfare,field_activiteit_adres_locality,field_activiteit_adres_premise,field_activiteit_adres_postal_code,
-	field_activiteit_locatie_lon,field_activiteit_locatie_lat, tAlgemeen.organisator_19, categorie_20, leeftijdscategorie_21
+	$sql_event_to_adres = "
+	SELECT 
+		tEvent.entity_id,
+		field_activiteit_adres_thoroughfare,
+		field_activiteit_adres_locality,
+		field_activiteit_adres_premise,
+		field_activiteit_adres_postal_code,
+		field_activiteit_locatie_lon,
+		field_activiteit_locatie_lat,
+		tAlgemeen.organisator_19,
+		categorie_20,
+		leeftijdscategorie_21
 	FROM field_data_field_activiteit_civicrm_event tEvent
-	LEFT JOIN field_revision_field_activiteit_adres tAdres ON tEvent.entity_id=tAdres.entity_id
-	LEFT JOIN field_revision_field_activiteit_locatie tLocatie ON tEvent.entity_id=tLocatie.entity_id
-    LEFT JOIN jnet1980_test_civicrm.civicrm_value_algemeen_8 tAlgemeen ON field_activiteit_civicrm_event_target_id=tAlgemeen.entity_id
+	LEFT JOIN field_revision_field_activiteit_adres tAdres
+		ON tEvent.entity_id=tAdres.entity_id
+	LEFT JOIN field_revision_field_activiteit_locatie tLocatie
+		ON tEvent.entity_id=tLocatie.entity_id
+   LEFT JOIN jnet1980_test_civicrm.civicrm_value_algemeen_8 tAlgemeen
+		ON field_activiteit_civicrm_event_target_id=tAlgemeen.entity_id
 	WHERE field_activiteit_civicrm_event_target_id=".$event["civiEventId"]."
 	LIMIT 3;";
 

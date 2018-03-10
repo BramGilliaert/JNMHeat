@@ -30,6 +30,8 @@ $sql_query="
 		field_activiteit_locatie_lon as lon,
 		start_date,
 		end_date,
+		categorie_20,
+		leeftijdscategorie_21,
 		tAlgemeen.organisator_19 as organiserende_afdeling
 	FROM field_data_field_activiteit_civicrm_event tEvent
 	INNER JOIN field_revision_field_activiteit_locatie tLocatie
