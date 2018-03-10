@@ -35,7 +35,7 @@ $sql_query="
 	INNER JOIN field_revision_field_activiteit_locatie tLocatie
 		ON tEvent.entity_id=tLocatie.entity_id
 	INNER JOIN node
-		ON tActiviteit.entity_id = node.nid
+		ON tEvent.entity_id = node.nid
 	LEFT JOIN jnet1980_test_civicrm.civicrm_event
 		ON field_activiteit_civicrm_event_target_id = civiEvent.id
    LEFT JOIN jnet1980_test_civicrm.civicrm_value_algemeen_8 tAlgemeen
