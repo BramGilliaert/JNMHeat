@@ -24,7 +24,7 @@ $sql_query=
 	";
 
 
-$sql_query=
+$sql_query_x=
 	"SELECT tActiviteit.entity_id as activiteit_entity_id, field_activiteit_civicrm_event_target_id as civiEventId, civiEvent.title,start_date,end_date
 	FROM field_data_field_civicrm_contact tAfdeling
 	INNER JOIN field_data_field_activiteit_deelnemende_afd tActiviteit
