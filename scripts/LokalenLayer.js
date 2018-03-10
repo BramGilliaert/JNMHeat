@@ -56,8 +56,9 @@
 				// cache freshness on the JNM side
 				var cacheDate = new Date(lokalen.osm3s.timestamp_osm_base);
 				var cacheFreshness = (new Date() - cacheDate)/1000;
-				console.log("Oldness of cache van de lokalen in seconds" ,cacheFreshness);	
-				if(cacheFreshness > 60 * 60 * 24 * 30){
+				cacheFreshness = cacheFreshness / (60*60*24);
+				console.log("Oldness of cache van de lokalen in days" , cacheFreshness," of the allowed 30");	
+				if(cacheFreshness > 30){
 					// the cache on the JNM server is pretty old; we ask it to refresh for the next user
 					console.log("Requesting cache update");
 					$.get("https://tools.jnm.be/jnm_heat/cache_lokalen.php", function(data){

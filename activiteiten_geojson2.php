@@ -24,6 +24,13 @@ if(isset($_GET["startdate"])) {
 }
 
 
+$enddate = "29990101";
+if(isset($_GET["enddate"])) {
+	$enddate = mysqli_real_escape_string($conn_drupal, $_GET["enddate"]);
+}
+
+
+
 $sql_query="
 	SELECT
 		tEvent.entity_id as id,
@@ -46,7 +53,7 @@ $sql_query="
 		ON field_activiteit_civicrm_event_target_id=tAlgemeen.entity_id
 	WHERE tAlgemeen.organisator_19 = '$afdeling'
 		AND start_date >= $startdate
-		
+		AND end_date <= $enddate
 	;";
 
 

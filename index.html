@@ -32,7 +32,8 @@
 	<tr><td><b>Activiteiten-Spreidings-Kaart (ASK)</b></td></tr>
 	<tr><td>Made by Pieter Vander Vennet</td></tr>
 	<tr><td>with database support of Emile</td></tr>
-	<tr><td><button id="select_all" onclick="selectAll(true);">Select all</button><button id="selectAll(false);">Deselect all</button></td></tr>
+	<tr><td><button onclick="selectAll(true);">Select all</button><button onclick="selectAll(false);">Deselect all</button></td></tr>
+	<tr><td><button onclick="loadAllLayers()">Toon alle activiteiten</button></td></tr>
 	</table>
 	<div id="map"></div>
 
@@ -54,7 +55,6 @@
 	<script>
 		console.log("Getting started...");
 		initFilterSettings();
-		console.log(getFilterSettings());
 		initializeMap();
 		renderAnalysis(getFilterSettings());
 	</script>
