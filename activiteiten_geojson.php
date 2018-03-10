@@ -14,6 +14,9 @@ if ($debug) {
 	error_reporting(E_ALL);
 }
 
+
+
+
 $afdeling = "[should be defined in GET]";
 if(isset($_GET["afdeling"])) {
 	$afdeling = mysqli_real_escape_string($conn_drupal, $_GET["afdeling"]);
@@ -21,6 +24,12 @@ if(isset($_GET["afdeling"])) {
 else die("?afdeling=.. should be defined");
 
 $afdelingen = $afdeling;
+
+$startdate = "20100101";
+if(isset($_GET["startdate"])) {
+	$startdate = mysqli_real_escape_string($conn_drupal, $_GET["startdate"]);
+}
+
 
 $sql_event_details = "SELECT tActiviteit.entity_id as activiteit_entity_id, field_activiteit_civicrm_event_target_id as civiEventId, civiEvent.title,start_date,end_date
 	FROM field_data_field_civicrm_contact tAfdeling
@@ -32,8 +41,8 @@ $sql_event_details = "SELECT tActiviteit.entity_id as activiteit_entity_id, fiel
 		ON tActiviteit.entity_id = node.nid
 	LEFT JOIN jnet1980_test_civicrm.civicrm_event civiEvent
 		ON field_activiteit_civicrm_event_target_id = civiEvent.id
-	WHERE tAfdeling.field_civicrm_contact_contact_id IN ($afdelingen)
-		AND node.status=1
+	WHERE tAfdeling.field_civicrm_contact_contact_id IN ($afdeling)
+		AND node.status=1 AND start_date >= $startdate
 	ORDER BY field_activiteit_civicrm_event_target_id DESC LIMIT 2000;";
 $res_event_details = mysqli_query($conn_drupal, $sql_event_details) or die("Error in Selecting " . mysqli_error($conn_drupal));
 
