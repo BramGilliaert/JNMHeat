@@ -61,7 +61,7 @@ $sql_query="
 	WHERE tAlgemeen.organisator_19 = '$afdeling'
 		AND start_date >= $startdate
 		AND end_date <= $enddate
-		AND duration >= $min_duration
+		AND TIMESTAMPDIFF(second, start_date, end_date) >= 3600* $min_duration
 	;";
 
 
