@@ -41,6 +41,7 @@ $sql_query="
    LEFT JOIN jnet1980_test_civicrm.civicrm_value_algemeen_8 tAlgemeen
 		ON field_activiteit_civicrm_event_target_id=tAlgemeen.entity_id
 	WHERE tAlgemeen.organisator_19 = '$afdeling'
+		AND start_date >= $startdate
 		
 	;";
 
