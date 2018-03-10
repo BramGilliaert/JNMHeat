@@ -13,11 +13,14 @@
   <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
   <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
   
-  <script src="Geocoder.js"></script>
-  <script src="FilterSettings.js"></script>
-  <script src="RenderMap.js"></script>
   <script src="vendor/jquery-csv.js"></script>
-  <script src="ledenanalyse.js"></script>
+
+  <script src="scripts/tools.js"></script>
+  <script src="scripts/RenderMap.js"></script>
+  <script src="scripts/Geocoder.js"></script>
+  <script src="scripts/FilterSettings.js"></script>
+  <script src="scripts/RenderMap.js"></script>
+  <script src="scripts/ledenanalyse.js"></script>
  
 	<style>
 		#map{ width: 1500px; height: 1050; }
@@ -37,16 +40,22 @@
 <tr><td>Totaal resterend</td><td id="resterend"/></tr>
 </table>
 
+<table>
+<tr><td>
+
+<input type="text" id="filename" value="ledenlijst.csv">
+<button id="load" onclick="renderLeden();">Load ledenlijst</button>
+</td></tr>
+<tr><td>
 <div id="map"/>
-<p align="left" id="loadingmsg">Please wait patiently till everything is loaded<pr>
+</td><td>
 <script>
 
 initializeMap();
-analyseContacts("ledenlijst.csv");
+renderLeden();
 
 </script>
-
-
+</td></tr>
 
 </body>
 </html>
