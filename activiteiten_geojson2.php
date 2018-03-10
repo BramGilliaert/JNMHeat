@@ -41,7 +41,8 @@ $sql_query="
 		categorie_20,
 		leeftijdscategorie_21,
 		civiEvent.title as naam,
-		tAlgemeen.organisator_19 as organiserende_afdeling
+		tAlgemeen.organisator_19 as organiserende_afdeling,
+		(end_date - start_date) as duration
 	FROM field_data_field_activiteit_civicrm_event tEvent
 	INNER JOIN field_revision_field_activiteit_locatie tLocatie
 		ON tEvent.entity_id=tLocatie.entity_id
