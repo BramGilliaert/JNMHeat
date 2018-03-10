@@ -31,7 +31,7 @@ $sql_event_details = "SELECT tActiviteit.entity_id as activiteit_entity_id, fiel
 	LEFT JOIN jnet1980_test_civicrm.civicrm_event civiEvent
 		ON field_activiteit_civicrm_event_target_id = civiEvent.id
 	WHERE node.status=1 AND
-		start_date >= 2018-03-10
+		start_date >= 20180310
 	ORDER BY field_activiteit_civicrm_event_target_id DESC LIMIT 2000;";
 $res_event_details = mysqli_query($conn_drupal, $sql_event_details) or die("Error in Selecting " . mysqli_error($conn_drupal));
 
