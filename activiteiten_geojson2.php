@@ -26,6 +26,7 @@ if(isset($_GET["startdate"])) {
 
 $sql_query="
 	SELECT
+		tEvent.entity_id as id,
 		field_activiteit_locatie_lat as lat,
 		field_activiteit_locatie_lon as lon,
 		start_date,
