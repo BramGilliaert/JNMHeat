@@ -24,11 +24,21 @@ if(isset($_GET["startdate"])) {
 }
 
 
-$sql_query="SELECT field_activiteit_locatie_lat as lat_center, field_activiteit_locatie_lon as lon_center, tAlgemeen.organisator_19 as organiserende_afdeling
+$sql_query="
+	SELECT
+		field_activiteit_locatie_lat as lat,
+		field_activiteit_locatie_lon as lon,
+		start_date,
+		end_date,
+		tAlgemeen.organisator_19 as organiserende_afdeling
 	FROM field_data_field_activiteit_civicrm_event tEvent
-	INNER JOIN field_revision_field_activiteit_locatie tLocatie ON tEvent.entity_id=tLocatie.entity_id
-   LEFT JOIN jnet1980_test_civicrm.civicrm_value_algemeen_8 tAlgemeen ON field_activiteit_civicrm_event_target_id=tAlgemeen.entity_id
-	WHERE tAlgemeen.organisator_19 = '$afdeling';";
+	INNER JOIN field_revision_field_activiteit_locatie tLocatie
+		ON tEvent.entity_id=tLocatie.entity_id
+   LEFT JOIN jnet1980_test_civicrm.civicrm_value_algemeen_8 tAlgemeen
+		ON field_activiteit_civicrm_event_target_id=tAlgemeen.entity_id
+	WHERE tAlgemeen.organisator_19 = '$afdeling'
+		
+	;";
 
 
 
