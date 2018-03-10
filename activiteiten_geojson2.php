@@ -29,6 +29,12 @@ if(isset($_GET["enddate"])) {
 	$enddate = mysqli_real_escape_string($conn_drupal, $_GET["enddate"]);
 }
 
+$min_duration = "0";
+if(isset($_GET["min_duration"])) {
+	$min_duration = mysqli_real_escape_string($conn_drupal, $_GET["min_duration"]);
+}
+
+
 
 
 $sql_query="
@@ -42,7 +48,7 @@ $sql_query="
 		leeftijdscategorie_21,
 		civiEvent.title as naam,
 		tAlgemeen.organisator_19 as organiserende_afdeling,
-		DATEDIFF(second, start_date, end_date) / 3600.0 as duration
+		TIMESTAMPDIFF(second, start_date, end_date) / 3600.0 as duration
 	FROM field_data_field_activiteit_civicrm_event tEvent
 	INNER JOIN field_revision_field_activiteit_locatie tLocatie
 		ON tEvent.entity_id=tLocatie.entity_id
@@ -55,6 +61,7 @@ $sql_query="
 	WHERE tAlgemeen.organisator_19 = '$afdeling'
 		AND start_date >= $startdate
 		AND end_date <= $enddate
+		AND duration >= $min_duration
 	;";
 
 
