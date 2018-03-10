@@ -19,7 +19,7 @@ else die("?startdate=.. should be defined");
 
 
 $sql_query= 
-	"SELECT tAfdeling.entity_id as afdeling_id
+	"SELECT tAfdeling.entity_id as afdeling_id, tAfdeling.display_name as display_name
 		FROM field_data_field_civicrm_contact tAfdeling
 	";
 
