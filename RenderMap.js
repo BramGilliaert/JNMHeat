@@ -512,8 +512,7 @@
 	function createAfdelingLayer(afdId, afdNaam, filterSettings){
 
 		var layer = newLayer("activiteiten "+afdNaam);
-		var altSource = "https://tools.jnm.be/query/activiteiten_van_afdeling.php?afdeling="+afdId
-		var source = "https://tools.jnm.be/jnm_heat/activiteiten_geojson.php?afdeling="+afdId;
+		var source =    "https://tools.jnm.be/jnm_heat/activiteiten_geojson.php?afdeling="+afdId;
 
 		$.get(source, function(data){
 				try{
