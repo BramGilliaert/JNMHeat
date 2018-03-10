@@ -30,7 +30,7 @@
 		// load the tile layer from GEO6
 		L.tileLayer('http://tile.openstreetmap.be/osmbe/{z}/{x}/{y}.png',
 			{
-			attribution: 'Map Data Copyright OpenStreetMap | Tiles hosted by geo6; thx JBelien!',
+			attribution: 'Map Data © <a href="osm.org">OpenStreetMap</a> | Tiles hosted by <a href="https://geo6.be/">GEO-6</a>; thx JBelien!',
 			maxZoom: 21,
 			minZoom: 1
 			}).addTo(map);
@@ -241,9 +241,26 @@
 		// query openstreetmap for venues of JNM. It looks to 'operator=JNM'
 		var query = "https://overpass-api.de/api/interpreter?data=%5Bout%3Ajson%5D%5Btimeout%3A25%5D%3B%28node%5B%22operator%22%3D%22JNM%22%5D%2848%2E951366470948%2C0%2E59326171875%2C52%2E583025861416%2C8%2E6846923828125%29%3Bway%5B%22operator%22%3D%22JNM%22%5D%2848%2E951366470948%2C0%2E59326171875%2C52%2E583025861416%2C8%2E6846923828125%29%3B%29%3Bout%3B%3E%3Bout%20skel%20qt%3B%0A";
 
+		// just kidding. We actually use the cached version of the jnm site
+		query = "https://tools.jnm.be/jnm_heat/lokalen.json"
+
 		
 		lokalenLayer.loader = function() {$.get(query, function( lokalen ) {
 				// maps ids on their nodes; we'll need it later
+
+				// cache freshness on the JNM side
+				var cacheDate = new Date(lokalen.osm3s.timestamp_osm_base);
+				var cacheFreshness = (new Date() - cacheDate)/1000;
+				console.log("Oldness of cache van de lokalen in seconds" ,cacheFreshness);	
+				if(cacheFreshness > 60 * 60 * 24 * 30){
+					// the cache on the JNM server is pretty old; we ask it to refresh for the next user
+					console.log("Requesting cache update");
+					$.get("https://tools.jnm.be/jnm_heat/cache_lokalen.php", function(data){
+						console.log("Cache updated. Refresh the page.");
+					});
+				}		
+
+
 				var nodes = nodeDict(lokalen);
 
 				for (var i = 0; i < lokalen.elements.length; i++){
@@ -275,6 +292,12 @@
 		return lokalenLayer;
 	}
 
+
+	// Converts the chapter id into its display name.
+	function id2name(id){
+		var dict = {13:"JNM",6:"Poekebeek",7:"Akerland",8:"Alken",9:"Antwerpen",10:"Krabboen",11:"Aa-Beek",12:"Brugge",13:"Brussel",14:"Ninove-Geraardsbergen",15:"Durmeland",16:"Eeklo",17:"Fruitstreek",18:"Gent",19:"Hageland-Zuiderkempen",20:"Klein-Brabant",21:"Kortrijk",22:"Krekenland",23:"LageKempen",24:"Leievallei",25:"Leuven",26:"Markvallei",27:"Mechelen",28:"Middenkust",29:"Midden-Limburg",30:"Zandland",31:"Neteland",32:"Teutenland",33:"Noordwest-Brabant",34:"Oost-Brabant",35:"Pajottenland",36:"Pallieterland",37:"Roeselare",38:"'SHeerenbosch",39:"Scheldeland",40:"Taxandria",41:"VlaamseArdennen",42:"Voorkempen",43:"Waasland",44:"Westkust",45:"Westland",46:"West-Limburg",47:"Zottegem",48:"Zuid-Limburg",49:"Zuidwest-Brabant",51:"Onderstebovenschelde",53:"LandVanAalst",54:"Moervallei",55:"Maasland",56:"HogeKempen",58:"Aalter",59:"Midden-Brabant",14070:"Demervallei",15651:"ProvincieLimburg"}
+		return dict[id]
+	}
 
 
 	// ---------------------------------------------------- HANDLING ACTIVITIES -----------------------------------------------------
@@ -396,6 +419,7 @@
 
 	}
 
+
 	// Create a point for a single location
 	function createLocationMarker(locationInfo, filterSettings){
 
@@ -421,7 +445,7 @@
 			var act = acts[i];
 
 			var d	=  act.properties.start_date;
-			var msg = "<br /> "+ d.getFullYear() + "-" + d.getMonth() + "-" + d.getDate() + 
+			var msg = "<br /> "+ d.getFullYear() + "-" + (d.getMonth()+1) + "-" + d.getDate() + 
 							": <a href='https://www.jnm.be/node/"+ act.properties.activiteit_entity_id +"' target='_blank'>"+act.properties.title+"</a>";
 
 			if(new Date(Date()) < act.properties.start_date){
@@ -485,7 +509,7 @@
 	}
 
 
-	function createAfdelingLayer(afdId, afdNaam, geoCentersLayer, filterSettings){
+	function createAfdelingLayer(afdId, afdNaam, filterSettings){
 
 		var layer = newLayer("activiteiten "+afdNaam);
 		var altSource = "https://tools.jnm.be/query/activiteiten_van_afdeling.php?afdeling="+afdId
@@ -506,12 +530,6 @@
 					layer.addLayer(pin);
 				});
 				plotGeoCenter(afdId, afdNaam, overview, total, layer, activiteitenCenterIcon, filterSettings);
-				var controllingPin = plotGeoCenter(afdId, afdNaam, overview, total, geoCentersLayer, geoCenterIcon, filterSettings);
-				
-				if(controllingPin){
-					controllingPin.on('click', layer.toggle);
-				}
-	
 				});
 				
 		
@@ -521,36 +539,71 @@
 
 
 
+	/*
+	Create a layer with geocenters based on the direct query
+	*/
+	function createCentersLayer(filterSettings){
+
+		var geoCenterLayer= newLayer("geocenters by database");
+		var query="https://tools.jnm.be/jnm_heat/activiteiten_geocenter.php?startdate=20180310";
+		$.get(query, function(data) {
+			var afdelingCenters = JSON.parse(data);
+			for(var i = 0; i < afdelingCenters.length; i++){
+				var cent = afdelingCenters[i];
+
+				var pin = L.marker([cent.lat_center, cent.lon_center]);
+				var afdId = cent.organiserende_afdeling;
+				var name = id2name(afdId);
+				pin.bindPopup("Geografisch gemiddelde van <a href='https://jnm.be/afdeling/"+name+"' target='_blank'>JNM "+name+"</a>");
+				geoCenterLayer.addLayer(pin);
+
+			}
+
+		});
+
+
+		return geoCenterLayer;
+
+	}
+
 	// ------------------------------- MAIN PROGRAM -------------------
 
 	// loads all the layers
 	function renderAnalysis(filterSettings){
 		cleanLayers();
-		var geoCentersLayer = newLayer("geographical centers");
+
 		createLokalenLayer().show();
+
+		filterSettings = getPublicFilterSettings();
+		var geoCentersLayer = createCentersLayer(filterSettings);
 		geoCentersLayer.show();
 
 		// load data about the spaces from file, and use it
-		$.get("afdelingen.json", function( data ) {
+		/*$.get("afdelingen.json", function( data ) {
 			for(var i = 0; i < data.length; i++){
 				createAfdelingLayer(data[i].id, data[i].display_name, geoCentersLayer, filterSettings);
 			}
-		});
+		});*/
 	}
 
 	function renderPublic(){
 		cleanLayers();
-		var geoCentersLayer = newLayer("geographical centers");
+
+		
+
 		createLokalenLayer().show();
-		geoCentersLayer.show();
 		filterSettings = getPublicFilterSettings();
+		createCentersLayer(filterSettings).show();
+		
 
 		// load data about the spaces from file, and use it
 		$.get("afdelingen.json", function( data ) {
 			for(var i = 0; i < data.length; i++){
-				createAfdelingLayer(data[i].id, data[i].display_name, geoCentersLayer, filterSettings);
+				createAfdelingLayer(data[i].id, data[i].display_name, filterSettings);
 			}
 		});
+
+		
 
 	}
 
