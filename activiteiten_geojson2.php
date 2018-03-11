@@ -34,10 +34,16 @@ if(isset($_GET["min_duration"])) {
 	$min_duration = mysqli_real_escape_string($conn_drupal, $_GET["min_duration"]);
 }
 
-$max_duration = "0";
+$max_duration = "24*365";
 if(isset($_GET["max_duration"])) {
 	$max_duration = mysqli_real_escape_string($conn_drupal, $_GET["max_duration"]);
 }
+
+$categorie = "%";
+if(isset($_GET["categorie"])) {
+	$categorie = mysqli_real_escape_string($conn_drupal, $_GET["categorie"]);
+}
+
 
 
 $sql_query="
@@ -66,7 +72,7 @@ $sql_query="
 		AND end_date <= $enddate
 		AND TIMESTAMPDIFF(second, start_date, end_date) >= 3600* $min_duration
 		AND TIMESTAMPDIFF(second, start_date, end_date) <= 3600* $max_duration
-
+		AND categorie_20 LIKE $categorie
 	;";
 
 

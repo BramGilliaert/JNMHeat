@@ -1,5 +1,5 @@
 
-var cachedLayers = new Object();
+
 
 function createPin(latlon, acts){
 	
@@ -59,7 +59,7 @@ function createPin(latlon, acts){
 
 
 
-function createActiviteitenLayer(afdId){
+function createActiviteitenLayer(cachedLayers, afdId){
 	if(cachedLayers[afdId]){
 		return cachedLayers[afdId];
 	}
@@ -70,9 +70,8 @@ function createActiviteitenLayer(afdId){
 	var layer = newLayer("activiteiten_"+afdNaam);
 	cachedLayers[afdId] = layer;
 
-	var d = new Date();
-	var startdate = ""+ (d.getFullYear()-1) + (d.getMonth()+1) + d.getDate();
-	var source = "https://tools.jnm.be/jnm_heat/activiteiten_geojson2.php?afdeling="+afdId+"&startdate="+startdate;
+	var source = "https://tools.jnm.be/jnm_heat/activiteiten_geojson2.php?afdeling="+afdId+getFilterSettings();
+	console.log("Querying", source);
 	$.get(source, function(data){
 			try{
 				var activiteitenData = JSON.parse(data);
@@ -83,8 +82,12 @@ function createActiviteitenLayer(afdId){
 			var cluster = createCluster(activiteitenData, function(act){console.log(act); return act.geometry.coordinates;});
 
 			cluster.forEach(function(latlon, val){
+				if(val.length < minActivitiesAtLocation()){
+					return;
+				}
 				var pin = createPin(latlon, val);
 				layer.addLayer(pin);
+
 			});	
 
 
