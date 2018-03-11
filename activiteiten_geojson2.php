@@ -72,7 +72,7 @@ $sql_query="
 		AND end_date <= $enddate
 		AND TIMESTAMPDIFF(second, start_date, end_date) >= 3600* $min_duration
 		AND TIMESTAMPDIFF(second, start_date, end_date) <= 3600* $max_duration
-		AND categorie_20 LIKE $categorie
+		AND categorie_20 LIKE '$categorie'
 	;";
 
 
