@@ -42,7 +42,6 @@ if(isset($_GET["max_duration"])) {
 $categorie = "%";
 if(isset($_GET["categorie"])) {
 	$categorie = mysqli_real_escape_string($conn_drupal, $_GET["categorie"]);
-	die($categorie);
 }
 
 
