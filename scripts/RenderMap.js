@@ -193,8 +193,9 @@ function createCentersLayer(onClick){
 
 function loadAllLayers(){
 	var afds = allAfdelingIds();
+	var cache = new Object();
 	for(var i = 0; i < afds.length; i++){
-		createActiviteitenLayer(i).show();
+		createActiviteitenLayer(cache, i).show();
 	}
 }
 
