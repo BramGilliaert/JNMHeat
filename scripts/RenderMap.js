@@ -219,7 +219,6 @@ function renderAnalysis(){
 
 function renderPublic(){
 	cleanLayers();
-	clearCache();
 
 	createLokalenLayer().show();
 	createCentersLayer(showActiviteiten).show();
