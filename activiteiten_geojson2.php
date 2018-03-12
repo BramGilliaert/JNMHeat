@@ -67,7 +67,8 @@ $sql_query="
 		ON field_activiteit_civicrm_event_target_id = civiEvent.id
    LEFT JOIN jnet1980_test_civicrm.civicrm_value_algemeen_8 tAlgemeen
 		ON field_activiteit_civicrm_event_target_id=tAlgemeen.entity_id
-	WHERE tAlgemeen.organisator_19 = '$afdeling'
+	WHERE node.status = 1
+		AND tAlgemeen.organisator_19 = '$afdeling'
 		AND start_date >= $startdate
 		AND end_date <= $enddate
 		AND TIMESTAMPDIFF(second, start_date, end_date) >= 3600* $min_duration
