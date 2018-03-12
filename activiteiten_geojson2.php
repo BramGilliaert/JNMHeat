@@ -67,7 +67,7 @@ $sql_query="
 		ON field_activiteit_civicrm_event_target_id = civiEvent.id
    LEFT JOIN jnet1980_test_civicrm.civicrm_value_algemeen_8 tAlgemeen
 		ON field_activiteit_civicrm_event_target_id=tAlgemeen.entity_id
-	WHERE node.status = 1
+	WHERE node.status = 1 # This filters away the unpublished activities. node comes from the drupal database
 		AND tAlgemeen.organisator_19 = '$afdeling'
 		AND start_date >= $startdate
 		AND end_date <= $enddate
