@@ -196,7 +196,7 @@ function loadAllLayers(){
 	var afds = allAfdelingIds();
 	var cache = new Object();
 	for(var i = 0; i < afds.length; i++){
-		createActiviteitenLayer(cache, i).show();
+		createActiviteitenLayer(cache, afds[i]).show();
 	}
 }
 
