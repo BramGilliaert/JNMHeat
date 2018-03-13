@@ -175,7 +175,7 @@ function createCentersLayer(onClick){
 			var afdId = cent.organiserende_afdeling;
 			var name = id2name(afdId);
 			var pin = L.marker([cent.lat_center, cent.lon_center]);
-			var popup = L.popup({closeOnClick : false, autoClose : false}).setContent("Geografisch gemiddelde van <a href='https://jnm.be/afdeling/"+name+"' target='_blank'>JNM "+name+"</a>");
+			var popup = L.popup({closeOnClick : false, autoClose : false, closeButton : false}).setContent("Geografisch gemiddelde van <a href='https://jnm.be/afdeling/"+name+"' target='_blank'>JNM "+name+"</a>");
 			pin.bindPopup(popup);
 
 			
