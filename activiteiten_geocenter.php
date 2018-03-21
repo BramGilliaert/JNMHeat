@@ -22,7 +22,8 @@ $sql_query="SELECT AVG(field_activiteit_locatie_lat) as lat_center, AVG(field_ac
 	FROM field_data_field_activiteit_civicrm_event tEvent
 	INNER JOIN field_revision_field_activiteit_locatie tLocatie ON tEvent.entity_id=tLocatie.entity_id 
    LEFT JOIN jnet1980_test_civicrm.civicrm_value_algemeen_8 tAlgemeen ON field_activiteit_civicrm_event_target_id=tAlgemeen.entity_id
-	WHERE field_activiteit_locatie_lon > 2.367
+	WHERE field_activiteit_locatie_lon > 2.367 AND field_activiteit_locatie_lon < 6.400 
+		AND field_activiteit_locatie_lat > 49.500 AND field_activiteit_locatie_lat < 51.683 
 	GROUP BY organiserende_afdeling;";
 
 
