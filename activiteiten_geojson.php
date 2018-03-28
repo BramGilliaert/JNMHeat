@@ -150,6 +150,7 @@ foreach($event_details as &$event) // Note the & to pass by reference
 
 	array_push($features, $feature);
 }
+$all->type = "FeatureCollection";
 $all->features =  $features;
 echo json_encode($all, JSON_PRETTY_PRINT);
 
