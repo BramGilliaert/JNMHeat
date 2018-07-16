@@ -10,7 +10,7 @@ function initializeMap(){
 	map = L.map('map').setView([50.9, 3.9], 9);
 
 	// load the tile layer from GEO6
-	L.tileLayer('http://tile.openstreetmap.be/osmbe/{z}/{x}/{y}.png',
+	L.tileLayer('https://tile.openstreetmap.be/osmbe/{z}/{x}/{y}.png',
 		{
 		attribution: 'Map Data © <a href="osm.org">OpenStreetMap</a> | Tiles hosted by <a href="https://geo6.be/">GEO-6</a>; thx JBelien!',
 		maxZoom: 21,
@@ -104,6 +104,7 @@ function newLayer(name){
 
 		var label = document.createElement('label')
 		label.htmlFor = idCB;
+		label.className = "inl"
 		label.appendChild(document.createTextNode(layer.title));
 
 
