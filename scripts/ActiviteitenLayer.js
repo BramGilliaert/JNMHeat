@@ -4,7 +4,7 @@
 function createPin(latlon, acts){
 
 	var futureEventStrings = "";
-	pastEventStrings = "";
+	var pastEventStrings = "";
 	var futTotal = 0;
 	var pastTotal = 0;
 	for(var i = 0; i < acts.length; i++){

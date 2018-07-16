@@ -211,7 +211,7 @@ function showActiviteiten(afdId){
 
 // loads all the layers
 function renderAnalysis(){
-	cleanLayers();
+	cleanLayers(); // ?
 
 	createLokalenLayer().show();
 
