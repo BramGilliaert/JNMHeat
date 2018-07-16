@@ -1,9 +1,9 @@
-
+'use strict';
 
 
 function createPin(latlon, acts){
-	
-	futureEventStrings = "";
+
+	var futureEventStrings = "";
 	pastEventStrings = "";
 	var futTotal = 0;
 	var pastTotal = 0;
@@ -47,7 +47,7 @@ function createPin(latlon, acts){
 		if(pastTotal > 1) {msg += "<b>"+pastTotal+" voorbije "+activiteitenMv(pastTotal)+":</b><br />";}
 		msg += pastEventStrings;
 	}
-	
+
 	var total = pastTotal + futTotal;
 	if(total >= 2 && pastTotal != 0 && futTotal != 0){
 		msg+="<br /><b>"+total +" activiteiten in totaal</b>";
@@ -88,12 +88,10 @@ function createActiviteitenLayer(cachedLayers, afdId){
 				var pin = createPin(latlon, val);
 				layer.addLayer(pin);
 
-			});	
+			});
 
 
 		});
-			
 
-
-		return layer;
+	return layer;
 }

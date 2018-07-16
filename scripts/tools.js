@@ -1,14 +1,15 @@
+'use strict';
 
-	// fancy icons to show
-	var lokaalIcon = L.icon({iconUrl: 'img/Lokaal', iconSize: [20, 20], iconAnchor: [10, 0], popupAnchor: [0,0]});
-	var winkelIcon = L.icon({iconUrl: 'img/Winkel', iconSize: [20, 20], iconAnchor: [10, 0], popupAnchor: [0,0]});
-	var bondssecIcon = L.icon({iconUrl: 'img/Bondssec', iconSize: [20, 20], iconAnchor: [10, 0], popupAnchor: [0,0]});
-	var geoCenterIcon = L.icon({iconUrl: 'img/GeoCenter', iconSize: [25,41], iconAnchor: [12, 41], popupAnchor: [0, -41]});	
+// fancy icons to show
+var lokaalIcon = L.icon({iconUrl: 'img/Lokaal', iconSize: [20, 20], iconAnchor: [10, 0], popupAnchor: [0,0]});
+var winkelIcon = L.icon({iconUrl: 'img/Winkel', iconSize: [20, 20], iconAnchor: [10, 0], popupAnchor: [0,0]});
+var bondssecIcon = L.icon({iconUrl: 'img/Bondssec', iconSize: [20, 20], iconAnchor: [10, 0], popupAnchor: [0,0]});
+var geoCenterIcon = L.icon({iconUrl: 'img/GeoCenter', iconSize: [25,41], iconAnchor: [12, 41], popupAnchor: [0, -41]});
 
-	var activiteitIcon = L.icon({iconUrl: 'img/VoorbijeAct', iconSize: [15,15], iconAnchor: [7, 7], popupAnchor: [0,0]});
-	var activiteitenCenterIcon = L.icon({iconUrl: 'img/ActiviteitCenterIcon', iconSize: [10,10], iconAnchor: [4, 5], popupAnchor: [0,0]});
-		
-	var activiteitGeplandIcon = L.icon({iconUrl : 'img/ToekomstAct', iconSize: [15,15], icondAnchor: [0,0], popupAnchor: [0,0]});
+var activiteitIcon = L.icon({iconUrl: 'img/VoorbijeAct', iconSize: [15,15], iconAnchor: [7, 7], popupAnchor: [0,0]});
+var activiteitenCenterIcon = L.icon({iconUrl: 'img/ActiviteitCenterIcon', iconSize: [10,10], iconAnchor: [4, 5], popupAnchor: [0,0]});
+
+var activiteitGeplandIcon = L.icon({iconUrl : 'img/ToekomstAct', iconSize: [15,15], icondAnchor: [0,0], popupAnchor: [0,0]});
 
 
 // create a dictionary {'node-id' --> node}
@@ -27,7 +28,7 @@ function nodeDict(nodeData){
 // given an array of points, will return a histogram of the points
 function createCluster(points){
 	var cluster = new Object();
-	
+
 	for(var i = 0; i < points.length; i++){
 		var latlon = [points[i].lat, points[i].lon];
 		if(latlon == null){
@@ -50,7 +51,7 @@ function createCluster(points){
 			if(!(latlon[0] && latlon[1])){
 				continue;
 			}
-			f(latlon, value);			
+			f(latlon, value);
 		}
 	}
 

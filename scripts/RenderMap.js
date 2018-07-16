@@ -1,12 +1,12 @@
-
+'use strict';
 
 // Needed variables
-	
+
 var allLayers = [];
 var controlBoxes = [];
 var map;
 
-function initializeMap(){	
+function initializeMap(){
 	map = L.map('map').setView([50.9, 3.9], 9);
 
 	// load the tile layer from GEO6
@@ -40,7 +40,6 @@ function newLayer(name){
 	var shown = false;
 	layer.loader = null;
 	allLayers.push(layer);
-
 
 	layer.show = function(){
 		map.addLayer(layer);
@@ -183,7 +182,6 @@ function createCentersLayer(onClick){
 			var popup = L.popup({closeOnClick : false, autoClose : false, closeButton : false}).setContent("Geografisch gemiddelde van <a href='https://jnm.be/afdeling/"+name+"' target='_blank'>JNM "+name+"</a>");
 			pin.bindPopup(popup);
 
-			
 			pin.on('click',onClick(afdId));
 			geoCenterLayer.addLayer(pin);
 
@@ -191,9 +189,7 @@ function createCentersLayer(onClick){
 
 	});
 
-
 	return geoCenterLayer;
-
 }
 
 
@@ -205,7 +201,7 @@ function loadAllLayers(){
 	}
 }
 
-	// ------------------------------- MAIN PROGRAM -------------------
+// ------------------------------- MAIN PROGRAM -------------------
 
 function showActiviteiten(afdId){
 	var cache = new Object();
@@ -228,9 +224,4 @@ function renderPublic(){
 
 	createLokalenLayer().show();
 	createCentersLayer(showActiviteiten).show();
-	
-	
-
 }
-
-

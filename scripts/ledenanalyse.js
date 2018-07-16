@@ -1,13 +1,14 @@
+'use strict';
 
-	var lokaalIcon = L.icon({iconUrl: 'img/Lokaal', iconSize: [20, 20], iconAnchor: [10, 0], popupAnchor: [0,0]});
-	var winkelIcon = L.icon({iconUrl: 'img/Winkel', iconSize: [20, 20], iconAnchor: [10, 0], popupAnchor: [0,0]});
-	var bondssecIcon = L.icon({iconUrl: 'img/Bondssec', iconSize: [20, 20], iconAnchor: [10, 0], popupAnchor: [0,0]});
-	var geoCenterIcon = L.icon({iconUrl: 'img/GeoCenter', iconSize: [25,41], iconAnchor: [12, 41], popupAnchor: [0, -41]});	
+var lokaalIcon = L.icon({iconUrl: 'img/Lokaal', iconSize: [20, 20], iconAnchor: [10, 0], popupAnchor: [0,0]});
+var winkelIcon = L.icon({iconUrl: 'img/Winkel', iconSize: [20, 20], iconAnchor: [10, 0], popupAnchor: [0,0]});
+var bondssecIcon = L.icon({iconUrl: 'img/Bondssec', iconSize: [20, 20], iconAnchor: [10, 0], popupAnchor: [0,0]});
+var geoCenterIcon = L.icon({iconUrl: 'img/GeoCenter', iconSize: [25,41], iconAnchor: [12, 41], popupAnchor: [0, -41]});
 
-	var activiteitIcon = L.icon({iconUrl: 'img/VoorbijeAct', iconSize: [15,15], iconAnchor: [7, 7], popupAnchor: [0,0]});
-	var activiteitenCenterIcon = L.icon({iconUrl: 'img/ActiviteitCenterIcon', iconSize: [10,10], iconAnchor: [4, 5], popupAnchor: [0,0]});
-		
-	var activiteitGeplandIcon = L.icon({iconUrl : 'img/ToekomstAct', iconSize: [15,15], icondAnchor: [0,0], popupAnchor: [0,0]});
+var activiteitIcon = L.icon({iconUrl: 'img/VoorbijeAct', iconSize: [15,15], iconAnchor: [7, 7], popupAnchor: [0,0]});
+var activiteitenCenterIcon = L.icon({iconUrl: 'img/ActiviteitCenterIcon', iconSize: [10,10], iconAnchor: [4, 5], popupAnchor: [0,0]});
+
+var activiteitGeplandIcon = L.icon({iconUrl : 'img/ToekomstAct', iconSize: [15,15], icondAnchor: [0,0], popupAnchor: [0,0]});
 
 
 
@@ -24,8 +25,6 @@ function createPin(latlon, persons, layer){
 	if(persons.length == 0){
 		return;
 	}
-
-	
 
 
 	var msg = "";
@@ -47,7 +46,7 @@ function createPin(latlon, persons, layer){
 }
 
 function addContact(person, layer){
-	
+
 	// 0: name
 	// 1: email
 	// 2: street
@@ -76,7 +75,7 @@ function addContact(person, layer){
 	}*/
 
 	person.latlon = [parseFloat(person[10]), parseFloat(person[11])];
-	
+
 	return person;
 }
 
@@ -109,11 +108,11 @@ function analyseContacts(csvPath){
 			}else{
 				failed ++;
 			}
-			
+
 			document.getElementById("geladen").innerHTML= successess.length;
 			document.getElementById("failed").innerHTML= failed;
 			document.getElementById("resterend").innerHTML= data.length - (i+1);
-			
+
 		}
 
 		cluster = createCluster(successess);
