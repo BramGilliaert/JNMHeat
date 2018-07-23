@@ -25,6 +25,16 @@
       display: inline;
       font-weight: inherit;
     }
+    .flow-element
+    {
+      width:350px;
+    }
+    .legende {
+      width: 20px;
+      height: 20px;
+      object-fit: contain;
+      /* display: block; */
+    }
   </style>
 </head>
 <body>
@@ -38,7 +48,18 @@
   <tr><td>with database support of Emile</td></tr>
   <tr><td><button onclick="selectAll(true);">Select all</button><button onclick="selectAll(false);">Deselect all</button></td></tr>
   <tr><td><button onclick="loadAllLayers()">Toon alle activiteiten</button></td></tr>
+  <tr><td><div id="layerControls" style="display: flex; flex-wrap: wrap;"></div></td></tr>
+  
+  <tr><td><div style="background-color: white;">
+    Legende:<br/>
+    <img class="legende" src="img/GeoCenter.png"> Geometrisch centrum van de activiteiten in België<br/>
+    <img class="legende" src="img/VoorbijeAct.png"> Voorbije activiteit<br/>
+    <img class="legende" src="img/ToekomstAct.png"> Opkomende activiteit<br/>
+    <img class="legende" src="img/Lokaal.png"> Lokaal<br/>
+  </div></td></tr>
   </table>
+
+
   <div id="map"></div>
 
   <table border="1">

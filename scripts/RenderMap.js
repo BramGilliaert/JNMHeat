@@ -89,7 +89,7 @@ function newLayer(name){
 
 	// create controls
 	function createControls(){
-		var container = document.getElementById('controls');
+		var container = document.getElementById('layerControls');
 		if(container==null){
 			return;
 		}
@@ -106,8 +106,14 @@ function newLayer(name){
 		label.className = "inl"
 		label.appendChild(document.createTextNode(layer.title));
 
-
-
+		var div = document.createElement("div");
+		div.className = "flow-element"
+		div.appendChild(checkbox);
+		div.appendChild(label);
+		controlBoxes.push(div);
+		container.appendChild(div);
+		
+		/*
 		var tr = document.createElement('tr');
 		controlBoxes.push(tr);
 		var td = document.createElement('td');
@@ -115,7 +121,7 @@ function newLayer(name){
 		tr.appendChild(td);
 		td.appendChild(checkbox);
 		td.appendChild(label);
-
+		*/
 
 		layer.control = document.getElementById(idCB)
 		layer.control.onclick = function() {
