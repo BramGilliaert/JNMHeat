@@ -1,6 +1,6 @@
 'use strict';
 
-// calls nominatim to translate an address into a coordinate
+// calls nominatim to translate an addres into a coordinate
 // usefull for activities with an address where google didn't find where it was
 
 var found = 0;
@@ -27,8 +27,8 @@ function queryRealOSM(street, postal, city){
 
 	var query = "https://nominatim.openstreetmap.org/search/"+street+", "+postal+" "+city+"?format=json";
 	var xmlHttp = new XMLHttpRequest();
-   xmlHttp.open( "GET", query, false ); // false for synchronous request
-   xmlHttp.send( null );
+	xmlHttp.open( "GET", query, false ); // false for synchronous request
+	xmlHttp.send( null );
 	var response = JSON.parse(xmlHttp.responseText);
 	if(response.length == 0){
 		return;

@@ -172,9 +172,9 @@ Onclick is a function which, given the afdId, should give a new function. This n
 */
 function createCentersLayer(onClick){
 	var geoCenterLayer= newLayer("geocenters by database");
-	var query="https://tools.jnm.be/jnm_heat/activiteiten_geocenter.php?"+getFilterSettings();
+	var query= jnmHeatUrlBase+"activiteiten_geocenter.php?"+getFilterSettings();
 	$.get(query, function(data) {
-		var afdelingCenters = JSON.parse(data);
+		var afdelingCenters = data; //JSON.parse(data);
 		for(var i = 0; i < afdelingCenters.length; i++){
 			var cent = afdelingCenters[i];
 
@@ -190,8 +190,11 @@ function createCentersLayer(onClick){
 			}
 			var name = id2name(afdId);
 			var pin = L.marker([cent.lat_center, cent.lon_center]);
-			var popup = L.popup({closeOnClick : false, autoClose : false, closeButton : false}).setContent("Geografisch gemiddelde van <a href='https://jnm.be/afdeling/"+name+"' target='_blank'>JNM "+name+"</a>");
-			pin.bindPopup(popup);
+			var htmlContent = "Kern van <a href='https://jnm.be/afdeling/"+name+"' target='_blank'>JNM "+name+"</a>"
+			//var popup = L.popup({closeOnClick : false, autoClose : false, closeButton : false}).setContent(htmlContent);
+			//pin.bindPopup(popup);
+			var elem = document.getElementById("geselecteerde_afdeling_tekstje")
+			BindSidebar(pin, elem, htmlContent)
 
 			pin.on('click',onClick(afdId));
 			geoCenterLayer.addLayer(pin);

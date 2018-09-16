@@ -11,6 +11,19 @@ var activiteitenCenterIcon = L.icon({iconUrl: 'img/ActiviteitCenterIcon.png', ic
 
 var activiteitGeplandIcon = L.icon({iconUrl : 'img/ToekomstAct.png', iconSize: [15,15], icondAnchor: [0,0], popupAnchor: [0,0]});
 
+//var jnmHeatUrlBase = "https://tools.jnm.be/jnm_heat/"
+var jnmHeatUrlBase = "" // When self hosted
+
+function BindSidebar(pin, elem, htmlContent)
+{
+	pin.on('click', function()
+	{
+		elem.innerHTML = htmlContent;
+
+		var h3 = document.getElementById("geselecteerde_afdeling_title");
+		h3.style.display = null;
+	});
+}
 
 // create a dictionary {'node-id' --> node}
 function nodeDict(nodeData){
@@ -55,9 +68,7 @@ function createCluster(points){
 		}
 	}
 
-
 	return cluster;
-
 }
 
 
@@ -141,9 +152,6 @@ function id2name(id){
 	return dict[id]
 }
 
-	function allAfdelingIds(){
-		return  [13,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,51,53,54,55,56,57,58,59,14070,15651];
-
-	}
-
-
+function allAfdelingIds(){
+	return  [13,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,51,53,54,55,56,57,58,59,14070,15651];
+}

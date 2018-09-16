@@ -29,7 +29,7 @@ function createPin(latlon, acts){
 	var msg = "";
 	var actIcon = activiteitIcon;
 
-	function activiteitenMv(i){
+	var activiteitenMv = function(i){
 		if(i == 1){
 			return "activiteit";
 		}
@@ -53,7 +53,10 @@ function createPin(latlon, acts){
 		msg+="<br /><b>"+total +" activiteiten in totaal</b>";
 	}
 	var pin = L.marker(latlon, {icon: actIcon});
-	pin.bindPopup(msg);
+
+	var elem = document.getElementById("geselecteerde_activiteit_tekstje");
+	BindSidebar(pin, elem, msg)
+	//pin.bindPopup(msg);
 	return pin;
 }
 
@@ -70,13 +73,13 @@ function createActiviteitenLayer(cachedLayers, afdId){
 	var layer = newLayer("activiteiten_"+afdNaam);
 	cachedLayers[afdId] = layer;
 
-	var source = "https://tools.jnm.be/jnm_heat/activiteiten_geojson2.php?afdeling="+afdId+getFilterSettings();
+	var source = jnmHeatUrlBase+"activiteiten_geojson2.php?afdeling="+afdId+getFilterSettings();
 	console.log("Querying", source);
 	$.get(source, function(data){
 			try{
-				var activiteitenData = JSON.parse(data);
+				var activiteitenData = data; //JSON.parse(data);
 			}catch(e){
-				console.log("Could not parse data for ",afdNaam,data);
+				console.warn("Could not parse data for ",afdNaam,data);
 				return;
 			}
 			var cluster = createCluster(activiteitenData, function(act){console.log(act); return act.geometry.coordinates;});

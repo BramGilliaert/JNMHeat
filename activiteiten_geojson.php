@@ -152,6 +152,7 @@ foreach($event_details as &$event) // Note the & to pass by reference
 }
 $all->type = "FeatureCollection";
 $all->features =  $features;
+header('Content-Type: application/json');
 echo json_encode($all, JSON_PRETTY_PRINT);
 
 ?>

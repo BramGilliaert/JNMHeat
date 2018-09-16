@@ -49,7 +49,7 @@ function createLokalenLayer(){
 	var query = "https://overpass-api.de/api/interpreter?data=%5Bout%3Ajson%5D%5Btimeout%3A25%5D%3B%28node%5B%22operator%22%3D%22JNM%22%5D%2848%2E951366470948%2C0%2E59326171875%2C52%2E583025861416%2C8%2E6846923828125%29%3Bway%5B%22operator%22%3D%22JNM%22%5D%2848%2E951366470948%2C0%2E59326171875%2C52%2E583025861416%2C8%2E6846923828125%29%3B%29%3Bout%3B%3E%3Bout%20skel%20qt%3B%0A";
 
 	// just kidding. We actually use the cached version of the jnm site
-	query = "https://tools.jnm.be/jnm_heat/lokalen.json"
+	query = jnmHeatUrlBase+"lokalen.json"
 
 
 	lokalenLayer.loader = function() {$.get(query, function( lokalen ) {
@@ -63,7 +63,7 @@ function createLokalenLayer(){
 			if(cacheFreshness > 30){
 				// the cache on the JNM server is pretty old; we ask it to refresh for the next user
 				console.log("Requesting cache update");
-				$.get("https://tools.jnm.be/jnm_heat/cache_lokalen.php", function(data){
+				$.get(jnmHeatUrlBase+"cache_lokalen.php", function(data){
 					console.log("Cache updated. Refresh the page.");
 				});
 			}

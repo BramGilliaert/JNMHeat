@@ -40,6 +40,7 @@ while($row =mysqli_fetch_assoc($res_event_details))
 
 
 
+header('Content-Type: application/json');
 echo json_encode($event_details, JSON_PRETTY_PRINT);
 
 ?>
