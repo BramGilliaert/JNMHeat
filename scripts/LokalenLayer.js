@@ -14,7 +14,7 @@ function popupString(lokaal) {
 	var descr;
 	if(lokaal.tags.shop == "gift"){
 		// This is a special case for the shop
-		descr = "";;
+		descr = "";
 	}else{
 		// This is a generic youth movement space
 		descr = "Lokaal van "

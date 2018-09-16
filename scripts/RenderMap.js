@@ -5,6 +5,7 @@
 var allLayers = [];
 var controlBoxes = [];
 var map;
+var leden_per_afdeling = {};
 
 function initializeMap(){
 	map = L.map('map').setView([50.9, 3.9], 9);
@@ -18,7 +19,22 @@ function initializeMap(){
 		}).addTo(map);
 }
 
-
+function DownloadLedenPerAfdeling()
+{
+	var query= jnmHeatUrlBase+"leden_per_afdeling.php?sample_date=20180531";
+	$.get(query, function(data) {
+		leden_per_afdeling = data;
+	});
+	var xmlHttp = new XMLHttpRequest();
+	xmlHttp.open( "GET", query, false ); // false for synchronous request
+	xmlHttp.send( null );
+	var response = JSON.parse(xmlHttp.responseText);
+	if(response.length == 0){
+		return;
+	}
+	leden_per_afdeling = response;
+}
+DownloadLedenPerAfdeling();
 
 function cleanLayers(){
 	// cleanup of the layers which might already exist
@@ -190,7 +206,7 @@ function createCentersLayer(onClick){
 			}
 			var name = id2name(afdId);
 			var pin = L.marker([cent.lat_center, cent.lon_center]);
-			var htmlContent = "Kern van <a href='https://jnm.be/afdeling/"+name+"' target='_blank'>JNM "+name+"</a>"
+			var htmlContent = "Kern van <a href='https://jnm.be/afdeling/"+name+"' target='_blank'>JNM "+name+"</a><br/>"+leden_per_afdeling[afdId]["aantal_leden"]+" leden."
 			//var popup = L.popup({closeOnClick : false, autoClose : false, closeButton : false}).setContent(htmlContent);
 			//pin.bindPopup(popup);
 			var elem = document.getElementById("geselecteerde_afdeling_tekstje")
