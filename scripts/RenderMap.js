@@ -17,11 +17,33 @@ function initializeMap(){
 		maxZoom: 21,
 		minZoom: 1
 		}).addTo(map);
+	/*
+	// Nice map, but no labels
+	L.tileLayer('https://stamen-tiles-{s}.a.ssl.fastly.net/watercolor/{z}/{x}/{y}.{ext}', {
+		attribution: 'Map tiles by <a href="http://stamen.com">Stamen Design</a>, <a href="http://creativecommons.org/licenses/by/3.0">CC BY 3.0</a> &mdash; Map data &copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>',
+		subdomains: 'abcd',
+		minZoom: 1,
+		maxZoom: 16,
+		// tileSize: 128, Dosn't scale with coordinates
+		ext: 'png'
+	}).addTo(map);
+	*/
 }
+
+function pad(number) {
+      if (number < 10) {
+        return '0' + number;
+      }
+      return number;
+    }
+
 
 function DownloadLedenPerAfdeling()
 {
-	var query= jnmHeatUrlBase+"leden_per_afdeling.php?sample_date=20180531";
+	var today = new Date()
+	var dateString = today.getFullYear()+''+pad(today.getMonth()+1)+''+pad(today.getDate());
+
+	var query= jnmHeatUrlBase+"leden_per_afdeling.php?sample_date="+dateString;
 	$.get(query, function(data) {
 		leden_per_afdeling = data;
 	});
@@ -35,6 +57,7 @@ function DownloadLedenPerAfdeling()
 	leden_per_afdeling = response;
 }
 DownloadLedenPerAfdeling();
+
 
 function cleanLayers(){
 	// cleanup of the layers which might already exist
@@ -205,7 +228,7 @@ function createCentersLayer(onClick){
 				continue;
 			}
 			var name = id2name(afdId);
-			var pin = L.marker([cent.lat_center, cent.lon_center]);
+			var pin = L.marker([cent.lat_center, cent.lon_center], {icon: geoCenterIcon});
 			var htmlContent = "Kern van <a href='https://jnm.be/afdeling/"+name+"' target='_blank'>JNM "+name+"</a><br/>"+leden_per_afdeling[afdId]["aantal_leden"]+" leden."
 			//var popup = L.popup({closeOnClick : false, autoClose : false, closeButton : false}).setContent(htmlContent);
 			//pin.bindPopup(popup);
