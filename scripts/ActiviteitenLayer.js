@@ -61,8 +61,9 @@ function createPin(latlon, acts){
 }
 
 
+var cachedLayers = {}
 
-function createActiviteitenLayer(cachedLayers, afdId){
+function obtainActiviteitenLayer(afdId){
 	if(cachedLayers[afdId]){
 		return cachedLayers[afdId];
 	}

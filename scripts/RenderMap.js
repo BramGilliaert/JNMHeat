@@ -11,12 +11,19 @@ function initializeMap(){
 	map = L.map('map').setView([50.9, 3.9], 9);
 
 	// load the tile layer from GEO6
-	L.tileLayer('https://tile.openstreetmap.be/osmbe/{z}/{x}/{y}.png',
+	/*L.tileLayer('https://tile.openstreetmap.be/osmbe/{z}/{x}/{y}.png',
 		{
 		attribution: 'Map Data © <a href="osm.org">OpenStreetMap</a> | Tiles hosted by <a href="https://geo6.be/">GEO-6</a>; thx JBelien!',
 		maxZoom: 21,
 		minZoom: 1
 		}).addTo(map);
+		*/
+	L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={accessToken}', {
+	    attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, <a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
+	    maxZoom: 18,
+	    id: 'mapbox.streets',
+	    accessToken: 'pk.eyJ1IjoiZW1pbGVzb25uZXZlbGQiLCJhIjoiY2ptNXlodWo3MjAxMzNsbXlibDliaDFxayJ9.KyJrscbJtvVispyZvJCknw'
+	}).addTo(map);
 	/*
 	// Nice map, but no labels
 	L.tileLayer('https://stamen-tiles-{s}.a.ssl.fastly.net/watercolor/{z}/{x}/{y}.{ext}', {
@@ -28,6 +35,7 @@ function initializeMap(){
 		ext: 'png'
 	}).addTo(map);
 	*/
+	// Map with focus on railways: https://www.thunderforest.com/maps/pioneer/
 }
 
 function pad(number) {
@@ -248,17 +256,17 @@ function createCentersLayer(onClick){
 
 function loadAllLayers(){
 	var afds = allAfdelingIds();
-	var cache = new Object();
 	for(var i = 0; i < afds.length; i++){
-		createActiviteitenLayer(cache, afds[i]).show();
+		obtainActiviteitenLayer(afds[i]).show();
 	}
 }
 
 // ------------------------------- MAIN PROGRAM -------------------
 
 function showActiviteiten(afdId){
-	var cache = new Object();
-	return function(){createActiviteitenLayer(cache, afdId).toggle()};
+	return function(){
+		obtainActiviteitenLayer(afdId).toggle()
+	};
 }
 
 
