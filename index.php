@@ -75,7 +75,7 @@
     <tr><td>Categorie van de activiteit is <input type="text" id="cat_picker">(%, algemeen, natuur, milieu, beheer, werkstudie, 15-18 jarigen) </td></tr>
     <tr><td>Aantal activiteiten per locatie voor rendering<input type="text" id="min_act"></td></tr>
 
-    <tr><td><button id="reloadSettingsButton" onclick="renderAnalysis();">Apply filter</button></td></tr>
+    <tr><td><button id="reloadSettingsButton" onclick="renderAnalysis(getFilterSettings());">Apply filter</button></td></tr>
   </table>
 
 

@@ -11,7 +11,7 @@ function initFilterSettings(){
 	document.getElementById("datepicker_before").value = "29990101";
 	document.getElementById("cat_picker").value = "%";
 	document.getElementById("min_act_duration").value = "0";
-	document.getElementById("max_act_duration").value = "8760";
+	document.getElementById("max_act_duration").value = "24"; // 8760
 	document.getElementById("min_act").value = "1";
 }
 
@@ -39,7 +39,7 @@ function minActivitiesAtLocation(){
 
 function getFilterSettings(){
 	try{
-		query = "";
+		var query = "";
 		query +="&startdate="+document.getElementById("datepicker_after").value;
 		query +="&enddate="+document.getElementById("datepicker_before").value;
 		query +="&categorie="+document.getElementById("cat_picker").value;
