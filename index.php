@@ -19,23 +19,7 @@
   <script src="scripts/RenderMap.js"></script>
  
   <link rel="stylesheet" href="/common/jnm-theme-for-tools.css"/>
-  <style>
-    #map{width: 100%;height: 500px;}
-    label.inl {
-      display: inline;
-      font-weight: inherit;
-    }
-    .flow-element
-    {
-      width:350px;
-    }
-    .legende {
-      width: 20px;
-      height: 20px;
-      object-fit: contain;
-      /* display: block; */
-    }
-  </style>
+  <link rel="stylesheet" href="css/jnm_heat.css"/>
 </head>
 <body>
 

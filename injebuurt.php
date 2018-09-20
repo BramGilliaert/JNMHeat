@@ -19,13 +19,39 @@
   <script src="scripts/FilterSettings.js"></script>
   <script src="scripts/RenderMap.js"></script>
  
-  <style>
-    #map{ width: 1500px; height: 1050; }
-  </style>
+  <link rel="stylesheet" href="/common/jnm-theme-for-tools.css"/>
+  <link rel="stylesheet" href="css/jnm_heat.css"/>
 </head>
 <body>
+  <?php include_once($_SERVER['DOCUMENT_ROOT']."/common/analyticstracking.php") ?>
 
-	<div id="map"></div>
+<table>
+  <tr>
+    <td>
+      <table style="height: 500px">
+        <tr style="vertical-align: top;"><td>
+          <h3 id="geselecteerde_afdeling_title" style="display: none;">Geselecteerd:</h3>
+          <div id="geselecteerde_afdeling_tekstje"></div>
+          <br/>
+          <div id="geselecteerde_activiteit_tekstje"></div>
+        </td></tr>
+        <tr style="vertical-align: bottom;"><td>
+
+          <div style="background-color: #ffffffc9; min-width: 300px;">
+            Legende:<br/>
+            <img class="legende" src="img/cloud_filled.png"> Geometrisch centrum van de activiteiten in België<br/>
+            <img class="legende" src="img/Lokaal.png"> Lokaal<br/>
+            <img class="legende" src="img/VoorbijeAct.png"> Voorbije activiteit<br/>
+            <img class="legende" src="img/ToekomstAct.png"> Opkomende activiteit<br/>
+          </div>
+
+        </td></tr>
+      </table>
+    </td>
+    <td style="width: 100%"><div id="map"></div></td>
+  </tr>
+</table>
+  
 
 	<script>
 		initializeMap();
