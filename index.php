@@ -65,7 +65,7 @@
         </td></tr>
       </table>
     </td>
-    <td style="width: 100%"><div id="map"></div></td>
+    <td style="width: 100%"><div id="map" style="height: 500px"></div></td>
   </tr>
 </table>
   

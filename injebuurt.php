@@ -22,13 +22,13 @@
   <link rel="stylesheet" href="/common/jnm-theme-for-tools.css"/>
   <link rel="stylesheet" href="css/jnm_heat.css"/>
 </head>
-<body>
-  <?php include_once($_SERVER['DOCUMENT_ROOT']."/common/analyticstracking.php") ?>
+<body onresize="OnResized()">
+<?php include_once($_SERVER['DOCUMENT_ROOT']."/common/analyticstracking.php") ?>
 
 <table>
   <tr>
     <td>
-      <table style="height: 500px">
+      <table style="height: 500px" id="table_with_map">
         <tr style="vertical-align: top;"><td>
           <h3 id="geselecteerde_afdeling_title" style="display: none;">Geselecteerd:</h3>
           <div id="geselecteerde_afdeling_tekstje"></div>
@@ -48,15 +48,23 @@
         </td></tr>
       </table>
     </td>
-    <td style="width: 100%"><div id="map"></div></td>
+    <td style="width: 100%"><div id="map" style="height: 500px"></div></td>
   </tr>
 </table>
-  
 
-	<script>
-		initializeMap();
-		renderPublic();
-	</script>
+
+<script>
+  initializeMap();
+  renderPublic();
+  var map = document.getElementById("map");
+  var table_with_map = document.getElementById("table_with_map");
+  function OnResized() {
+    var h = window.innerHeight - 2;
+    table_with_map.style.height = h + "px";
+    map.style.height = h + "px";
+  }
+  OnResized();
+</script>
 
 </body>
 </html>

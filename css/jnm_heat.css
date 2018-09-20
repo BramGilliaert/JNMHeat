@@ -19,3 +19,8 @@ label.inl {
   object-fit: contain;
   /* display: block; */
 }
+
+table {
+  margin-top: 0;
+  margin-bottom: 0;
+}
