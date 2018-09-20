@@ -1,1 +1,4 @@
-Redirect /jnm_heat/injebuurt /jnm_heat/injebuurt.html
+RewriteEngine on
+
+Redirect /jnm_heat/injebuurt.html /jnm_heat/injebuurt.php
+#RewriteRule ^/?injebuurt$ /jnm_heat/injebuurt.php [L]
