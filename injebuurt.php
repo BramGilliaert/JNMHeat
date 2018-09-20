@@ -7,7 +7,6 @@
   <script src="vendor/jquery-3.3.1.min.js"></script>
 
   <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
-  <link rel="stylesheet" href="/resources/demos/style.css">
   <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
   <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
   
@@ -54,14 +53,14 @@
 
 
 <script>
+  var mapElem = document.getElementById("map");
   initializeMap();
   renderPublic();
-  var map = document.getElementById("map");
   var table_with_map = document.getElementById("table_with_map");
   function OnResized() {
     var h = window.innerHeight - 2;
     table_with_map.style.height = h + "px";
-    map.style.height = h + "px";
+    mapElem.style.height = h + "px";
   }
   OnResized();
 </script>
