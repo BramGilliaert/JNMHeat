@@ -81,7 +81,7 @@ function cleanLayers(){
 	controlBoxes = [];
 }
 
-function newLayer(name){
+function newLayer(name, pin){
 	var layer = new L.FeatureGroup();
 	var loaded = false;
 	var shown = false;
@@ -91,6 +91,8 @@ function newLayer(name){
 	layer.show = function(){
 		map.addLayer(layer);
 		shown = true;
+		if(pin)
+			pin.setIcon(shown?cloud_empty:cloud_filled);
 		if(layer.loader && !loaded){
 			layer.loader(layer);
 		} 
@@ -104,6 +106,8 @@ function newLayer(name){
 	layer.hide = function(){
 		map.removeLayer(layer);
 		shown = false;
+		if(pin)
+			pin.setIcon(shown?cloud_empty:cloud_filled);
 		if(layer.control){
 			layer.control.checked = false;
 		}
@@ -213,11 +217,13 @@ function selectAll(selected){
 
 
 // ------------------------------- LAYER OF CENTERS -------------------------
+var pinForAfdId = [];
+
 /*
 Create a layer with geocenters based on the direct query
 Onclick is a function which, given the afdId, should give a new function. This new function is called when the pin is clicked
 */
-function createCentersLayer(onClick){
+function createCentersLayer(){
 	var geoCenterLayer= newLayer("geocenters by database");
 	var query= jnmHeatUrlBase+"activiteiten_geocenter.php?"+getFilterSettings();
 	$.get(query, function(data) {
@@ -236,14 +242,15 @@ function createCentersLayer(onClick){
 				continue;
 			}
 			var name = id2name(afdId);
-			var pin = L.marker([cent.lat_center, cent.lon_center], {icon: geoCenterIcon});
+			var pin = L.marker([cent.lat_center, cent.lon_center], {icon: cloud_filled});
+			pinForAfdId[afdId] = pin;
 			var htmlContent = "Kern van <a href='https://jnm.be/afdeling/"+name+"' target='_blank'>JNM "+name+"</a><br/>"+leden_per_afdeling[afdId]["aantal_leden"]+" leden."
 			//var popup = L.popup({closeOnClick : false, autoClose : false, closeButton : false}).setContent(htmlContent);
 			//pin.bindPopup(popup);
 			var elem = document.getElementById("geselecteerde_afdeling_tekstje")
 			BindSidebar(pin, elem, htmlContent)
 
-			pin.on('click',onClick(afdId));
+			pin.on('click', showActiviteiten(afdId));
 			geoCenterLayer.addLayer(pin);
 
 		}
@@ -257,15 +264,18 @@ function createCentersLayer(onClick){
 function loadAllLayers(){
 	var afds = allAfdelingIds();
 	for(var i = 0; i < afds.length; i++){
-		obtainActiviteitenLayer(afds[i]).show();
+		var afdId = afds[i];
+		var layer = obtainActiviteitenLayer(afdId, pinForAfdId[afdId])
+		layer.show();
 	}
 }
 
 // ------------------------------- MAIN PROGRAM -------------------
 
 function showActiviteiten(afdId){
-	return function(){
-		obtainActiviteitenLayer(afdId).toggle()
+	return function(evt){
+		var layer = obtainActiviteitenLayer(afdId, pinForAfdId[afdId])
+		layer.toggle();
 	};
 }
 
@@ -274,9 +284,9 @@ function showActiviteiten(afdId){
 function renderAnalysis(){
 	cleanLayers(); // ?
 
-	createLokalenLayer().show();
+	createLokalenLayer("lokalenLayer").show();
 
-	var geoCentersLayer = createCentersLayer(showActiviteiten);
+	var geoCentersLayer = createCentersLayer();
 	geoCentersLayer.show();
 }
 
@@ -284,5 +294,5 @@ function renderPublic(){
 	cleanLayers();
 
 	createLokalenLayer().show();
-	createCentersLayer(showActiviteiten).show();
+	createCentersLayer().show();
 }

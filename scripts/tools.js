@@ -5,6 +5,8 @@ var lokaalIcon = L.icon({iconUrl: 'img/Lokaal.png', iconSize: [20, 20], iconAnch
 var winkelIcon = L.icon({iconUrl: 'img/Winkel.png', iconSize: [20, 20], iconAnchor: [10, 0], popupAnchor: [0,0]});
 var bondssecIcon = L.icon({iconUrl: 'img/Bondssec.png', iconSize: [20, 20], iconAnchor: [10, 0], popupAnchor: [0,0]});
 var geoCenterIcon = L.icon({iconUrl: 'img/GeoCenter.png', iconSize: [25,41], iconAnchor: [12, 41], popupAnchor: [0, -41]});
+var cloud_filled = L.icon({iconUrl: 'img/cloud_filled.png', iconSize: [30,30], iconAnchor: [15, 15], popupAnchor: [0, -15]});
+var cloud_empty = L.icon({iconUrl: 'img/cloud_empty.png', iconSize: [30,30], iconAnchor: [15, 15], popupAnchor: [0, -15]});
 
 var activiteitIcon = L.icon({iconUrl: 'img/VoorbijeAct.png', iconSize: [15,15], iconAnchor: [7, 7], popupAnchor: [0,0]});
 

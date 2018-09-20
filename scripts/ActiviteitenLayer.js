@@ -63,7 +63,7 @@ function createPin(latlon, acts){
 
 var cachedLayers = {}
 
-function obtainActiviteitenLayer(afdId){
+function obtainActiviteitenLayer(afdId, pin){
 	if(cachedLayers[afdId]){
 		return cachedLayers[afdId];
 	}
@@ -71,7 +71,7 @@ function obtainActiviteitenLayer(afdId){
 
 
 	var afdNaam = id2name(afdId);
-	var layer = newLayer("activiteiten_"+afdNaam);
+	var layer = newLayer("activiteiten_"+afdNaam, pin);
 	cachedLayers[afdId] = layer;
 
 	var source = jnmHeatUrlBase+"activiteiten_geojson2.php?afdeling="+afdId+getFilterSettings();
