@@ -39,8 +39,8 @@
   <tr><td><br/></td></tr>
   <tr><td></td></tr>
   </table>
-  
-  <input type="checkbox" id="toonclasieke_afdelingsgrenzen" onchange="ShowAfdelingsGrenzen()"/> Toon clasieke afdeling grenzen.
+
+  <input type="checkbox" id="toonklasieke_afdelingsgrenzen" onchange="ShowAfdelingsGrenzen()"/> Toon klasieke afdeling grenzen.
 
 <table>
   <tr>
@@ -91,7 +91,7 @@
     var kmlLayer = omnivore.kml('Afdelingen_JNM.kml')
     function ShowAfdelingsGrenzen()
     {
-      var b = toonclasieke_afdelingsgrenzen.checked;
+      var b = toonklasieke_afdelingsgrenzen.checked;
       if(b)
         kmlLayer.addTo(map);
       else

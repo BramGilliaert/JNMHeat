@@ -10,7 +10,7 @@ function createPin(latlon, acts){
 	for(var i = 0; i < acts.length; i++){
 		var act = acts[i];
 
-		var d	=  new Date(act.start_date);
+		var d	=  new Date(act.start_date.replace(" ", "T")+".000Z");
 		act.start_date = d;
 		var msg = d.getFullYear() + "-" + (d.getMonth()+1) + "-" + d.getDate() + 
 						": <a href='https://www.jnm.be/node/"+ act.id +"' target='_blank'>"+act.naam+"</a><br />";
