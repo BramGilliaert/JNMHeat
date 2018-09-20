@@ -244,7 +244,7 @@ function createCentersLayer(){
 			var name = id2name(afdId);
 			var pin = L.marker([cent.lat_center, cent.lon_center], {icon: cloud_filled});
 			pinForAfdId[afdId] = pin;
-			var htmlContent = "Kern van <a href='https://jnm.be/afdeling/"+name+"' target='_blank'>JNM "+name+"</a><br/>"+leden_per_afdeling[afdId]["aantal_leden"]+" leden."
+			var htmlContent = "Kern van <a href='https://jnm.be/afdeling/"+name.replace("'", "")+"' target='_blank'>JNM "+name+"</a><br/>"+leden_per_afdeling[afdId]["aantal_leden"]+" leden."
 			//var popup = L.popup({closeOnClick : false, autoClose : false, closeButton : false}).setContent(htmlContent);
 			//pin.bindPopup(popup);
 			var elem = document.getElementById("geselecteerde_afdeling_tekstje")

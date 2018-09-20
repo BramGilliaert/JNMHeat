@@ -9,6 +9,7 @@
   <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
   <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
   <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+  <script src='//api.tiles.mapbox.com/mapbox.js/plugins/leaflet-omnivore/v0.3.1/leaflet-omnivore.min.js'></script>
 
   <script src="scripts/tools.js"></script>
   <script src="scripts/ActiviteitenLayer.js"></script>
@@ -38,6 +39,8 @@
   <tr><td><br/></td></tr>
   <tr><td></td></tr>
   </table>
+  
+  <input type="checkbox" id="toonclasieke_afdelingsgrenzen" onchange="ShowAfdelingsGrenzen()"/> Toon clasieke afdeling grenzen.
 
 <table>
   <tr>
@@ -85,6 +88,15 @@
     initFilterSettings();
     initializeMap();
     renderAnalysis(getFilterSettings());
+    var kmlLayer = omnivore.kml('Afdelingen_JNM.kml')
+    function ShowAfdelingsGrenzen()
+    {
+      var b = toonclasieke_afdelingsgrenzen.checked;
+      if(b)
+        kmlLayer.addTo(map);
+      else
+        kmlLayer.removeFrom(map);
+    }
   </script>
 
 
