@@ -89,9 +89,38 @@ function offerAsDownload(filename, text){
   document.body.removeChild(element);
 }
 
+
+var afdelingenRecords = null
+var id2name_dict = null;
+
+function SyncAssureCache()
+{
+	if(id2name_dict == null)
+	{
+		var query = "/query/afdelingen.php?include_werkgroep"
+		var xmlHttp = new XMLHttpRequest();
+		xmlHttp.open( "GET", query, false ); // false for synchronous request
+		xmlHttp.send( null );
+		var response = JSON.parse(xmlHttp.responseText);
+		if(response.length == 0){
+			return;
+		}
+		id2name_dict = {}
+		afdelingenRecords = []
+		for (var i = 0; i < response.length; i++) {
+			var rec = response[i];
+			id2name_dict[rec.id] = rec.display_name;
+			afdelingenRecords[rec.id] = rec;
+		}
+	}
+}
+
 // Converts the chapter id into its display name.
 function id2name(id){
+	SyncAssureCache();
+
 	// 50; 52; 57; 
+	/*
 	var dict = {
 		1:"Nationaal",
 		6:"Poekebeek",
@@ -150,9 +179,30 @@ function id2name(id){
 		59:"Midden-Brabant",
 		14070:"Demervallei",
 		15651:"ProvincieLimburg"}
-	return dict[id]
+		*/
+	return id2name_dict[id]
 }
 
-function allAfdelingIds(){
-	return  [13,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,51,53,54,55,56,57,58,59,14070,15651];
+function isDodeAfdeling(afdId){
+	if    (afdId == 26 // Markvallei
+		|| afdId == 28 // Middenkust
+		|| afdId == 39 // Scheldeland
+		|| afdId == 46 // West-Limburg
+		|| afdId == 55 // Maasland
+		//|| afdId == 16 // Eeklo, Zal vervangen worden door Meetjesland
+		) {
+				return true;
+		}
+	return false;
 }
+
+function isWerkgroepOrNationaal(contactId)
+{
+	SyncAssureCache();
+	var rec = afdelingenRecords[contactId];
+	return (rec.contact_sub_type == null || rec.contact_sub_type.indexOf("werkgroep")!=-1)
+}
+
+//function allAfdelingIds(){
+//	return  [13,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,51,53,54,55,56,57,58,59,14070,15651];
+//}

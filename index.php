@@ -30,8 +30,9 @@
 
   <table id="controls" align="left">
   <tr><td><h1>Activiteiten-Spreidings-Kaart (ASK)</h1></td></tr>
-  <tr><td>Op deze kaart staan de kernen van onze actieve afdelingen. Door op een kern te klikken, kan je zien op welke plaatsen de afdeling de voorbije twee jaar activiteiten organiseerde en waar ze er nog gepland heeft. Als je je inschrijft via <a href="https://www.jnm.be/lidworden">JNM.be/lidworden</a> word je automatisch lid van de meest dichtbije afdeling. Word je liever lid van een andere afdeling dan deze waar je automatisch bij hoort en/of word je graag lid van een tweede afdeling? Stuur dan en mailtje aan <a href="mailto:info@jnm.be">info@jnm.be</a> zodat we dat in orde kunnen brengen.</td></tr>
-  <tr><td>JNM probeert steeds nieuwe afdelingen op te richten om op meer plaatsen aanwezig te zijn. Vind je geen kern die activiteiten organiseert in jouw buurt en heb je zin om daar samen met ons verandering in brengen? Mail dan naar <a href="mailto:info@jnm.be">info@jnm.be</a> zodat we samen kunnen bekijken hoe we dat aanpakken.</td></tr>
+  <tr><td>Op deze kaart staan de kernen van onze actieve afdelingen. Door op een kern te klikken, kan je zien op welke plaatsen de afdeling het voorbije jaar activiteiten organiseerde.</td></tr>
+  <tr><td>Als je je inschrijft via <a href="https://www.jnm.be/lidworden">JNM.be/lidworden</a> word je automatisch lid van de meest dichtbije afdeling. Word je liever lid van een andere afdeling dan deze waar je automatisch bij hoort en/ of word je graag lid van een tweede afdeling? Stuur dan en mailtje aan <a href="mailto:info@jnm.be">info@jnm.be</a> zodat we dat in orde kunnen brengen.</td></tr>
+  <tr><td>JNM probeert steeds nieuwe kernen (afdelingen) op te richten om op meer plaatsen aanwezig te zijn. Vind je geen kern die activiteiten organiseert in jouw buurt en heb je zin om daar samen met ons verandering in brengen? Mail dan naar <a href="mailto:info@jnm.be">info@jnm.be</a> zodat we samen kunnen bekijken hoe we dat aanpakken.</td></tr>
   <tr><td><br/></td></tr>
   <tr><td><button onclick="selectAll(true);">Selecteer alles</button><button onclick="selectAll(false);">Deselecteer Alles</button></td></tr>
   <tr><td><button onclick="loadAllLayers()">Toon alle activiteiten</button></td></tr>

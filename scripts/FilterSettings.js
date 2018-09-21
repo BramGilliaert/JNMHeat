@@ -26,7 +26,7 @@ function getMonthFormatted(d){
 
 function getPublicFilterSettings(){
 	var d = new Date();
-	return "&startdate="+(d.getFullYear()-2) + getMonthFormatted(d)+d.getDate()+"&max_duration=24";
+	return "&startdate="+(d.getFullYear()-1) + getMonthFormatted(d)+d.getDate()+"&max_duration=24";
 }
 
 function minActivitiesAtLocation(){

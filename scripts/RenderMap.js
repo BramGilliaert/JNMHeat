@@ -52,9 +52,9 @@ function DownloadLedenPerAfdeling()
 	var dateString = today.getFullYear()+''+pad(today.getMonth()+1)+''+pad(today.getDate());
 
 	var query= jnmHeatUrlBase+"leden_per_afdeling.php?sample_date="+dateString;
-	$.get(query, function(data) {
-		leden_per_afdeling = data;
-	});
+	// $.get(query, function(data) {
+	// 	leden_per_afdeling = data;
+	// });
 	var xmlHttp = new XMLHttpRequest();
 	xmlHttp.open( "GET", query, false ); // false for synchronous request
 	xmlHttp.send( null );
@@ -232,14 +232,11 @@ function createCentersLayer(){
 			var cent = afdelingCenters[i];
 
 			var afdId = cent.organiserende_afdeling;
-			// Skip werkgroepen & nationaal
-			if(afdId === '1' || afdId === '50' || afdId === '52' || afdId === '57') {
-				continue;
+			if(isWerkgroepOrNationaal(afdId)) {
+				continue; // Skip
 			}
-			// Skip doode afdelingen
-			// Eeklo, Markvallei, Middenkust, (Scheldeland), West-Limburg, Maasland 
-			if(afdId === '16' || afdId === '26' || afdId === '28' || afdId === '46' || afdId === '55') {
-				continue;
+			if(isDodeAfdeling(afdId)) {
+				continue; // Skip
 			}
 			var name = id2name(afdId);
 			var pin = L.marker([cent.lat_center, cent.lon_center], {icon: cloud_filled});
@@ -262,9 +259,8 @@ function createCentersLayer(){
 
 
 function loadAllLayers(){
-	var afds = allAfdelingIds();
-	for(var i = 0; i < afds.length; i++){
-		var afdId = afds[i];
+	for (var pinForAfdId in pinForAfdId) {
+    	if (!pinForAfdId.hasOwnProperty(pinForAfdId)) continue;
 		var layer = obtainActiviteitenLayer(afdId, pinForAfdId[afdId])
 		layer.show();
 	}
