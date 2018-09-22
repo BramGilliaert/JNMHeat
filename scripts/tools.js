@@ -109,7 +109,12 @@ function SyncAssureCache()
 		afdelingenRecords = []
 		for (var i = 0; i < response.length; i++) {
 			var rec = response[i];
-			id2name_dict[rec.id] = rec.display_name;
+
+			// DIRTY TEMPORARY HACK! Eeklo will be renamed to Meetjesland.
+			if (rec.id == 16)
+				id2name_dict[rec.id] = "Eeklo/Meetjesland";
+			else
+				id2name_dict[rec.id] = rec.display_name;
 			afdelingenRecords[rec.id] = rec;
 		}
 	}
@@ -118,68 +123,6 @@ function SyncAssureCache()
 // Converts the chapter id into its display name.
 function id2name(id){
 	SyncAssureCache();
-
-	// 50; 52; 57; 
-	/*
-	var dict = {
-		1:"Nationaal",
-		6:"Poekebeek",
-		7:"Akerland",
-		8:"Alken",
-		9:"Antwerpen",
-		10:"Krabboen",
-		11:"Aa-Beek",
-		12:"Brugge",
-		13:"Brussel",
-		14:"Ninove-Geraardsbergen",
-		15:"Durmeland",
-		16:"Eeklo",
-		17:"Fruitstreek",
-		18:"Gent",
-		19:"Hageland-Zuiderkempen",
-		20:"Klein-Brabant",
-		21:"Kortrijk",
-		22:"Krekenland",
-		23:"LageKempen",
-		24:"Leievallei",
-		25:"Leuven",
-		26:"Markvallei",
-		27:"Mechelen",
-		28:"Middenkust",
-		29:"Midden-Limburg",
-		30:"Zandland",
-		31:"Neteland",
-		32:"Teutenland",
-		33:"Noordwest-Brabant",
-		34:"Oost-Brabant",
-		35:"Pajottenland",
-		36:"Pallieterland",
-		37:"Roeselare",
-		38:"'SHeerenbosch",
-		39:"Scheldeland",
-		40:"Taxandria",
-		41:"VlaamseArdennen",
-		42:"Voorkempen",
-		43:"Waasland",
-		44:"Westkust",
-		45:"Westland",
-		46:"West-Limburg",
-		47:"Zottegem",
-		48:"Zuid-Limburg",
-		49:"Zuidwest-Brabant",
-		50:"Milieuwerkgroep",
-		52:"Natuurstudiewerkgroep",
-		51:"Onderstebovenschelde",
-		53:"LandVanAalst",
-		54:"Moervallei",
-		55:"Maasland",
-		56:"HogeKempen",
-		57:"Beheerwerkgroep",
-		58:"Aalter",
-		59:"Midden-Brabant",
-		14070:"Demervallei",
-		15651:"ProvincieLimburg"}
-		*/
 	return id2name_dict[id]
 }
 
@@ -202,7 +145,3 @@ function isWerkgroepOrNationaal(contactId)
 	var rec = afdelingenRecords[contactId];
 	return (rec.contact_sub_type == null || rec.contact_sub_type.indexOf("werkgroep")!=-1)
 }
-
-//function allAfdelingIds(){
-//	return  [13,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,51,53,54,55,56,57,58,59,14070,15651];
-//}
