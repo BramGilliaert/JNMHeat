@@ -92,7 +92,7 @@ function newLayer(name, pin){
 		map.addLayer(layer);
 		shown = true;
 		if(pin)
-			pin.setIcon(shown?cloud_empty:cloud_filled);
+			pin.setIcon(shown?geoCenterIcon_empty:geoCenterIcon);
 		if(layer.loader && !loaded){
 			layer.loader(layer);
 		} 
@@ -107,7 +107,7 @@ function newLayer(name, pin){
 		map.removeLayer(layer);
 		shown = false;
 		if(pin)
-			pin.setIcon(shown?cloud_empty:cloud_filled);
+			pin.setIcon(shown?geoCenterIcon_empty:geoCenterIcon);
 		if(layer.control){
 			layer.control.checked = false;
 		}
@@ -239,7 +239,7 @@ function createCentersLayer(){
 				continue; // Skip
 			}
 			var name = id2name(afdId);
-			var pin = L.marker([cent.lat_center, cent.lon_center], {icon: cloud_filled});
+			var pin = L.marker([cent.lat_center, cent.lon_center], {icon: geoCenterIcon});
 			pinForAfdId[afdId] = pin;
 			var htmlContent = "Kern van <a href='https://jnm.be/afdeling/"+name.replace("'", "")+"' target='_blank'>JNM "+name+"</a><br/>"+leden_per_afdeling[afdId]["aantal_leden"]+" leden."
 			//var popup = L.popup({closeOnClick : false, autoClose : false, closeButton : false}).setContent(htmlContent);
