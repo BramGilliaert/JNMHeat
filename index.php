@@ -55,7 +55,7 @@
         </td></tr>
         <tr style="vertical-align: bottom;"><td>
 
-          <div style="background-color: #ffffffc9; min-width: 300px;">
+          <div class="legende_box">
             Legende:<br/>
             <img class="legende" src="img/cloud_filled.png"> Geometrisch centrum van de activiteiten in België<br/>
             <img class="legende" src="img/Lokaal.png"> Lokaal<br/>
