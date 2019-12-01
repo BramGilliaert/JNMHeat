@@ -40,8 +40,7 @@
             Legende:<br/>
             <img class="legende" src="img/cloud_filled.png"> Geometrisch centrum van de activiteiten in België<br/>
             <img class="legende" src="img/Lokaal.png"> Lokaal<br/>
-            <img class="legende" src="img/VoorbijeAct.png"> Voorbije activiteit<br/>
-            <img class="legende" src="img/ToekomstAct.png"> Opkomende activiteit<br/>
+            <img class="legende" src="img/Act.png"> Activiteit<br/>
           </div>
 
         </td></tr>

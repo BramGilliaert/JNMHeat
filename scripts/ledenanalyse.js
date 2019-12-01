@@ -5,9 +5,9 @@ var winkelIcon = L.icon({iconUrl: 'img/Winkel.png', iconSize: [20, 20], iconAnch
 var bondssecIcon = L.icon({iconUrl: 'img/Bondssec.png', iconSize: [20, 20], iconAnchor: [10, 0], popupAnchor: [0,0]});
 var geoCenterIcon = L.icon({iconUrl: 'img/GeoCenter.png', iconSize: [25,41], iconAnchor: [12, 41], popupAnchor: [0, -41]});
 
-var activiteitIcon = L.icon({iconUrl: 'img/VoorbijeAct.png', iconSize: [15,15], iconAnchor: [7, 7], popupAnchor: [0,0]});
+var activiteitIcon = L.icon({iconUrl: 'img/Act.png', iconSize: [15,15], iconAnchor: [7, 7], popupAnchor: [0,0]});
 
-var activiteitGeplandIcon = L.icon({iconUrl : 'img/ToekomstAct.png', iconSize: [15,15], icondAnchor: [0,0], popupAnchor: [0,0]});
+var activiteitGeplandIcon = L.icon({iconUrl : 'img/Act.png', iconSize: [15,15], icondAnchor: [0,0], popupAnchor: [0,0]});
 
 
 
