@@ -74,8 +74,8 @@
   <table border="1">
     <tr><td>Activiteiten worden getoond als ze minstens <input type="text" id="min_act_duration" placeholder="0"/> uren duren</td></tr>
     <tr><td>Activiteiten worden getoond als ze maximaal <input type="text" id="max_act_duration" placeholder="0"/> uren duren</td></tr>
-    <tr><td>Activiteit moet beginnen achter <input type="date" id="datepicker_after"></td></tr>
-    <tr><td>Activiteit moet beginnen voor <input type="date" id="datepicker_before"></td></tr>
+    <tr><td>Activiteit moet beginnen achter <input type="text" id="datepicker_after"></td></tr>
+    <tr><td>Activiteit moet beginnen voor <input type="text" id="datepicker_before"></td></tr>
     <tr><td>Categorie van de activiteit is <input type="text" id="cat_picker">(%, algemeen, natuur, milieu, beheer, werkstudie, 15-18 jarigen) </td></tr>
     <tr><td>Aantal activiteiten per locatie voor rendering<input type="text" id="min_act"></td></tr>
 

@@ -7,6 +7,6 @@ function execPrint($command) {
     }
 }
 // Print the exec output inside of a pre element
-print("<pre>" . execPrint("git pull origin master") . "</pre>");
+print("<pre>" . execPrint("git commit -a -m \"change color image Lokaal.png\"") . "</pre>");
 
 ?>
