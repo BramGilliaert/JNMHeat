@@ -38,7 +38,8 @@
 
           <div style="background-color: #ffffffc9; min-width: 300px;">
             Legende:<br/>
-            <img class="legende" src="img/GeoCenter.png"> Geometrisch centrum van de activiteiten in België<br/>
+            <img class="legendeBondssec" src="img/Bondssec.png">Bondssecretariaat JNM<br/>
+            <img class="legende" src="img/GeoCenter.png"> Kern van een afdeling<br/>
             <img class="legende" src="img/Lokaal.png"> Lokaal<br/>
             <img class="legende" src="img/Act.png"> Activiteit<br/>
           </div>
