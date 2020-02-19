@@ -57,9 +57,9 @@
 
           <div class="legende_box">
             Legende:<br/>
-            <img class="legendeBondssec" src="img/Bondssec.png">Bondssecretariaat JNM<br/>
             <img class="legende" src="img/GeoCenter.png"> Kern van een afdeling<br/>
             <img class="legende" src="img/Lokaal.png"> Lokaal<br/>
+            <img class="legendeBondssec" src="img/Bondssec.png">Bondssecretariaat JNM<br/>
             <img class="legende" src="img/Act.png"> Activiteit<br/>
           </div>
 
