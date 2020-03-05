@@ -36,18 +36,18 @@
         </td></tr>
         <tr style="vertical-align: bottom;"><td>
 
-          <div style="background-color: #ffffffc9; min-width: 300px;">
+        <div class="legende_box">
             Legende:<br/>
-            <img class="legendeBondssec" src="img/Bondssec.png">Bondssecretariaat JNM<br/>
             <img class="legende" src="img/GeoCenter.png"> Kern van een afdeling<br/>
             <img class="legende" src="img/Lokaal.png"> Lokaal<br/>
+            <img class="legende" src="img/Bondssec.png">Bondssecretariaat JNM<br/>
             <img class="legende" src="img/Act.png"> Activiteit<br/>
           </div>
 
         </td></tr>
       </table>
     </td>
-    <td style="width: 100%"><div id="map" style="height: 500px"></div></td>
+    <td style="width: 100%"><div id="map" style="height: 1000px"></div></td>
   </tr>
 </table>
 

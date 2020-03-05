@@ -3,7 +3,7 @@
 // fancy icons to show
 var lokaalIcon = L.icon({iconUrl: 'img/Lokaal.png', iconSize: [20, 20], iconAnchor: [10, 0], popupAnchor: [0,0]});
 var winkelIcon = L.icon({iconUrl: 'img/Winkel.png', iconSize: [20, 20], iconAnchor: [10, 0], popupAnchor: [0,0]});
-var bondssecIcon = L.icon({iconUrl: 'img/Bondssec.png', iconSize: [40, 30], iconAnchor: [10, 0], popupAnchor: [0,0], className: 'bondssec'});
+var bondssecIcon = L.icon({iconUrl: 'img/Bondssec.png', iconSize: [20, 20], iconAnchor: [10, 0], popupAnchor: [0,0], className: 'bondssec'});
 var geoCenterIcon = L.icon({iconUrl: 'img/GeoCenter.png', iconSize: [25,41], iconAnchor: [12, 41], popupAnchor: [0, -41]});
 var geoCenterIcon_grey = L.icon({iconUrl: 'img/GeoCenter_grey.png', iconSize: [25,41], iconAnchor: [12, 41], popupAnchor: [0, -41]});
 var cloud_filled = L.icon({iconUrl: 'img/cloud_filled.png', iconSize: [30,30], iconAnchor: [15, 15], popupAnchor: [0, -15]});

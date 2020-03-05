@@ -9,10 +9,6 @@ label.inl {
   font-weight: inherit;
 }
 
-.bondssec {
-  border:1px solid #000000
-}
-
 .flow-element {
   width:350px;
 }
@@ -32,15 +28,6 @@ label.inl {
   /* display: block; */
 }
 
-.legendeBondssec {
-  width: 40px;
-  height: 30px;
-  border:1px solid #000000;
-  object-fit: contain;
-  margin-right: 2.5%;
-  margin-left: 1%;
-  /* display: block; */
-}
 
 table {
   margin-top: 0;

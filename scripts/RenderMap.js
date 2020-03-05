@@ -240,6 +240,7 @@ function createCentersLayer(){
 			}
 			var name = id2name(afdId);
 			var pin = L.marker([cent.lat_center, cent.lon_center], {icon: geoCenterIcon});
+			
 			pinForAfdId[afdId] = pin;
 			var htmlContent = "Kern van <a href='https://jnm.be/afdeling/"+name.replace("'", "").replace(new RegExp(' ', 'g'), '-') +"' target='_blank'>JNM "+name+"</a> ("+leden_per_afdeling[afdId]["aantal_leden"]+" leden)"
 							  + "<br>Link: <a href='https://jnm.be/afdeling/"+name.replace("'", "").replace(new RegExp(' ', 'g'), '-') +
