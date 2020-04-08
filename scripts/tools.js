@@ -128,12 +128,13 @@ function id2name(id){
 }
 
 function isDodeAfdeling(afdId){
-	if    (afdId == 26 // Markvallei
+	if    (afdId == 16 // Eeklo/Meetjesland
+		|| afdId == 26 // Markvallei
 		|| afdId == 28 // Middenkust
 		|| afdId == 39 // Scheldeland
+		|| afdId == 44 // Westkust
 		|| afdId == 46 // West-Limburg
 		|| afdId == 55 // Maasland
-		//|| afdId == 16 // Eeklo, Zal vervangen worden door Meetjesland
 		) {
 				return true;
 		}
