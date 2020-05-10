@@ -8,7 +8,8 @@ var map;
 var leden_per_afdeling = {};
 
 function initializeMap(){
-	map = L.map('map').setView([50.9, 3.9], 9);
+	// settings for second tile layer
+	map = L.map('map').setView([50.9, 3.9], 9); 
 
 	// load the tile layer from GEO6
 	/*L.tileLayer('https://tile.openstreetmap.be/osmbe/{z}/{x}/{y}.png',
@@ -17,13 +18,13 @@ function initializeMap(){
 		maxZoom: 21,
 		minZoom: 1
 		}).addTo(map);
-		*/
+	*/
 	L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={accessToken}', {
 	    attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, <a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
 	    maxZoom: 18,
 	    id: 'mapbox.streets',
 	    accessToken: 'pk.eyJ1IjoiZW1pbGVzb25uZXZlbGQiLCJhIjoiY2ptNXlodWo3MjAxMzNsbXlibDliaDFxayJ9.KyJrscbJtvVispyZvJCknw'
-	}).addTo(map);
+	}).addTo(map); 
 	/*
 	// Nice map, but no labels
 	L.tileLayer('https://stamen-tiles-{s}.a.ssl.fastly.net/watercolor/{z}/{x}/{y}.{ext}', {
@@ -255,7 +256,23 @@ function createCentersLayer(){
 
 		}
 
+		// temporary fix that shows de center of Gent Oost on the map
+		var afdId = 16783;
+		var name = id2name(afdId);
+		var pin = L.marker([51.033887, 3.773341], {icon: geoCenterIcon});
+		
+		pinForAfdId[afdId] = pin;
+		var htmlContent = "Kern van <a href='https://jnm.be/afdeling/"+name.replace("'", "").replace(new RegExp(' ', 'g'), '-') +"' target='_blank'>JNM "+name+"</a>"
+						  + "<br>Link: <a href='https://jnm.be/afdeling/"+name.replace("'", "").replace(new RegExp(' ', 'g'), '-') +
+						  "' target='_blank'>https://jnm.be/afdeling/"+name.replace("'", "").replace(new RegExp(' ', 'g'), '-')+"</a>"
+		var elem = document.getElementById("geselecteerde_afdeling_tekstje")
+		BindSidebar(pin, elem, htmlContent)
+
+		pin.on('click', showActiviteiten(afdId));
+		geoCenterLayer.addLayer(pin);
+
 	});
+	
 
 	return geoCenterLayer;
 }
