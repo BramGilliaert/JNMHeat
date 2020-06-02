@@ -20,6 +20,7 @@
  
   <link rel="stylesheet" href="/common/jnm-theme-for-tools.css"/>
   <link rel="stylesheet" href="css/jnm_heat.css"/>
+  <link rel="stylesheet" href="css/injebuurt.css"/>
 </head>
 <body onresize="OnResized()">
 <?php include_once($_SERVER['DOCUMENT_ROOT']."/common/analyticstracking.php") ?>
