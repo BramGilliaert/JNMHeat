@@ -38,6 +38,9 @@ $sql_query="SELECT AVG(field_activiteit_locatie_lat) as lat_center, AVG(field_ac
 	WHERE field_activiteit_locatie_lon > 2.367 AND field_activiteit_locatie_lon < 6.400 
 		AND field_activiteit_locatie_lat > 49.500 AND field_activiteit_locatie_lat < 51.683
 
+		# tijdelijke fix die alle activiteiten die locatie boven Charleroi krijgen negeert
+		AND field_activiteit_locatie_lat != 50.503887 AND field_activiteit_locatie_lon != 4.469936
+
 		AND TIMESTAMPDIFF(second, start_date, end_date) >= 3600* $min_duration
 		AND TIMESTAMPDIFF(second, start_date, end_date) <= 3600* $max_duration
 	GROUP BY organiserende_afdeling;";

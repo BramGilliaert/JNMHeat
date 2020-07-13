@@ -236,13 +236,14 @@ function createCentersLayer(){
 			if(isWerkgroepOrNationaal(afdId)) {
 				continue; // Skip
 			}
-			if(isDodeAfdeling(afdId)) {
+			if(isDodeAfdeling(afdId) || afdId == 15651) { // tweede deel tijdelijk vanwege problemen met limburgkoepelafdeling
 				continue; // Skip
 			}
 			var name = id2name(afdId);
 			var pin = L.marker([cent.lat_center, cent.lon_center], {icon: geoCenterIcon});
 			
 			pinForAfdId[afdId] = pin;
+			console.log(afdId);
 			var htmlContent = "Kern van <a href='https://jnm.be/afdeling/"+name.replace("'", "").replace(new RegExp(' ', 'g'), '-') +"' target='_blank'>JNM "+name+"</a> ("+leden_per_afdeling[afdId]["aantal_leden"]+" leden)"
 							  + "<br>Link: <a href='https://jnm.be/afdeling/"+name.replace("'", "").replace(new RegExp(' ', 'g'), '-') +
 							  "' target='_blank'>https://jnm.be/afdeling/"+name.replace("'", "").replace(new RegExp(' ', 'g'), '-')+"</a>"
@@ -257,7 +258,7 @@ function createCentersLayer(){
 		}
 
 		// temporary fix that shows de center of Gent Oost on the map
-		var afdId = 16783;
+		/*var afdId = 16783;
 		var name = id2name(afdId);
 		var pin = L.marker([51.033887, 3.773341], {icon: geoCenterIcon});
 		
@@ -269,7 +270,7 @@ function createCentersLayer(){
 		BindSidebar(pin, elem, htmlContent)
 
 		pin.on('click', showActiviteiten(afdId));
-		geoCenterLayer.addLayer(pin);
+		geoCenterLayer.addLayer(pin);*/
 
 	});
 	

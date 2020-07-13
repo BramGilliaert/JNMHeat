@@ -87,6 +87,9 @@ function obtainActiviteitenLayer(afdId, pin){
 			var cluster = createCluster(activiteitenData, function(act){console.log(act); return act.geometry.coordinates;});
 
 			cluster.forEach(function(latlon, val){
+				if (latlon[0] ==  50.503887 && latlon[1] == 4.469936) { // tijdelijke fix die alle activiteiten die locatie boven Charleroi krijgen negeert
+					return;
+				}
 				if(val.length < minActivitiesAtLocation()){
 					return;
 				}
