@@ -135,6 +135,10 @@ function newLayer(name, pin){
 		}
 	}
 
+	layer.checkPin = function(){
+		return pin !== undefined;
+	}
+
 	function getControls(){
 		return document.getElementById("layer"+layer.title)
 	}
@@ -208,7 +212,9 @@ function selectAll(selected){
 		if(selected){
 			allLayers[i].show();
 		}else{
-			allLayers[i].hide();
+			if (allLayers[i].checkPin()) {
+				allLayers[i].hide();
+			}
 		}
 	} 
 }
@@ -243,7 +249,6 @@ function createCentersLayer(){
 			var pin = L.marker([cent.lat_center, cent.lon_center], {icon: geoCenterIcon});
 			
 			pinForAfdId[afdId] = pin;
-			console.log(afdId);
 			var htmlContent = "Kern van <a href='https://jnm.be/afdeling/"+name.replace("'", "").replace(new RegExp(' ', 'g'), '-') +"' target='_blank'>JNM "+name+"</a> ("+leden_per_afdeling[afdId]["aantal_leden"]+" leden)"
 							  + "<br>Link: <a href='https://jnm.be/afdeling/"+name.replace("'", "").replace(new RegExp(' ', 'g'), '-') +
 							  "' target='_blank'>https://jnm.be/afdeling/"+name.replace("'", "").replace(new RegExp(' ', 'g'), '-')+"</a>"
@@ -291,6 +296,7 @@ function loadAllLayers(){
 
 function showActiviteiten(afdId){
 	return function(evt){
+		selectAll(false);
 		var layer = obtainActiviteitenLayer(afdId, pinForAfdId[afdId])
 		layer.toggle();
 	};
