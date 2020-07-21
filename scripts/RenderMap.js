@@ -139,6 +139,10 @@ function newLayer(name, pin){
 		return pin !== undefined;
 	}
 
+	layer.shown =  function(){
+		return shown;
+	}
+
 	function getControls(){
 		return document.getElementById("layer"+layer.title)
 	}
@@ -296,8 +300,10 @@ function loadAllLayers(){
 
 function showActiviteiten(afdId){
 	return function(evt){
-		selectAll(false);
-		var layer = obtainActiviteitenLayer(afdId, pinForAfdId[afdId])
+		var layer = obtainActiviteitenLayer(afdId, pinForAfdId[afdId]);
+		if (!layer.shown()) {
+			selectAll(false);
+		}
 		layer.toggle();
 	};
 }
