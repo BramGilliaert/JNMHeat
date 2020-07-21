@@ -262,6 +262,11 @@ function createCentersLayer(){
 			BindSidebar(pin, elem, htmlContent)
 
 			pin.on('click', showActiviteiten(afdId));
+
+			//the next two lines remove the activity html text when selecting a new center or when deselecting the current selected center
+			var elem = document.getElementById("geselecteerde_activiteit_tekstje");
+			BindSidebar(pin, elem, "")
+
 			geoCenterLayer.addLayer(pin);
 
 		}
@@ -300,9 +305,13 @@ function loadAllLayers(){
 
 function showActiviteiten(afdId){
 	return function(evt){
-		var layer = obtainActiviteitenLayer(afdId, pinForAfdId[afdId]);
+		var pin = pinForAfdId[afdId];
+		var layer = obtainActiviteitenLayer(afdId, pin);
 		if (!layer.shown()) {
 			selectAll(false);
+			/*
+			var elem = document.getElementById("geselecteerde_afdeling_tekstje")
+			BindSidebar(pin, elem, "")*/
 		}
 		layer.toggle();
 	};
