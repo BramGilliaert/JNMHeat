@@ -92,8 +92,9 @@ function newLayer(name, pin){
 	layer.show = function(){
 		map.addLayer(layer);
 		shown = true;
-		if(pin)
-			pin.setIcon(shown?geoCenterIcon_grey:geoCenterIcon);
+		if(pin){
+			pin.setIcon(shown?geoCenterIcon_grey:pin.regioIcon);
+		}
 		if(layer.loader && !loaded){
 			layer.loader(layer);
 		} 
@@ -108,7 +109,7 @@ function newLayer(name, pin){
 		map.removeLayer(layer);
 		shown = false;
 		if(pin)
-			pin.setIcon(shown?geoCenterIcon_grey:geoCenterIcon);
+			pin.setIcon(shown?geoCenterIcon_grey:pin.regioIcon);
 		if(layer.control){
 			layer.control.checked = false;
 		}
@@ -250,7 +251,9 @@ function createCentersLayer(){
 				continue; // Skip
 			}
 			var name = id2name(afdId);
-			var pin = L.marker([cent.lat_center, cent.lon_center], {icon: geoCenterIcon});
+			var regio = afdelingRegioMapping[name];
+			var regioIcon = regioIconMapping[regio];
+			var pin = L.marker([cent.lat_center, cent.lon_center], {icon: regioIcon});
 			
 			pinForAfdId[afdId] = pin;
 			var htmlContent = "Kern van <a href='https://jnm.be/afdeling/"+name.replace("'", "").replace(new RegExp(' ', 'g'), '-') +"' target='_blank'>JNM "+name+"</a> ("+leden_per_afdeling[afdId]["aantal_leden"]+" leden)"
@@ -266,7 +269,8 @@ function createCentersLayer(){
 			//the next two lines remove the activity html text when selecting a new center or when deselecting the current selected center
 			var elem = document.getElementById("geselecteerde_activiteit_tekstje");
 			BindSidebar(pin, elem, "")
-
+			
+			pin.regioIcon = regioIcon;
 			geoCenterLayer.addLayer(pin);
 
 		}
@@ -307,11 +311,13 @@ function showActiviteiten(afdId){
 	return function(evt){
 		var pin = pinForAfdId[afdId];
 		var layer = obtainActiviteitenLayer(afdId, pin);
-		if (!layer.shown()) {
+		
+		if (layer.shown()) {
+			var elem = document.getElementById("geselecteerde_afdeling_tekstje");
+			elem.innerHTML = "";
+		}
+		else {
 			selectAll(false);
-			/*
-			var elem = document.getElementById("geselecteerde_afdeling_tekstje")
-			BindSidebar(pin, elem, "")*/
 		}
 		layer.toggle();
 	};

@@ -5,13 +5,43 @@ var lokaalIcon = L.icon({iconUrl: 'img/Lokaal.png', iconSize: [20, 20], iconAnch
 var winkelIcon = L.icon({iconUrl: 'img/Winkel.png', iconSize: [20, 20], iconAnchor: [10, 0], popupAnchor: [0,0]});
 var bondssecIcon = L.icon({iconUrl: 'img/Bondssec.png', iconSize: [20, 20], iconAnchor: [10, 0], popupAnchor: [0,0], className: 'bondssec'});
 var geoCenterIcon = L.icon({iconUrl: 'img/GeoCenter.png', iconSize: [25,41], iconAnchor: [12, 41], popupAnchor: [0, -41]});
+
+var geoCenterIcon_green = L.icon({iconUrl: 'img/GeoCenter_green.png', iconSize: [25,41], iconAnchor: [12, 41], popupAnchor: [0, -41]});
+var geoCenterIcon_orange = L.icon({iconUrl: 'img/GeoCenter_orange.png', iconSize: [25,41], iconAnchor: [12, 41], popupAnchor: [0, -41]});
+var geoCenterIcon_darkblue = L.icon({iconUrl: 'img/GeoCenter_darkblue.png', iconSize: [25,41], iconAnchor: [12, 41], popupAnchor: [0, -41]});
+var geoCenterIcon_red = L.icon({iconUrl: 'img/GeoCenter_red.png', iconSize: [25,41], iconAnchor: [12, 41], popupAnchor: [0, -41]});
+var geoCenterIcon_lightgreen = L.icon({iconUrl: 'img/GeoCenter_lightgreen.png', iconSize: [25,41], iconAnchor: [12, 41], popupAnchor: [0, -41]});
+var geoCenterIcon_brown = L.icon({iconUrl: 'img/GeoCenter_brown.png', iconSize: [25,41], iconAnchor: [12, 41], popupAnchor: [0, -41]});
+var geoCenterIcon_pink = L.icon({iconUrl: 'img/GeoCenter_pink.png', iconSize: [25,41], iconAnchor: [12, 41], popupAnchor: [0, -41]});
+var geoCenterIcon_blue = L.icon({iconUrl: 'img/GeoCenter_blue.png', iconSize: [25,41], iconAnchor: [12, 41], popupAnchor: [0, -41]});
+var geoCenterIcon_yellow = L.icon({iconUrl: 'img/GeoCenter_yellow.png', iconSize: [25,41], iconAnchor: [12, 41], popupAnchor: [0, -41]});
+var geoCenterIcon_darkgreen = L.icon({iconUrl: 'img/GeoCenter_darkgreen.png', iconSize: [25,41], iconAnchor: [12, 41], popupAnchor: [0, -41]});
 var geoCenterIcon_grey = L.icon({iconUrl: 'img/GeoCenter_grey.png', iconSize: [25,41], iconAnchor: [12, 41], popupAnchor: [0, -41]});
+
 var cloud_filled = L.icon({iconUrl: 'img/cloud_filled.png', iconSize: [30,30], iconAnchor: [15, 15], popupAnchor: [0, -15]});
 var cloud_empty = L.icon({iconUrl: 'img/cloud_empty.png', iconSize: [30,30], iconAnchor: [15, 15], popupAnchor: [0, -15]});
 
 var activiteitIcon = L.icon({iconUrl: 'img/Act.png', iconSize: [15,15], iconAnchor: [7, 7], popupAnchor: [0,0]});
 
 var activiteitGeplandIcon = L.icon({iconUrl : 'img/Act.png', iconSize: [15,15], icondAnchor: [0,0], popupAnchor: [0,0]});
+
+
+var afdelingRegioMapping = { "Brugge": "West-Vlaanderen", "Kortrijk": "West-Vlaanderen", "Roeselare": "West-Vlaanderen", 
+							 "Poekebeek": "West-Vlaanderen", "Diksmuide": "West-Vlaanderen", "Westland": "West-Vlaanderen", 
+							 "Leievallei": "Lyscaldia", "Gent West": "Lyscaldia", "Gent Oost": "Lyscaldia", 
+							 "Onderstebovenschelde": "Lyscaldia", "Moervallei": "Benedenschelde", "Durmeland": "Benedenschelde",
+							 "Klein-Brabant": "Benedenschelde", "'S Heerenbosch": "Benedenschelde", "Vlaamse Ardennen": "Zuidoost-Vlaanderen",
+							 "Land Van Aalst": "Zuidoost-Vlaanderen", "Zottegem": "Zuidoost-Vlaanderen", 
+							 "Ninove-Geraardsbergen": "Zuidoost-Vlaanderen",  "Pajottenland": "Onderbroexxel", "Zuidwest-Brabant": "Onderbroexxel",
+							 "Noordwest-Brabant": "Centraal België", "Midden-Brabant": "Centraal België", "Brussel": "Centraal België", 
+							 "Leuven": "Centraal België", "Mechelen": "MAAW", "Akerland": "MAAW", "Antwerpen": "MAAW", "Waasland": "MAAW",
+							 "Taxandria": "Kempen", "Neteland": "Kempen", "Voorkempen": "Kempen", 
+							 "Zandland": "Binnenstebuiten Kempen", "Pallieterland": "Binnenstebuiten Kempen", "Hageland-Zuiderkempen": "Binnenstebuiten Kempen",
+							 "Demervallei": "Limburg", "Fruitstreek": "Limburg", "Lage Kempen": "Limburg", "Midden-Limburg": "Limburg", "Zuid-Limburg": "Limburg" };
+
+var regioIconMapping = { "West-Vlaanderen": geoCenterIcon_green ,"Lyscaldia": geoCenterIcon_orange, "Benedenschelde": geoCenterIcon_darkblue,"Zuidoost-Vlaanderen": geoCenterIcon_red,
+						 "Onderbroexxel": geoCenterIcon_lightgreen, "Centraal België": geoCenterIcon_brown, "MAAW": geoCenterIcon_pink, "Kempen": geoCenterIcon_blue, 
+						 "Binnenstebuiten Kempen": geoCenterIcon_yellow, "Limburg": geoCenterIcon_darkgreen };
 
 //var jnmHeatUrlBase = "https://tools.jnm.be/jnm_heat/"
 var jnmHeatUrlBase = "" // When self hosted
