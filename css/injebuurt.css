@@ -1,0 +1,15 @@
+
+@media screen and (max-width: 767px) {
+
+    #map {
+        position: relative;
+        width: 500px;
+        right: 270px;
+    }
+    
+    #table_with_map {
+        position: relative;
+        top: 500px;
+    }
+
+}
