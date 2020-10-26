@@ -12,13 +12,14 @@ function initializeMap(){
 	map = L.map('map').setView([50.9, 3.9], 9); 
 
 	// load the tile layer from GEO6
-	/*L.tileLayer('https://tile.openstreetmap.be/osmbe/{z}/{x}/{y}.png',
+	L.tileLayer('https://tile.openstreetmap.be/osmbe/{z}/{x}/{y}.png',
 		{
 		attribution: 'Map Data © <a href="osm.org">OpenStreetMap</a> | Tiles hosted by <a href="https://geo6.be/">GEO-6</a>; thx JBelien!',
 		maxZoom: 21,
 		minZoom: 1
 		}).addTo(map);
-	*/
+	
+	/*
 	L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={accessToken}', {
 	    attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, <a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
 	    maxZoom: 18,
