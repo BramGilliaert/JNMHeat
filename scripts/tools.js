@@ -37,7 +37,8 @@ var afdelingRegioMapping = { "Brugge": "West-Vlaanderen", "Kortrijk": "West-Vlaa
 							 "Leuven": "Centraal België", "Mechelen": "MAAW", "Akerland": "MAAW", "Antwerpen": "MAAW", "Waasland": "MAAW",
 							 "Taxandria": "Kempen", "Neteland": "Kempen", "Voorkempen": "Kempen", 
 							 "Zandland": "Binnenstebuiten Kempen", "Pallieterland": "Binnenstebuiten Kempen", "Hageland-Zuiderkempen": "Binnenstebuiten Kempen",
-							 "Demervallei": "Limburg", "Fruitstreek": "Limburg", "Lage Kempen": "Limburg", "Midden-Limburg": "Limburg", "Zuid-Limburg": "Limburg" };
+							 "Demervallei": "Limburg", "Fruitstreek": "Limburg", "Lage Kempen": "Limburg", "Midden-Limburg": "Limburg", "Zuid-Limburg": "Limburg",
+							 "Limburgkoepel" : "Limburg" };
 
 var regioIconMapping = { "West-Vlaanderen": geoCenterIcon_green ,"Lyscaldia": geoCenterIcon_orange, "Benedenschelde": geoCenterIcon_darkblue,"Zuidoost-Vlaanderen": geoCenterIcon_red,
 						 "Onderbroexxel": geoCenterIcon_lightgreen, "Centraal België": geoCenterIcon_brown, "MAAW": geoCenterIcon_pink, "Kempen": geoCenterIcon_blue, 

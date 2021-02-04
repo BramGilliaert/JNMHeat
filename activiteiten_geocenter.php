@@ -32,7 +32,8 @@ if(isset($_GET["max_duration"])) {
 $sql_query="SELECT AVG(field_activiteit_locatie_lat) as lat_center, AVG(field_activiteit_locatie_lon) as lon_center, tAlgemeen.organisator_19 as organiserende_afdeling
 	FROM field_data_field_activiteit_civicrm_event tEvent
 	INNER JOIN field_revision_field_activiteit_locatie tLocatie ON tEvent.entity_id=tLocatie.entity_id 
-   LEFT JOIN jnet1980_test_civicrm.civicrm_value_algemeen_8 tAlgemeen ON tEvent.field_activiteit_civicrm_event_target_id=tAlgemeen.entity_id
+	INNER JOIN field_revision_field_activiteit_datum tDatum ON tEvent.entity_id=tDatum.entity_id
+	LEFT JOIN jnet1980_test_civicrm.civicrm_value_algemeen_8 tAlgemeen ON tEvent.field_activiteit_civicrm_event_target_id=tAlgemeen.entity_id
 	LEFT JOIN jnet1980_test_civicrm.civicrm_event civiEvent
 		ON tEvent.field_activiteit_civicrm_event_target_id = civiEvent.id
 	WHERE field_activiteit_locatie_lon > 2.367 AND field_activiteit_locatie_lon < 6.400 
@@ -40,10 +41,22 @@ $sql_query="SELECT AVG(field_activiteit_locatie_lat) as lat_center, AVG(field_ac
 
 		# tijdelijke fix die alle activiteiten die locatie boven Charleroi krijgen negeert
 		AND field_activiteit_locatie_lat != 50.503887 AND field_activiteit_locatie_lon != 4.469936
-
+		# activiteit moet op één dag plaatsvinden (geen kampen)
+		AND DAY(field_activiteit_datum_value) = DAY(field_activiteit_datum_value)
+		# activiteit moet plaatsvinden één jaar verwijderd van de huidige datum
+		AND (YEAR(field_activiteit_datum_value) = YEAR(CURDATE())
+		OR ( 
+			YEAR(field_activiteit_datum_value) = YEAR(CURDATE())-1 AND 
+			( MONTH(field_activiteit_datum_value) > MONTH(CURDATE()) OR ( MONTH(field_activiteit_datum_value) = MONTH(CURDATE()) AND DAY(field_activiteit_datum_value) >= DAY(CURDATE()) )
+			))
+		OR ( YEAR(field_activiteit_datum_value) = YEAR(CURDATE())+1 AND 
+			( MONTH(field_activiteit_datum_value) < MONTH(CURDATE()) OR ( MONTH(field_activiteit_datum_value) = MONTH(CURDATE()) AND DAY(field_activiteit_datum_value) <= DAY(CURDATE()) )
+			)))
+			
 		AND TIMESTAMPDIFF(second, start_date, end_date) >= 3600* $min_duration
 		AND TIMESTAMPDIFF(second, start_date, end_date) <= 3600* $max_duration
-	GROUP BY organiserende_afdeling;";
+		
+	GROUP BY organiserende_afdeling";
 
 
 

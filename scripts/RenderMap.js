@@ -237,6 +237,7 @@ Create a layer with geocenters based on the direct query
 Onclick is a function which, given the afdId, should give a new function. This new function is called when the pin is clicked
 */
 function createCentersLayer(){
+	var now = new Date(Date.now());
 	var geoCenterLayer= newLayer("geocenters by database");
 	var query= jnmHeatUrlBase+"activiteiten_geocenter.php?"+getFilterSettings();
 	$.get(query, function(data) {
@@ -248,13 +249,15 @@ function createCentersLayer(){
 			if(isWerkgroepOrNationaal(afdId)) {
 				continue; // Skip
 			}
-			if(isDodeAfdeling(afdId) || afdId == 15651) { // tweede deel tijdelijk vanwege problemen met limburgkoepelafdeling
+			if(isDodeAfdeling(afdId)) { // tweede deel tijdelijk vanwege problemen met limburgkoepelafdeling
 				continue; // Skip
 			}
+
 			var name = id2name(afdId);
 			var regio = afdelingRegioMapping[name];
 			var regioIcon = regioIconMapping[regio];
 			var pin = L.marker([cent.lat_center, cent.lon_center], {icon: regioIcon});
+
 			
 			pinForAfdId[afdId] = pin;
 			var htmlContent = "Kern van <a href='https://jnm.be/afdeling/"+name.replace("'", "").replace(new RegExp(' ', 'g'), '-') +"' target='_blank'>JNM "+name+"</a> ("+leden_per_afdeling[afdId]["aantal_leden"]+" leden)"
@@ -272,6 +275,7 @@ function createCentersLayer(){
 			BindSidebar(pin, elem, "")
 			
 			pin.regioIcon = regioIcon;
+			console.log(pin);
 			geoCenterLayer.addLayer(pin);
 
 		}
