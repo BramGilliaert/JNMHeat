@@ -96,11 +96,6 @@ function createLokalenLayer(){
 				lokalenLayer.addLayer(lokaalM);
 			} // end of for each venue
 
-			// temporary fix that shows Gent Oost on the map
-			var lokaalM = L.marker([51.033887, 3.773341], {icon: lokaalIcon});
-			lokaalM.bindPopup("Lokaal van <a href='https://jnm.be/gentoost' target='_blank'>JNM Gent Oost</a>");
-			lokalenLayer.addLayer(lokaalM);
-
 		}); // end of data crunching for venues
 	}
 	return lokalenLayer;

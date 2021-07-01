@@ -165,6 +165,7 @@ function isDodeAfdeling(afdId){
 		|| afdId == 39 // Scheldeland
 		|| afdId == 44 // Westkust
 		|| afdId == 46 // West-Limburg
+		|| afdId == 54 // Moervallei
 		|| afdId == 55 // Maasland
 		) {
 				return true;

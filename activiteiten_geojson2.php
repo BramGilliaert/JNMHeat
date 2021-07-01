@@ -17,14 +17,15 @@ if(isset($_GET["afdeling"])) {
 }
 else die("?afdeling=.. should be defined");
 
-
-$startdate = "20100101";
+// set startdate to one year ago
+$startdate = strval(date("Ymd")-10000);
 if(isset($_GET["startdate"])) {
 	$startdate = mysqli_real_escape_string($conn_drupal, $_GET["startdate"]);
 }
 
 
-$enddate = "29990101";
+// set enddate to one year in the future
+$enddate = strval(date("Ymd")+10000);
 if(isset($_GET["enddate"])) {
 	$enddate = mysqli_real_escape_string($conn_drupal, $_GET["enddate"]);
 }
@@ -46,8 +47,7 @@ if(isset($_GET["categorie"])) {
 
 
 
-$sql_query="
-	SELECT
+$sql_query="SELECT
 		tEvent.entity_id as id,
 		field_activiteit_locatie_lat as lat,
 		field_activiteit_locatie_lon as lon,

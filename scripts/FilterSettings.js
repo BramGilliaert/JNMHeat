@@ -7,8 +7,15 @@ function initFilterSettings(){
 	$( "#datepicker_before" ).datepicker("option", "dateFormat", "yymmdd");
 	$( "#datepicker_after" ).datepicker();
 	$( "#datepicker_after" ).datepicker("option", "dateFormat", "yymmdd");
-	document.getElementById("datepicker_after").value = "20010101";
-	document.getElementById("datepicker_before").value = "29990101";
+	let current = new Date();
+	// set initial start date on one year ago
+	current.setFullYear(current.getFullYear() - 1);
+	let startDate = current.toISOString().substr(0,10).replaceAll('-', '');
+	// set initial end date on one year in the future
+	current.setFullYear(current.getFullYear() + 2);
+	let enddate = current.toISOString().substr(0,10).replaceAll('-', '');
+	document.getElementById("datepicker_after").value = startDate;
+	document.getElementById("datepicker_before").value = enddate;
 	document.getElementById("cat_picker").value = "%";
 	document.getElementById("min_act_duration").value = "0";
 	document.getElementById("max_act_duration").value = "24"; // 8760

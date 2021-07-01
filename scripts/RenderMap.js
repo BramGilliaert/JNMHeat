@@ -275,25 +275,10 @@ function createCentersLayer(){
 			BindSidebar(pin, elem, "")
 			
 			pin.regioIcon = regioIcon;
-			console.log(pin);
+			//console.log(pin);
 			geoCenterLayer.addLayer(pin);
 
 		}
-
-		// temporary fix that shows de center of Gent Oost on the map
-		/*var afdId = 16783;
-		var name = id2name(afdId);
-		var pin = L.marker([51.033887, 3.773341], {icon: geoCenterIcon});
-		
-		pinForAfdId[afdId] = pin;
-		var htmlContent = "Kern van <a href='https://jnm.be/afdeling/"+name.replace("'", "").replace(new RegExp(' ', 'g'), '-') +"' target='_blank'>JNM "+name+"</a>"
-						  + "<br>Link: <a href='https://jnm.be/afdeling/"+name.replace("'", "").replace(new RegExp(' ', 'g'), '-') +
-						  "' target='_blank'>https://jnm.be/afdeling/"+name.replace("'", "").replace(new RegExp(' ', 'g'), '-')+"</a>"
-		var elem = document.getElementById("geselecteerde_afdeling_tekstje")
-		BindSidebar(pin, elem, htmlContent)
-
-		pin.on('click', showActiviteiten(afdId));
-		geoCenterLayer.addLayer(pin);*/
 
 	});
 	
